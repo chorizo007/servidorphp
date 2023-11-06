@@ -10,6 +10,13 @@ TIPOS DE VARIABLES
 is_array(), is_bool(), is_float(), is_integer(), is_null(), is_numeric(),
 is_object(), is_resource(), is_scalar(),is_string()
 
+constantes
+define("constante",2);
+
+operador ternario 
+$numero = 7;
+$mensaje = $numero >= 10 ? "El número es mayor o igual a 10" : "El número es menor que 10";
+echo $mensaje;
 
 archivo obligatorio
 require ("conecta.php");
@@ -32,6 +39,39 @@ recorrer
 	prev() - mueve el puntero al elemento anterior
 	count() - devuelve el número de elementos de un array
 	key() – devuelve el índice de la posición actual
+
+ejemplo de recorrer un array: 
+
+		echo "<br>";
+        $array_colores_tabla=array("fuertes"=>array("rojo"=>'FF0000',"verde"=>"00FF00","azul"=>"0000FF"), "suaves"=>array("rosa"=>"FE9ABC","amarillo"=>"FDF189","malva"=>"BC8F8F"));
+        
+        echo "<table>";
+        foreach($array_colores_tabla as $clave => $valor){
+            echo "<tr>";
+            echo "<th>" . $clave . "</th>";
+            foreach ($valor as $nombre => $color) {
+                    echo "<th bgcolor =".$color.">" . $nombre . "</th>";
+            }
+            echo "</tr>";
+        }
+        echo "</table>";
+
+recorer con un for: 
+		for($clave=0; $clave<count($dias);$clave++){
+            echo $dias[$clave];
+        }
+
+numero aleatorio
+$randomNumbers = [];
+for ($i = 0; $i < 10; $i++) {
+    $randomNumbers[] = rand(1, 10);
+}
+$cantidad=array_count_values($randomNumbers);
+if(isset($cantidad[2])){
+    echo $cantidad[2];
+}
+
+
 
 asignar clave
 	list($var1, $var2)= array("Lunes", "Martes");
@@ -628,3 +668,8 @@ recorrer un directorio
 
 añadir mas contenido a otro fichero
 include 'vars.php';
+
+
+
+
+
