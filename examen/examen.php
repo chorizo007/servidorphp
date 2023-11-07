@@ -12,11 +12,7 @@
             }
             return true;
         }else{
-<<<<<<< HEAD
             die("no se puedo acceder a fichero de base de datos :( sisi");
-=======
-            die("no se puedo acceder a fichero de base de datos :( esto solo es el de desarrollo mas cosas");
->>>>>>> desarollo
         }
         
     }
