@@ -1,5 +1,5 @@
 <?php
-    //tipo de ejercicio
+    //tipo de ejercicio 000
     if(!empty($_POST['pricipal'])){
         $eleccion = $_POST['opcion'];
         if($eleccion=="a"){
