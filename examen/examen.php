@@ -12,7 +12,7 @@
             }
             return true;
         }else{
-            die("no se puedo acceder a fichero de base de datos");
+            die("no se puedo acceder a fichero de base de datos :(");
         }
         
     }
