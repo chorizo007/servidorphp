@@ -44,7 +44,7 @@
                     $correcto = true;
                     $linea= fgets($file);
                     $array_linea = explode(" ", $linea);
-                    if(strcasecmp($array_linea[5], "electrico\n") == 0){
+                    if(strcasecmp(trim($array_linea[5]), "electrico") == 0){
                     }
                     else{
                         for($ind = 0;$ind<5 && $correcto;$ind++){
