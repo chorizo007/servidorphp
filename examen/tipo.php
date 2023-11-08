@@ -86,7 +86,11 @@
                 else {
                     $validar=false;
                 }
-                
+                if($validar){
+                    if(validar($_POST['matricula'])){
+                        
+                    }
+                }
                 if($validar){
                     $matricula = $_POST['matricula'];
                     if(!empty($_POST['calle'])){
