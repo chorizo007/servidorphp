@@ -1,6 +1,4 @@
 <?php
-<<<<<<< HEAD
-=======
     function buscar($file,$matricula){
         
         if($file = fopen($file, 'r+')){
@@ -14,12 +12,11 @@
             }
             return true;
         }else{
-            die("no se puedo acceder a fichero de base de datos :( sisi cambio cosas ");
+            die("no se puedo acceder a fichero de base de datos");
         }
         
     }
->>>>>>> main
-    //tipo de ejercicio 000
+
     if(!empty($_POST['pricipal'])){
         $eleccion = $_POST['opcion'];
         if($eleccion=="a"){
@@ -36,19 +33,18 @@
             echo $formulario;
         }
         else{
+            
             $infractores = 0;
             $array_infractores = Array();
             $ruta = Array('basetxt/logistica.txt','basetxt/residentesYHoteles.txt','basetxt/servicios.txt','basetxt/taxis.txt','basetxt/vehiculosEMT.txt');
             if($file = fopen('basetxt/vehiculos.txt', 'r+')){
+                echo "<table style='border: 1px solid black'> <tr style='border: 1px solid black'> <td>matruculas infractoras</td></tr>";
                 $correcto = true;
                 while(!feof($file)){
                     $correcto = true;
                     $linea= fgets($file);
                     $array_linea = explode(" ", $linea);
-                    if(strcasecmp($array_linea[5], "electrico") == 0){
-                        echo $array_linea[1];
-                        $correcto = false;
-                        
+                    if(strcasecmp($array_linea[5], "electrico\n") == 0){
                     }
                     else{
                         for($ind = 0;$ind<5 && $correcto;$ind++){
@@ -57,18 +53,21 @@
                             }     
                             else if(buscar($ruta[$ind],$array_linea[0])){
                                 $correcto=false;
-                                echo $array_linea[0] . "<br>";
+                                echo "<tr> <td style='border: 1px solid black'>".$array_linea[0] . "</td><tr>";
                                 $infractores++;
                                 array_unshift($array_infractores, $array_linea[0]);
                             }
                         }
                     }
                 }
+                echo "</table>";
             }else{
                 die("no se puedo acceder a fichero");
             } 
-            
-            echo $infractores;
+            echo "<br>";
+            echo "<br>";
+            echo "<br>";
+            echo "numero de infractores :" .$infractores;
         }
     }
     else{
