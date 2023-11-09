@@ -1,53 +1,89 @@
 <?php
+    include("clases.html");
+    echo "    <h1>FORMULARIO</h1>
+    <hr>";
     //tipo de ejercicio
+    $error = "error:";
+    function validacion(){
+        global $error;
+        $matricula = $_POST['matricula'];
+        if(preg_match('/[0-9]{4}-[a-z]{3}/',$matricula)){
+            if($_FILES['certificado']['type']=="application/pdf" || !empty($_FILES['certificado']['type'])){
+                return false;
+            }
+            $error .= "el certificado tiene que ser un pdf";
+        }
+        $error .= "matricula incorrecta";
+        return $error;
+    }
+    if(empty($_POST['pricipal'])){
+        $mensaje=validacion();
+    }
+    
     if(!empty($_POST['pricipal']) || !empty($_POST['general'])){
         $corregir = true;
         $eleccion = $_POST['opcion'];
         $formulario="<form action='tipo.php' method='post' ENCTYPE='multipart/form-data'>
-        <label>matricula :</label>
-        <input type='text' name='matricula' value = '".$_POST['matricula']."'>";
-        if($eleccion=="vehiculosEMT" && empty($_POST['calle'])){
-            $formulario .=   "<label>calle :</label>
-                            <input type='text' name='calle' value = '".$_POST['calle']."'>";
+            <label>TIPO DE CERTIFICADO:</label>
+            <select name='opcion' value = '".$eleccion."'>
+                <option value='".$eleccion."'> ".$eleccion."</option>
+                <option value='vehiculosEMT'> vehiculosEMT</option>
+                <option value='taxis'> taxis</option>
+                <option value='servicios'> servicios</option>
+                <option value='residentesYHoteles'> residentesYHoteles</option>
+                <option value='logistica'> logistica</option>
+            </select>
+            <br>
+        <label>Matricula :</label><br>
+        <input type='text' name='matricula' value = '".$_POST['matricula']."'> <br>";
+        if(empty($_POST['matricula'])){
+            $corregir=false;
+        }
+        if($eleccion=="vehiculosEMT"){
+            $formulario .=   "<label>Calle :</label><br>
+                            <input type='text' name='calle' value = '".$_POST['calle']."'> <br>";
             if(empty($_POST['calle'])){
                 $corregir=false;
             }
-        }else if($eleccion=="taxis" && empty($_POST['propietario'])){
-            $formulario .=   "<label>nombre del propietario :</label>
-                            <input type='text' name='propietario' value =".$_POST['propietario']."'>";
+        }else if($eleccion=="taxis" ){
+            $formulario .=   "<label>Nombre del propietario :</label><br>
+                            <input type='text' name='propietario' value ='".$_POST['propietario']."'><br>";
             if(empty($_POST['propietario'])){
                 $corregir=false;
             }
         }
-        else if($eleccion=="servicios" && empty($_POST['tipo_vehiculo'])){
-            $formulario .=   "<label>tipo de vehiculo :</label>
-                            <input type='text' name='tipo_vehiculo' value ='".$_POST['tipo_vehiculo']."'>";
+        else if($eleccion=="servicios" ){
+            $formulario .=   "<label>tipo de vehiculo :</label><br>
+                            <input type='text' name='tipo_vehiculo' value ='".$_POST['tipo_vehiculo']."'> <br>";
             if(empty($_POST['tipo_vehiculo'])){
                 $corregir=false;
             }
         }
-        else if($eleccion=="residentesYHoteles"&& empty($_POST['direccion']) || empty($_POST['fechaInicio'])|| empty($_POST['fechafinal']) ){
-            $formulario .=   "<label>direccion :</label>
-                            <input type='text' name='direccion' value ='". $_POST['direccion']."'>.
-                            <label>fechaInicio :</label>
-                            <input type='text' name='fechaInicio' value ='". $_POST['fechaInicio']."'>.
-                            <label>fechafinal :</label>
-                            <input type='text' name='fechafinal' value = '".$_POST['fechafinal']."'>";
+        else if($eleccion=="residentesYHoteles"){
+            $formulario .=   "<label>direccion :</label><br>
+                            <input type='text' name='direccion' value ='". $_POST['direccion']."'><br>
+                            <label>fechaInicio :</label><br>
+                            <input type='text' name='fechaInicio' value ='". $_POST['fechaInicio']."'><br>
+                            <label>fechafinal :</label><br>
+                            <input type='text' name='fechafinal' value = '".$_POST['fechafinal']."'><br>";
             if(empty($_POST['direccion']) || empty($_POST['fechaInicio'])|| empty($_POST['fechafinal'])){
                 $corregir=false;
             }
         }
-        else if($eleccion=="logistica" && empty($_POST['propietario'])){
-            $formulario .=   "<label>empresa de abastecimiento :</label>
-                            <input type='text' name='empresa' value ='".$_POST['propietario']."'>";
+        else if($eleccion=="logistica"){
+            $formulario .=   "<label>empresa de abastecimiento :</label><br>
+                            <input type='text' name='empresa' value ='".$_POST['propietario']."'><br>";
             if(empty($_POST['propietario'])){
                 $corregir=false;
             }
         }
-        $formulario.="<label>certificado :</label><INPUT TYPE='file' NAME='certificado'>
+        $formulario.="<label>certificado :</label><INPUT TYPE='file' NAME='certificado' ><br>
         <button type='submit' name = 'general' value ='pricipal'>enviar</button>
+        <br>
+        ".$mensaje."
         </form>";
-        if(!$corregir){
+        
+        if(!$corregir || !$mensaje){
             echo $formulario;
         }else{
             function validarmatricula($file, $matricula){
@@ -56,7 +92,6 @@
                     if($matruculaaux==$matricula){
                         return false;
                     }
-                    echo $matruculaaux;
                 }
                 return true;
             }
@@ -85,11 +120,6 @@
                 }
                 else {
                     $validar=false;
-                }
-                if($validar){
-                    if(validar($_POST['matricula'])){
-                        
-                    }
                 }
                 if($validar){
                     $matricula = $_POST['matricula'];
