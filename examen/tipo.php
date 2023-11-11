@@ -1,19 +1,28 @@
 <?php
     include("clases.html");
-    echo "    <h1>FORMULARIO</h1>
+    echo "<h1>FORMULARIO</h1>
+    <a href='pricipal.html'>inicio<a>
     <hr>";
     //tipo de ejercicio
     $error = "error:";
     function validacion(){
         global $error;
         $matricula = $_POST['matricula'];
-        if(preg_match('/[0-9]{4}-[a-z]{3}/',$matricula)){
-            if($_FILES['certificado']['type']=="application/pdf" || !empty($_FILES['certificado']['type'])){
-                return false;
+        $fechaInicio = $_POST['fechaInicio'];
+        $fechafinal = $_POST['fechafinal'];
+        if (preg_match('/^[0-9]{4}-[A-Za-z]{3}$/', $matricula)) {
+            if ($_FILES['certificado']['type'] == "application/pdf") {
+                if (preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/', $fechaInicio) && preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/', $fechafinal)) {
+                    return false;
+                }
+                $error .= "El formato de fecha debe ser YYYY-MM-DD<br>";
+                return $error;
             }
-            $error .= "el certificado tiene que ser un pdf";
+            $error .= "El certificado debe ser un PDF<br>";
+            return $error;
         }
-        $error .= "matricula incorrecta";
+        $error .= "Matrícula incorrecta<br>";
+    
         return $error;
     }
     if(empty($_POST['pricipal'])){
@@ -123,6 +132,7 @@
                 }
                 if($validar){
                     $matricula = $_POST['matricula'];
+                    $matricula = strtoupper($matricula);
                     if(!empty($_POST['calle'])){
                         if($file = fopen('basetxt/vehiculosEMT.txt' , 'r+')){
                             $respuesta = validarmatricula($file, $matricula);
@@ -209,9 +219,6 @@
                 else {
                     echo "error 2";
                 }
-    
         }
     }
-    
-
 ?>
