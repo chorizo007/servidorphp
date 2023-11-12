@@ -673,3 +673,23 @@ include 'vars.php';
 
 
 
+expresines reguares: 
+echo preg_match("/[a-z A-Z]{4}/", $abecedario); 
+
+
+
+Metacarácter	Descripción
+\	escape
+^	inicio de string o línea
+$	final de string o línea
+.	coincide con cualquier carácter excepto nueva línea
+[	inicio de la definición de clase carácter
+]	fin de la definición de clase carácter
+|	inicio de la rama alternativa
+(	inicio de subpatrón
+)	fin de subpatrón
+?	amplía el significado del subpatrón, cuantificador 0 ó 1, y hace lazy los cuantificadores greedy
+*	cuantificador 0 o más
++	cuantificador 1 o más
+{	inicio de cuantificador mín/máx
+}	fin de cuantificador mín/máx
