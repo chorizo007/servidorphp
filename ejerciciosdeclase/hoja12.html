@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        #formulario {
+            background-color: rgba(219, 220, 222, 255);
+            border-radius: 0.3em;
+            padding: 1em;
+        }
+
+        #titulo {
+            background-color: rgba(219, 220, 222, 255);
+            border-radius: 0.3em;
+            margin-top: 2em;
+            padding: 0.3em;
+        }
+
+        #centrar {
+            display: flex;
+
+        }
+
+        * {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+
+        #fondo {
+            background-color: rgba(219, 220, 222, 255);
+        }
+
+        .boton {
+            background-color: white;
+            border: 2px solid rgba(50, 55, 56, 0.839);
+            border-radius: 10px;
+            margin: 5px;
+            padding: 8px;
+            padding-left: 25px;
+            padding-right: 25px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form action="hoja12.php" method="post" id="formulario" ENCTYPE="multipart/form-data">
+            <h2>formulario con funciones </h2>
+            <div class="form-row mx-auto" >
+                <div class="col-md-6 mb-2">
+                    <label>nombre :</label>
+                    <INPUT TYPE="text" NAME="nombre">
+                </div>
+                <div class="col-md-6 mb-2">
+                    <label>contraseña :</label>
+                    <INPUT TYPE="password" NAME="contrasenia">
+                </div>
+                <div class="col-md-6 mb-2">
+                    <label>genero</label>
+                    <SELECT NAME="genero">
+                        <OPTION VALUE="M" SELECTED>M</OPTION>
+                        <OPTION VALUE="F">F</OPTION>
+                    </SELECT>
+                </div>
+                <div class="col-md-6 mb-2">
+                    <label>fechaNacimiento :</label>
+                    <INPUT TYPE="text" NAME="fechaNacimiento" >
+                </div>
+                <div class="col-md-6 mb-2">
+                    <label>indioma</label>
+                    <SELECT NAME="pais" required>
+                        <OPTION VALUE="ingles" SELECTED>ingles</OPTION >
+                        <OPTION VALUE="frances">frances</OPTION>
+                        <OPTION VALUE="aleman">aleman</OPTION>
+                        <OPTION VALUE="holandes">holandes</OPTION>
+                    </SELECT>
+                </div>
+                <div class="col-md-6 mb-2">
+                    <INPUT TYPE="radio" NAME="acepto" VALUE="acepto"> acepto los terminos y condiciones
+                </div>
+                <div class="col-md-6 mb-2">
+                    <TEXTAREA COLS="50" ROWS="4" NAME="comentario">
+                    </TEXTAREA>
+                </div>
+                <div class="col-md-6 mb-2">
+                    <label>imagen :</label>
+                    <INPUT TYPE="file" NAME="ficheronoticia">
+                </div>
+
+            </div> 
+
+            <button type="submit" class="boton"> enviar</button>
+        </form>
+    </div>
+</body>
+</html>

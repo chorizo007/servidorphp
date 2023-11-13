@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="practica6.php" method="post" ENCTYPE="multipart/form-data">
+        
+
+    </form>
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        #formulario {
+            background-color: rgba(219, 220, 222, 255);
+            border-radius: 0.3em;
+            padding: 1em;
+        }
+
+        #titulo {
+            background-color: rgba(219, 220, 222, 255);
+            border-radius: 0.3em;
+            margin-top: 2em;
+            padding: 0.3em;
+        }
+
+        #centrar {
+            display: flex;
+
+        }
+
+        * {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+
+        #fondo {
+            background-color: rgba(219, 220, 222, 255);
+        }
+
+        .boton {
+            background-color: white;
+            border: 2px solid rgba(50, 55, 56, 0.839);
+            border-radius: 10px;
+            margin: 5px;
+            padding: 8px;
+            padding-left: 25px;
+            padding-right: 25px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form action="practica6.php" method="post" id="formulario" ENCTYPE="multipart/form-data">
+
+            <INPUT TYPE="text" NAME="cadena" VALUE="valor por defecto">
+            <INPUT TYPE="radio" NAME="radio" VALUE="Titulos de cancion" CHECKED>Titulos de cancion
+            <INPUT TYPE="radio" NAME="radio" VALUE="Nombres de album">Nombres de album
+            <INPUT TYPE="radio" NAME="radio" VALUE="Ambos campos">Ambos campos
+            <SELECT NAME="genero">
+                <OPTION VALUE="todos" SELECTED>todos</OPTION>
+                <OPTION VALUE="acustica">acustica</OPTION>
+                <OPTION VALUE="banda sonora">banda sonora</OPTION>
+            </SELECT>
+    
+            <INPUT TYPE="checkbox" NAME="extras[ ]" VALUE="garaje" CHECKED>Garaje
+                <INPUT TYPE="checkbox" NAME="extras[ ]" VALUE="piscina">Piscina
+                <INPUT TYPE="checkbox" NAME="extras[ ]" VALUE="jardin">Jardín
+            <INPUT TYPE=submit NAME="enviar" VALUE="Enviar datos">
+    
+    
+            <INPUT TYPE="file" NAME="fichero">
+            <div class="form-row mx-auto" >
+                <div class="col-md-6 mb-2">
+                    <label>contraseña</label>
+                    <INPUT TYPE="password" NAME="clave">
+                </div>
+            </div>
+            <div class="form-row mx-auto" >
+                <div class="col-md-6 mb-2">
+                    <label>indioma</label>
+                    <SELECT MULTIPLE NAME="idiomas[ ]">
+                        <OPTION VALUE="ingles" SELECTED>Inglés</OPTION>
+                        <OPTION VALUE="frances">Francés</OPTION>
+                        <OPTION VALUE="aleman">Alemán</OPTION>
+                        <OPTION VALUE="holandes">Holandés</OPTION>
+                    </SELECT>
+                </div>
+            </div>
+            <div class="form-row mx-auto" >
+                <div class="col-md-6 mb-2">
+                    <TEXTAREA COLS="50" ROWS="4" NAME="comentario">
+                        Este libro me parece ...
+                    </TEXTAREA>
+                </div>
+            </div> 
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <h2>INSERTAR NUEVA NOTICIA</h2>
+            <div class="form-row mx-auto" >
+                <div class="col-md-6 mb-2">
+                    <label>titulo</label>
+                    <INPUT TYPE="text" NAME="titulonoticia" required>
+                </div>
+            </div> 
+            <div class="col-md-6 mb-2">
+                <label>texto</label>
+                <TEXTAREA COLS="50" ROWS="4" NAME="textonoticia">
+                    
+                </TEXTAREA required>
+            </div>
+            <div class="col-md-6 mb-2">
+                <label>categoria</label>
+                <SELECT NAME="categorianoticia">
+                    <OPTION VALUE="promociones" SELECTED>promociones</OPTION>
+                    <OPTION VALUE="policia">policia </OPTION>
+                </SELECT>
+            </div>
+            <div class="col-md-6 mb-2">
+                <label>imagen :</label>
+                <INPUT TYPE="file" NAME="ficheronoticia">
+            </div>
+            <button type="submit" class="boton"> enviar</button>
+        </form>
+    </div>
+</body>
+</html>
