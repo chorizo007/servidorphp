@@ -569,7 +569,7 @@ header("Content-Disposition:inline ; filename=captcha.jpg");
 
 LEER FICHEROS
 
-if (!$fichero = @fopen("datos.txt", 'r');{
+if (!$fichero = fopen("datos.txt", 'r');{
 	die("ERROR: no se ha podido abrir el fichero de datos");
 }
 fclose($fichero)
@@ -600,8 +600,8 @@ leer un fichero linea a linea
 	}
 	fclose($a);
 
-	colocar el fichero al principio del fichero 
-		rewind( identicador);
+colocar el fichero al principio del fichero 
+	rewind( identicador);
 
 determinar si un fichero existe 
 file_exists()
@@ -650,7 +650,7 @@ MANEJO DE DIRECTORIOS
 is_dir( directorio): Determina si existe y es un directorio
 opendir( directorio): Abre directorio y deiuelie un descriptor
 readdir($descriptor):
-	Devuelve el nombre del siguiente fchero en el directorio.
+	Devuelve el nombre del siguiente fichero en el directorio.
 	Los nombres de archiio son deiueltos en el orden en que están en el sistema de archiios. ¡Ojo! los primeros “.” y “..”
 closedir( $descriptor)
 
@@ -693,3 +693,50 @@ $	final de string o línea
 +	cuantificador 1 o más
 {	inicio de cuantificador mín/máx
 }	fin de cuantificador mín/máx
+
+
+
+tipos de ficheros:
+$mimes = array(
+    'phps' => Phar::PHPS, // pasa a highlight_file()
+    'c' => 'text/plain',
+    'cc' => 'text/plain',
+    'cpp' => 'text/plain',
+    'c++' => 'text/plain',
+    'dtd' => 'text/plain',
+    'h' => 'text/plain',
+    'log' => 'text/plain',
+    'rng' => 'text/plain',
+    'txt' => 'text/plain',
+    'xsd' => 'text/plain',
+    'php' => Phar::PHP, // procesado como PHP
+    'inc' => Phar::PHP, // procesado como PHP
+    'avi' => 'video/avi',
+    'bmp' => 'image/bmp',
+    'css' => 'text/css',
+    'gif' => 'image/gif',
+    'htm' => 'text/html',
+    'html' => 'text/html',
+    'htmls' => 'text/html',
+    'ico' => 'image/x-ico',
+    'jpe' => 'image/jpeg',
+    'jpg' => 'image/jpeg',
+    'jpeg' => 'image/jpeg',
+    'js' => 'application/x-javascript',
+    'midi' => 'audio/midi',
+    'mid' => 'audio/midi',
+    'mod' => 'audio/mod',
+    'mov' => 'movie/quicktime',
+    'mp3' => 'audio/mp3',
+    'mpg' => 'video/mpeg',
+    'mpeg' => 'video/mpeg',
+    'pdf' => 'application/pdf',
+    'png' => 'image/png',
+    'swf' => 'application/shockwave-flash',
+    'tif' => 'image/tiff',
+    'tiff' => 'image/tiff',
+    'wav' => 'audio/wav',
+    'xbm' => 'image/xbm',
+    'xml' => 'text/xml',
+);
+?>
