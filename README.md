@@ -133,7 +133,7 @@ de array a string
 	var_dump(implode(",", $array)); 
 
 
-ordenar 
+ORDENAR ARRAYS
 	invertido 
 		array_reverse ( $array, true) //true para que las claves no cambien 
 	desordenar aleatoriamente 
@@ -419,6 +419,15 @@ $diferencia = $fecha1->diff($fecha2);
 
 echo $diferencia->format('%m meses, %d días, %h horas');
 
+$interval = $fechadate1->diff($fechadate2);
+
+echo $interval->y; // Años
+echo $interval->m; // Meses
+echo $interval->d; // Días
+echo $interval->h; // Horas
+echo $interval->i; // Minutos
+echo $interval->s; // Segundos
+echo $interval->invert; // 0 si positivo, 1 si negativo
 
 
 
@@ -608,8 +617,8 @@ file_exists()
 
 
 escribir en un fichero
-fwrite($fichero, cadena, longitud)
-
+fwrite($fichero, cadena, longitud);
+fwrite($archivodatos,"$nombre\r\n");
 
 copiar un fichero
 	copy (origen, destno)
@@ -740,3 +749,130 @@ $mimes = array(
     'xml' => 'text/xml',
 );
 ?>
+
+
+
+
+
+FUNCIONES DE CREACION
+
+function generaBotonesRadio($nombreControl, $valores, $etiquetas, $valorSeleccionado) {
+    $html = ''; // Inicializamos la cadena de HTML vacía
+    // Verificamos que los arreglos tengan la misma cantidad de elementos
+    if (count($valores) != count($etiquetas)) {
+        return 'Error: Los arreglos de valores y etiquetas no tienen la misma cantidad de elementos.';
+    }
+
+    // Iteramos a través de los valores y etiquetas para generar los botones de radio
+    for ($i = 0; $i < count($valores); $i++) {
+        $html .= '<input type="radio" name="' . $nombreControl . '" value="' . $valores[$i] . '"';
+
+        // Verificamos si este es el valor seleccionado
+        if ($valores[$i] == $valorSeleccionado) {
+            $html .= ' checked';
+        }
+
+        $html .= '> ' . $etiquetas[$i] . '<br>';
+    }
+
+    return $html; // Devolvemos el código HTML generado
+}
+
+function generaCajasVerificacion($nombreControl, $valoresEtiquetas, $valoresSeleccionados = []) {
+    $html = ''; // Inicializamos la cadena de HTML vacía
+
+    foreach ($valoresEtiquetas as $valor => $etiqueta) {
+        $html .= '<input type="checkbox" name="' . $nombreControl . '[]" value="' . $valor . '"';
+
+        // Verificamos si este valor está seleccionado
+        if (in_array($valor, $valoresSeleccionados)) {
+            $html .= ' checked';
+        }
+
+        $html .= '> ' . $etiqueta . '<br>';
+    }
+
+    return $html; // Devolvemos el código HTML generado
+}
+
+function generaSelectSimple($nombreControl, $opciones, $valorPorDefecto = null) {
+    $html = '<select name="' . $nombreControl . '">';
+    
+    foreach ($opciones as $valor => $etiqueta) {
+        $selected = ($valor == $valorPorDefecto) ? ' selected' : '';
+        $html .= '<option value="' . $valor . '"' . $selected . '>' . $etiqueta . '</option>';
+    }
+    
+    $html .= '</select>';
+    
+    return $html;
+}
+
+function generaSelectMultiple($nombreControl, $opciones, $valoresPorDefecto = []) {
+    $html = '<select name="' . $nombreControl . '[]" multiple>';
+    
+    foreach ($opciones as $valor => $etiqueta) {
+        $selected = (in_array($valor, $valoresPorDefecto)) ? ' selected' : '';
+        $html .= '<option value="' . $valor . '"' . $selected . '>' . $etiqueta . '</option>';
+    }
+    
+    $html .= '</select>';
+    
+    return $html;
+}
+
+
+
+
+leer un fichero con int
+
+$archivo_visitas = 'visitas.txt';
+
+if (!$archivovis = fopen($archivo_visitas, 'r+')) {
+    die("FATAL ERROR");
+}
+
+$contador = (int)fread($archivovis, filesize($archivo_visitas));
+
+echo "Esta es la visita número: $contador";
+$contador++;
+
+rewind($archivovis);
+fwrite($archivovis, $contador);
+fclose($archivovis);
+
+
+
+leer el contenido de un directorio
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Listado de Directorio</title>
+</head>
+<body>
+<h1>Listado de Directorio</h1>
+<ul>
+    <?php
+    $directorio = './'; // Directorio actual (puedes cambiarlo)
+    $archivos = scandir($directorio);
+
+    foreach ($archivos as $archivo) {
+        if ($archivo != '.' && $archivo != '..') {
+            $ruta = $directorio . $archivo;
+            $es_directorio = is_dir($ruta);
+            $fecha_modificacion = date("d/m/Y H:i:s", filemtime($ruta));
+
+            echo "<li>";
+            echo "<strong>$archivo</strong> - Última modificación: $fecha_modificacion";
+            if (!$es_directorio) {
+                $tamaño = filesize($ruta);
+                echo " - Tamaño: $tamaño bytes";
+            }
+            echo "</li>";
+        }
+    }
+    ?>
+</ul>
+</body>
+</html>
