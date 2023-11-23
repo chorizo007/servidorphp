@@ -1,0 +1,11 @@
+/tu_proyecto
+├── index.html
+├── creaCookieNivel.php
+├── listaCookies.php
+└── directorios
+    ├── directorio1
+    │   ├── creaCookieNivel.php
+    │   └── listaCookies.php
+    └── directorio2
+        ├── creaCookieNivel.php
+        └── listaCookies.php

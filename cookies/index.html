@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear y Listar Cookies</title>
+</head>
+<body>
+    <h1>Crear y Listar Cookies</h1>
+    <form action="creaCookieNivel.php" method="post">
+        <label for="nombre">Nombre de la cookie:</label>
+        <input type="text" name="nombre" id="nombre" required><br>
+
+        <label for="contenido">Contenido de la cookie:</label>
+        <input type="text" name="contenido" id="contenido" required><br>
+
+        <label for="nivel">Nivel:</label>
+        <select name="nivel" id="nivel">
+            <option value="Nivel0">Nivel 0</option>
+            <option value="Nivel1">Nivel 1</option>
+            <option value="Nivel2">Nivel 2</option>
+        </select><br>
+
+        <button type="submit">Crear Cookie</button>
+    </form>
+
+    <a href="listaCookies.php">Ver Cookies</a>
+    <h2>Ver Cookies en Niveles:</h2>
+    <ul>
+        <li><a href="Nivel0/listaCookies.php">Nivel 0</a></li>
+        <li><a href="Nivel0/Nivel1/listaCookies.php">Nivel 1</a></li>
+        <li><a href="Nivel0/Nivel1/Nivel2/listaCookies.php">Nivel 2</a></li>
+    </ul>
+</body>
+</html>
