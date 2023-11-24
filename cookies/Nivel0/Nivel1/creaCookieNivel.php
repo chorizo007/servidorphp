@@ -1,10 +1,10 @@
 <?php
-$nombre = $_POST['nombre'] ?? 'por defecto 1';
-$contenido = $_POST['contenido'] ?? 'por defecto 1';
-if ($nombre && $contenido) {
-    setcookie($nombre, $contenido, 0, '/');
-    echo "Cookie creada con éxito.";
-} else {
-    echo "Todos los campos son obligatorios.";
-}
+$nombre = 'miCookie1'; // Cambiado el nombre de la cookie
+$contenido = 'por defecto 1';
+
+setcookie($nombre, $contenido, 0);
+echo "Cookie creada con éxito.";
+
+
+echo "<br><a href='../../index.html'>Volver al formulario</a>";
 ?>
