@@ -5,12 +5,13 @@
     <title>Crear y Listar Cookies</title>
 </head>
 <body>
-    <h1>Crear y Listar Cookies</h1>
+    <h1>creacion de cookies de diferentes niveles (directorios) por un script</h1>
+    <h2>Se permite fijar nombre y contenido de la cookie, asi como el nivel</h2>
     <form action="creaCookieNivel.php" method="post">
-        <label for="nombre">Nombre de la cookie:</label>
+        <label for="nombre">Nombre</label>
         <input type="text" name="nombre" id="nombre" required><br>
 
-        <label for="contenido">Contenido de la cookie:</label>
+        <label for="contenido">Contenido</label>
         <input type="text" name="contenido" id="contenido" required><br>
 
         <label for="nivel">Nivel:</label>
@@ -24,7 +25,7 @@
     </form>
 
     <a href="listaCookies.php">Ver Cookies</a>
-    <h2>Ver Cookies en Niveles:</h2>
+    <h2>Listado de cookies por nivel</h2>
     <ul>
         <li><a href="Nivel0/listaCookies.php">Nivel 0</a></li>
         <li><a href="Nivel0/Nivel1/listaCookies.php">Nivel 1</a></li>
