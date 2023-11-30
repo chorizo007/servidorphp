@@ -1,16 +1,35 @@
 <?php
 session_start();
-$cerrar = $_POST['cerrar'];
-if($cerrar!=null){
+
+if (isset($_POST['cerrar'])) {
     session_destroy();
-    header("Location: acredetacion.php");
+    header("Location: acreditacion.php");
+    exit();
 }
-if($_SESSION["usuario"] ==null){
+
+if (!isset($_SESSION["usuario"]) || empty($_SESSION["usuario"])) {
     session_destroy();
-    header("Location: acredetacion.php");
+    header("Location: acreditacion.php");
+    exit();
 }
-else{
-    echo "<button href='https://www.youtube.com/'>otra pagina</button>";
-    echo "<button value='cerrar' value='cerrar'>cerrar sesion</button>";
-}
+    
 ?>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acreditación</title>
+</head>
+<body>
+
+    <!-- Contenido para el usuario autenticado -->
+    <a href="https://www.youtube.com/" target="_blank"><button>Otra página</button></a>
+    
+    <form method="post" action="">
+        <button type="submit" name="cerrar" value="cerrar">Cerrar sesión</button>
+    </form>
+
+</body>
+</html>
