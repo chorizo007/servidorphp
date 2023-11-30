@@ -1,24 +1,51 @@
 <?php
-    //1 .iniciamos la sesion
+// Iniciar o continuar una sesión de cliente
 session_start();
 
-//2 . acceso o guardado de datos en sesiones : 
-    // Almacenar datos en la sesión
-    $_SESSION['usuario'] = 'nombre_usuario';
-    $_SESSION['rol'] = 'admin';
+// Verificar si el usuario ha enviado el formulario de inicio de sesión
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Validar usuario y contraseña (simulando una autenticación básica)
+    $usuario_valido = "nico";  
+    $contrasena_valida = "1234";
 
-    // Acceder a los datos de la sesión
-    echo $_SESSION['usuario'];
-    echo $_SESSION['rol'];
+    $usuario_ingresado = $_POST["usuario"];
+    $contrasena_ingresada = $_POST["contrasena"];
 
-// 3. nombre de la sesion
-echo session_name(); //pphpsessid
-echo session_id();  //1234asdfjkasldkjfa1034 
+    if ($usuario_ingresado == $usuario_valido && $contrasena_ingresada == $contrasena_valida) {
+        // Autenticación exitosa
+        $_SESSION["usuario"] = $usuario_ingresado;
 
+        // Redireccionar hacia la página información.php
+        header("Location: informacion.php");
+        exit();
+    } else {
+        // Autenticación fallida
+        header("Location: pagina_inicio_sesion.php");  // Cambia esto con la página de inicio de sesión real
+        exit();
+    }
+}
 
-// elimiar la sesion
-unset($_SESSION['usuario']); //eliminar las variables
-unset($_SESSION['rol']);
-$_SESSION=array();
-session_destroy(); //eliminar el id que esta relacionado
 ?>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acreditación</title>
+</head>
+<body>
+
+    <!-- Tu formulario de inicio de sesión aquí -->
+    <form method="post" action="acreditacion.php">
+        <label for="usuario">Usuario:</label>
+        <input type="text" name="usuario" required>
+
+        <label for="contrasena">Contraseña:</label>
+        <input type="password" name="contrasena" required>
+
+        <button type="submit">Iniciar sesión</button>
+    </form>
+
+</body>
+</html>
