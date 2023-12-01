@@ -12,7 +12,7 @@ if (!isset($_SESSION["usuario"]) || empty($_SESSION["usuario"])) {
     header("Location: acreditacion.php");
     exit();
 }
-    
+
 ?>
 
 <!DOCTYPE html>
@@ -24,7 +24,7 @@ if (!isset($_SESSION["usuario"]) || empty($_SESSION["usuario"])) {
 </head>
 <body>
 
-    <!-- Contenido para el usuario autenticado -->
+
     <a href="https://www.youtube.com/" target="_blank"><button>Otra página</button></a>
     
     <form method="post" action="">

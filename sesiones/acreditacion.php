@@ -1,10 +1,8 @@
 <?php
-// Iniciar o continuar una sesión de cliente
 session_start();
 
-// Verificar si el usuario ha enviado el formulario de inicio de sesión
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Validar usuario y contraseña (simulando una autenticación básica)
+    //aqui se tendria que hacer una consulta en una base de datos 
     $usuario_valido = "nico";  
     $contrasena_valida = "1234";
 
@@ -20,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     } else {
         // Autenticación fallida
-        header("Location: pagina_inicio_sesion.php");  // Cambia esto con la página de inicio de sesión real
+        header("Location: acreditacion.php");  
         exit();
     }
 }
@@ -36,7 +34,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
 
-    <!-- Tu formulario de inicio de sesión aquí -->
     <form method="post" action="acreditacion.php">
         <label for="usuario">Usuario:</label>
         <input type="text" name="usuario" required>
