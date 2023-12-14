@@ -1,0 +1,53 @@
+-- Crear la base de datos
+CREATE DATABASE inmobiliaria;
+
+-- Crear el usuario root con todos los permisos
+CREATE USER 'root'@'localhost' IDENTIFIED BY 'root';
+GRANT ALL PRIVILEGES ON inmobiliaria.* TO 'root'@'%';
+
+-- Crear el usuario web con permisos limitados
+CREATE USER 'web'@'%' IDENTIFIED BY 'web';
+GRANT SELECT, INSERT, UPDATE, DELETE ON inmobiliaria.* TO 'web'@'%';
+
+-- Aplicar los cambios
+FLUSH PRIVILEGES;
+
+USE inmobiliaria;
+
+CREATE TABLE noticias (
+    ID INT(5) AUTO_INCREMENT NOT NULL,
+    TITULO VARCHAR(100) NOT NULL,
+    TEXTO TEXT NOT NULL,
+    CATEGORIA VARCHAR(50),
+    FECHA DATE NOT NULL,
+    IMAGEN VARCHAR(100) NULL,
+    PRIMARY KEY (ID),
+    CONSTRAINT fk_nc FOREIGN KEY (CATEGORIA) REFERENCES categorias(nombre)
+);
+
+CREATE TABLE categorias (
+    nombre VARCHAR(50),
+    descrip VARCHAR(100)
+);
+
+
+INSERT INTO noticias (ID, TITULO, TEXTO, CATEGORIA, FECHA, IMAGEN)
+VALUES
+(1, 'Nueva promoción en Nervión', '145 viviendas de lujo...', 'promociones', '2007-02-04', NULL),
+(2, 'Ultimas viviendas junto al rio', 'Apartamentos de 1 y 2 dormitorios...', 'ofertas', '2007-02-05', NULL),
+(3, 'Apartamentos en el Puerto de Sta María', 'En la playa de Valdelagrana...', 'costas', '2007-02-06', 'apartamento8.jpg'),
+(4, 'Casa reformada en el barrio de la Judería', 'Dos plantas y ático, 5 habitaciones...', 'promociones', '2004-02-07', NULL),
+(5, 'Promoción en Costa Ballena', 'Con vistas al campo de golf, magníficas calidades...', 'costas', '2007-02-09', 'apartamento9.jpg');
+
+
+CREATE TABLE votos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    votos_si INT NOT NULL DEFAULT 0,
+    votos_no INT NOT NULL DEFAULT 0
+) ENGINE=InnoDB;
+
+
+
+
+
+
