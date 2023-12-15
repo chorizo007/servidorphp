@@ -1,4 +1,6 @@
 <?php
+session_start();
+include('comprobar_user.php');
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id_noticia = $_POST["id_noticia"];
 

@@ -1,4 +1,6 @@
 <?php
+session_start();
+include('comprobar_user.php');
 $conexion = mysqli_connect('localhost', 'web', 'web', 'inmobiliaria');
 if (!$conexion) {
     die('Error de conexión: ' . mysqli_connect_error());
@@ -37,7 +39,7 @@ if ($num_rows > 0) {
         echo '<td>' . $row['TEXTO'] . '</td>';
         echo '<td>' . $row['CATEGORIA'] . '</td>';
         echo '<td>' . $row['FECHA'] . '</td>';
-        echo '<td>' . $row['IMAGEN'] . '</td>';
+        echo '<td> <img src='.'http://localhost/github/servidorphp/hoja11/noticiasfile/'.$row['IMAGEN'].'></td>';
         echo '</tr>';
     }
     echo '</table>';

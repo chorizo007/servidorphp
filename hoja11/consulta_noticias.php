@@ -1,7 +1,7 @@
 <?php
 // Iniciar sesión
 session_start();
-
+include('comprobar_user.php');
 // Verificar si el usuario ha iniciado sesión y obtener su nombre de usuario
 if(isset($_SESSION['nombre_usuario'])) {
     $usuario_actual = $_SESSION['nombre_usuario'];
@@ -47,7 +47,7 @@ if(isset($_SESSION['nombre_usuario'])) {
         echo '<td>' . $row['TEXTO'] . '</td>';
         echo '<td>' . $row['CATEGORIA'] . '</td>';
         echo '<td>' . $row['FECHA'] . '</td>';
-        echo '<td> <img src='.$_SERVER['DOCUMENT_ROOT'].'/servidorphp/hoja11/noticiasfile/'.$row['IMAGEN'].'/></td>';
+        echo '<td> <img src='.'http://localhost/github/servidorphp/hoja11/noticiasfile/'.$row['IMAGEN'].'></td>';
 
         if ($es_admin) {
             echo '<td><input type="checkbox" name="eliminar[]" value="' . $row['ID'] . '"></td>';
