@@ -1,7 +1,7 @@
 <?php
 // Conexión a la base de datos
 
-$conexion = new mysqli('localhost', 'root', 'root', 'inmobiliaria');
+$conexion = new mysqli('localhost', 'web', 'web', 'inmobiliaria');
 if ($conexion->connect_error) {
     die('Error de conexión: ' . $conexion->connect_error);
 }
@@ -20,10 +20,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $result = $conexion->query($query);
 
     if ($result) {
-        echo "¡Gracias por tu voto!";
+        echo "¡Gracias por tu voto!<br>
+        <a href='encuesta-resultados.php'>Ver resultados</a>";
     } else {
         echo "Error al procesar el voto: " . $conexion->error;
+        echo "<br>
+        <a href='encuesta-resultados.php'>Ver resultados</a>";
     }
+}else{
+    $formulario = "<h2>Encuesta</h2>
+    <form action='encuesta.php' method='post'>
+        <p>¿Estás satisfecho con nuestros servicios?</p>
+        <input type='radio' name='opcion' value='si' required> Sí
+        <input type='radio' name='opcion' value='no' required> No
+        <br>
+        <input type='submit' value='Votar'>
+    </form><br>
+    <a href='encuesta-resultados.php'>Ver resultados</a>";
+    echo $formulario;
 }
 
 // Obtener los resultados actuales de la encuesta
@@ -35,27 +49,4 @@ $resultados = $resultResultados->fetch_assoc();
 $conexion->close();
 ?>
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Encuesta</title>
-</head>
-<body>
 
-<h2>Encuesta</h2>
-<form action="encuesta.php" method="post">
-    <p>¿Estás satisfecho con nuestros servicios?</p>
-    <input type="radio" name="opcion" value="si" required> Sí
-    <input type="radio" name="opcion" value="no" required> No
-    <br>
-    <input type="submit" value="Votar">
-</form>
-
-<h3>Resultados actuales:</h3>
-<p>Votos Sí: <?php echo $resultados['votos_si']; ?></p>
-<p>Votos No: <?php echo $resultados['votos_no']; ?></p>
-
-</body>
-</html>
