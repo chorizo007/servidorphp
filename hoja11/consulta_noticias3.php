@@ -6,7 +6,11 @@ if ($conexion->connect_error) {
 }
 
 // Obtener las categorías de las noticias
+<<<<<<< HEAD
 $queryCategorias = "SELECT nombre FROM categorias";
+=======
+$queryCategorias = "SELECT DISTINCT CATEGORIA FROM noticias";
+>>>>>>> main
 $resultCategorias = $conexion->query($queryCategorias);
 
 // Consultar noticias según la categoría seleccionada
@@ -17,18 +21,27 @@ $resultNoticias = $conexion->query($queryNoticias);
 // Mostrar resultados en una tabla
 echo '<h2>Consulta de Noticias por Categoría</h2>';
 
+<<<<<<< HEAD
+=======
+// Mostrar el desplegable de categorías
+>>>>>>> main
 echo '<form action="consulta_noticias3.php" method="get">';
 echo '<label for="categoria">Selecciona una categoría:</label>';
 echo '<select name="categoria">';
 echo '<option value="Todas">Todas</option>';
 while ($rowCategoria = $resultCategorias->fetch_assoc()) {
+<<<<<<< HEAD
     $categoria = $rowCategoria['nombre'];
+=======
+    $categoria = $rowCategoria['CATEGORIA'];
+>>>>>>> main
     echo '<option value="' . $categoria . '" ' . ($categoria === $categoriaSeleccionada ? 'selected' : '') . '>' . $categoria . '</option>';
 }
 echo '</select>';
 echo '<input type="submit" value="Filtrar">';
 echo '</form>';
 
+<<<<<<< HEAD
 
 $num_rows = $resultNoticias->num_rows;
 if($num_rows>0){
@@ -50,6 +63,22 @@ if($num_rows>0){
     echo "no hay resultados para esta categoria";
 }
 
+=======
+// Mostrar resultados en una tabla
+echo '<table border="1">';
+echo '<tr><th>ID</th><th>Título</th><th>Texto</th><th>Categoría</th><th>Fecha</th><th>Imagen</th></tr>';
+while ($row = $resultNoticias->fetch_assoc()) {
+    echo '<tr>';
+    echo '<td>' . $row['ID'] . '</td>';
+    echo '<td>' . $row['TITULO'] . '</td>';
+    echo '<td>' . $row['TEXTO'] . '</td>';
+    echo '<td>' . $row['CATEGORIA'] . '</td>';
+    echo '<td>' . $row['FECHA'] . '</td>';
+    echo '<td>' . $row['IMAGEN'] . '</td>';
+    echo '</tr>';
+}
+echo '</table>';
+>>>>>>> main
 
 // Cerrar conexión
 $conexion->close();
