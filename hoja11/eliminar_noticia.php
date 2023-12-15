@@ -2,23 +2,23 @@
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id_noticia = $_POST["id_noticia"];
 
-    $conexion = new mysqli('localhost', 'web', 'web', 'inmobiliaria');
-    if ($conexion->connect_error) {
-        die('Error de conexión: ' . $conexion->connect_error);
+    $conexion = mysqli_connect('localhost', 'web', 'web', 'inmobiliaria');
+    if (!$conexion) {
+        die('Error de conexión: ' . mysqli_connect_error());
     }
 
     $query = "DELETE FROM noticias WHERE ID = ?";
-    $stmt = $conexion->prepare($query);
-    $stmt->bind_param("i", $id_noticia);
+    $stmt = mysqli_prepare($conexion, $query);
+    mysqli_stmt_bind_param($stmt, "i", $id_noticia);
 
-    if ($stmt->execute()) {
+    if (mysqli_stmt_execute($stmt)) {
         echo "Noticia eliminada correctamente.";
     } else {
-        echo "Error al eliminar la noticia: " . $stmt->error;
+        echo "Error al eliminar la noticia: " . mysqli_stmt_error($stmt);
     }
 
-    $stmt->close();
-    $conexion->close();
+    mysqli_stmt_close($stmt);
+    mysqli_close($conexion);
 }
 ?>
 <!DOCTYPE html>

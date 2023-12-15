@@ -4,13 +4,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $texto = $_POST["texto"];
     $categoria = $_POST["categoria"];
     $fecha = $_POST["fecha"];
-    $imagen = null; // Inicializar $imagen
+    $imagen = null;
 
     if (isset($_FILES['ficheronoticia']) && $_FILES['ficheronoticia']['error'] === UPLOAD_ERR_OK) {
-        $rutaAbsoluta =  $_SERVER['DOCUMENT_ROOT'].'/servidorphp/hoja11/noticiasfile/';
+        $rutaAbsoluta = $_SERVER['DOCUMENT_ROOT'] . '/servidorphp/hoja11/noticiasfile/';
         $nombreFichero = $_FILES['ficheronoticia']['name'];
-        $nombreCompleto = $rutaAbsoluta . $nombreFichero; 
-    
+        $nombreCompleto = $rutaAbsoluta . $nombreFichero;
+
         if (move_uploaded_file($_FILES['ficheronoticia']['tmp_name'], $nombreCompleto)) {
             echo "Fichero subido con éxito a la ruta absoluta: $nombreCompleto";
             $imagen = $nombreFichero;
@@ -21,24 +21,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Error al subir el archivo.";
     }
 
-    // Verificar la conexión después de subir el archivo
-    $conexion = new mysqli('localhost', 'web', 'web', 'inmobiliaria');
-    if ($conexion->connect_error) {
-        die('Error de conexión: ' . $conexion->connect_error);
+    // Conexión a la base de datos utilizando funciones
+    $conexion = mysqli_connect('localhost', 'web', 'web', 'inmobiliaria');
+    if (!$conexion) {
+        die('Error de conexión: ' . mysqli_connect_error());
     }
 
     $query = "INSERT INTO noticias (TITULO, TEXTO, CATEGORIA, FECHA, IMAGEN) VALUES (?, ?, ?, ?, ?)";
-    $stmt = $conexion->prepare($query);
-    $stmt->bind_param("sssss", $titulo, $texto, $categoria, $fecha, $imagen);
+    $stmt = mysqli_prepare($conexion, $query);
+    mysqli_stmt_bind_param($stmt, "sssss", $titulo, $texto, $categoria, $fecha, $imagen);
 
-    if ($stmt->execute()) {
+    if (mysqli_stmt_execute($stmt)) {
         echo "Noticia insertada correctamente.";
     } else {
-        echo "Error al insertar la noticia: " . $stmt->error;
+        echo "Error al insertar la noticia: " . mysqli_stmt_error($stmt);
     }
-
-    $stmt->close();
-    $conexion->close();
+    mysqli_stmt_close($stmt);
+    mysqli_close($conexion);
 }
 ?>
 <!DOCTYPE html>
@@ -59,16 +58,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <label for="texto">Texto:</label>
     <textarea name="texto" rows="4" required></textarea><br>
 
-    <label for="categoria">Categoría:</label>
-    <select name="categoria">
-        <option value="promociones">Promociones</option>
-        <option value="ofertas">Ofertas</option>
-        <option value="costas">Costas</option>
-    </select><br>
-
     <label for="fecha">Fecha:</label>
     <input type="date" name="fecha" required><br>
-
+    <?php
+        $conexion = mysqli_connect('localhost', 'web', 'web', 'inmobiliaria');
+        if (!$conexion) {
+            die('Error de conexión: ' . mysqli_connect_error());
+        }
+        $queryCategorias = "SELECT nombre FROM categorias";
+        $resultCategorias = mysqli_query($conexion, $queryCategorias);
+        echo '<select name="categoria">';
+        while ($rowCategoria = mysqli_fetch_assoc($resultCategorias)) {
+            $categoria = $rowCategoria['nombre'];
+            echo '<option value="' . $categoria . '" ' . ($categoria === $categoriaSeleccionada ? 'selected' : '') . '>' . $categoria . '</option>';
+        }
+        echo '</select>';
+    ?>
+    <br>
     <label for="imagen">Imagen (opcional):</label>
     <input type="file" name="ficheronoticia">
 

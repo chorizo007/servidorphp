@@ -1,10 +1,11 @@
 <?php
 // Conexión a la base de datos
 
-$conexion = new mysqli('localhost', 'web', 'web', 'inmobiliaria');
-if ($conexion->connect_error) {
-    die('Error de conexión: ' . $conexion->connect_error);
+$conexion = mysqli_connect('localhost', 'web', 'web', 'inmobiliaria');
+if (!$conexion) {
+    die('Error de conexión: ' . mysqli_connect_error());
 }
+
 // Verificar si se ha enviado el formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Obtener la opción seleccionada
@@ -17,17 +18,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $query = "UPDATE votos SET votos_no = votos_no + 1 WHERE id = 1";
     }
 
-    $result = $conexion->query($query);
+    $result = mysqli_query($conexion, $query);
 
     if ($result) {
         echo "¡Gracias por tu voto!<br>
         <a href='encuesta-resultados.php'>Ver resultados</a>";
     } else {
-        echo "Error al procesar el voto: " . $conexion->error;
+        echo "Error al procesar el voto: " . mysqli_error($conexion);
         echo "<br>
         <a href='encuesta-resultados.php'>Ver resultados</a>";
     }
-}else{
+} else {
     $formulario = "<h2>Encuesta</h2>
     <form action='encuesta.php' method='post'>
         <p>¿Estás satisfecho con nuestros servicios?</p>
@@ -42,11 +43,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 // Obtener los resultados actuales de la encuesta
 $queryResultados = "SELECT votos_si, votos_no FROM votos WHERE id = 1";
-$resultResultados = $conexion->query($queryResultados);
-$resultados = $resultResultados->fetch_assoc();
+$resultResultados = mysqli_query($conexion, $queryResultados);
+$resultados = mysqli_fetch_assoc($resultResultados);
 
 // Cerrar conexión
-$conexion->close();
+mysqli_close($conexion);
 ?>
-
-

@@ -1,8 +1,8 @@
 <?php
 // Conexión a la base de datos
-$conexion = new mysqli('localhost', 'web', 'web', 'inmobiliaria');
-if ($conexion->connect_error) {
-    die('Error de conexión: ' . $conexion->connect_error);
+$conexion = mysqli_connect('localhost', 'web', 'web', 'inmobiliaria');
+if (!$conexion) {
+    die('Error de conexión: ' . mysqli_connect_error());
 }
 
 // Número de noticias por página
@@ -10,8 +10,8 @@ $noticiasPorPagina = 3;
 
 // Obtener el número total de noticias
 $queryTotal = "SELECT COUNT(*) AS total FROM noticias";
-$resultTotal = $conexion->query($queryTotal);
-$totalNoticias = $resultTotal->fetch_assoc()['total'];
+$resultTotal = mysqli_query($conexion, $queryTotal);
+$totalNoticias = mysqli_fetch_assoc($resultTotal)['total'];
 
 // Calcular el número total de páginas
 $totalPaginas = ceil($totalNoticias / $noticiasPorPagina);
@@ -25,13 +25,13 @@ $fin = $inicio + $noticiasPorPagina;
 
 // Consulta de noticias paginadas
 $queryPaginada = "SELECT * FROM noticias LIMIT $inicio, $noticiasPorPagina";
-$resultPaginada = $conexion->query($queryPaginada);
+$resultPaginada = mysqli_query($conexion, $queryPaginada);
 
 // Mostrar resultados en una tabla
 echo '<h2>Noticias Paginadas</h2>';
 echo '<table border="1">';
 echo '<tr><th>ID</th><th>Título</th><th>Texto</th><th>Categoría</th><th>Fecha</th><th>Imagen</th></tr>';
-while ($row = $resultPaginada->fetch_assoc()) {
+while ($row = mysqli_fetch_assoc($resultPaginada)) {
     echo '<tr>';
     echo '<td>' . $row['ID'] . '</td>';
     echo '<td>' . $row['TITULO'] . '</td>';
@@ -51,5 +51,5 @@ for ($i = 1; $i <= $totalPaginas; $i++) {
 echo '</div>';
 
 // Cerrar conexión
-$conexion->close();
+mysqli_close($conexion);
 ?>
