@@ -2,6 +2,7 @@
 // Iniciar sesión
 session_start();
 include('comprobar_user.php');
+include('estilos.html');
 // Verificar si el usuario ha iniciado sesión y obtener su nombre de usuario
 if(isset($_SESSION['nombre_usuario'])) {
     $usuario_actual = $_SESSION['nombre_usuario'];
@@ -30,7 +31,7 @@ if(isset($_SESSION['nombre_usuario'])) {
     // Obtener el número de filas
     $num_rows = mysqli_num_rows($result);
 
-    // Mostrar resultados en una tabla con checkbox para eliminar (solo para administradores)
+    echo "<h1>Consulta de noticias</h1>";
     echo '<form action="eliminar.php" method="post">'; // Ajusta "eliminar.php" según tu necesidad
     echo '<p>Número de filas: ' . $num_rows . '</p>';
     echo '<table border="1">';

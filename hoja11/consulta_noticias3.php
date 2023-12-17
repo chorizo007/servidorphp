@@ -1,6 +1,7 @@
 <?php
 session_start();
 include('comprobar_user.php');
+include('estilos.html');
 $conexion = mysqli_connect('localhost', 'web', 'web', 'inmobiliaria');
 if (!$conexion) {
     die('Error de conexión: ' . mysqli_connect_error());
@@ -13,7 +14,7 @@ $categoriaSeleccionada = isset($_GET['categoria']) ? $_GET['categoria'] : 'Todas
 $queryNoticias = ($categoriaSeleccionada !== 'Todas') ? "SELECT * FROM noticias WHERE CATEGORIA = '$categoriaSeleccionada'" : "SELECT * FROM noticias";
 $resultNoticias = mysqli_query($conexion, $queryNoticias);
 
-echo '<h2>Consulta de Noticias por Categoría</h2>';
+echo '<h1>Consulta de Noticias por Categoría</h1>';
 
 echo '<form action="consulta_noticias3.php" method="get">';
 echo '<label for="categoria">Selecciona una categoría:</label>';

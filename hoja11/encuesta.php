@@ -1,7 +1,7 @@
 <?php
 session_start();
 include('comprobar_user.php');
-
+include('estilos.html');
 $conexion = mysqli_connect('localhost', 'web', 'web', 'inmobiliaria');
 if (!$conexion) {
     die('Error de conexión: ' . mysqli_connect_error());
@@ -22,7 +22,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $result = mysqli_query($conexion, $query);
 
     if ($result) {
-        echo "¡Gracias por tu voto!<br>
+        echo "<h1>encuesta . voto registrado</h1>";
+        echo "<p>su voto ha sido registrado. Gracias por participar</p>
         <a href='encuesta-resultados.php'>Ver resultados</a>";
     } else {
         echo "Error al procesar el voto: " . mysqli_error($conexion);
@@ -30,11 +31,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <a href='encuesta-resultados.php'>Ver resultados</a>";
     }
 } else {
-    $formulario = "<h2>Encuesta</h2>
+    $formulario = "<h1>Encuesta</h1>
     <form action='encuesta.php' method='post'>
         <p>¿Estás satisfecho con nuestros servicios?</p>
         <input type='radio' name='opcion' value='si' required> Sí
         <input type='radio' name='opcion' value='no' required> No
+        <br>
         <br>
         <input type='submit' value='Votar'>
     </form><br>

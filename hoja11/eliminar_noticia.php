@@ -1,6 +1,7 @@
 <?php
 session_start();
 include('comprobar_user.php');
+include('estilos.html');
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id_noticia = $_POST["id_noticia"];
 
@@ -32,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
 
-<h2>Eliminar Noticia</h2>
+<h1>Eliminar Noticia</h1>
 
 <form action="eliminar_noticia.php" method="post">
     <label for="id_noticia">ID de la noticia a eliminar:</label>

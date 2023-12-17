@@ -2,6 +2,7 @@
 // Conexión a la base de datos
 session_start();
 include('comprobar_user.php');
+include('estilos.html');
 $conexion = mysqli_connect('localhost', 'web', 'web', 'inmobiliaria');
 if (!$conexion) {
     die('Error de conexión: ' . mysqli_connect_error());

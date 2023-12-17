@@ -7,7 +7,7 @@
 </head>
 <body>
 
-<h2>Insertar Noticia</h2>
+<h1>Insertar una Noticia</h1>
 
 <form action="resultado_insertar_noticias.php" method="post" enctype="multipart/form-data">
     <label for="titulo">Título:</label>
@@ -21,6 +21,7 @@
     <?php
         session_start();
         include('comprobar_user.php');
+        include('estilos.html');
         $conexion = mysqli_connect('localhost', 'web', 'web', 'inmobiliaria');
         if (!$conexion) {
             die('Error de conexión: ' . mysqli_connect_error());
@@ -37,7 +38,7 @@
     <br>
     <label for="imagen">Imagen (opcional):</label>
     <input type="file" name="ficheronoticia">
-
+    <br>
     <input type="submit" value="Insertar Noticia">
 </form>
 

@@ -1,6 +1,7 @@
 <?php
 session_start();
 include('comprobar_user.php');
+include('estilos.html');
 $conexion = mysqli_connect('localhost', 'web', 'web', 'inmobiliaria');
 if (!$conexion) {
     die('Error de conexión: ' . mysqli_connect_error());
@@ -16,7 +17,7 @@ $no = $resultados['votos_no'];
 $total = $si + $no;
 ?>
 
-<h3>Resultados actuales:</h3>
+<h1>Resultados actuales:</h1>
 
 <table style='width:100%'>
     <tr>
@@ -28,10 +29,10 @@ $total = $si + $no;
     <tr>
         <td>si</td>
         <td><?php echo $resultados['votos_si']; ?></td>
-        <td><?php echo ($si/$total*100) ?></td>
+        <td><?php echo number_format(($si/$total*100), 2); ?></td>
         <td>
             <?php
-            echo "<div style='width:" . ($si/$total*100) . "%; border: 1px solid black;'>";
+            echo "<div style='width:" . ($si/$total*100) . "%; background-color: orange;'>";
             echo "Votos Sí: " . $si;
             echo "</div>";
             ?>
@@ -40,13 +41,24 @@ $total = $si + $no;
     <tr>
         <td>no</td>
         <td><?php echo $resultados['votos_no']; ?></td>
-        <td><?php echo ($no/$total*100) ?></td>
+        <td><?php echo number_format(($no/$total*100), 2); ?></td>
         <td>
             <?php
-                echo "<div style='width:" . ($no/$total*100) . "%; border: 1px solid black;'>";
+                echo "<div style='width:" . ($no/$total*100) . "%; background-color: orange;'>";
                 echo "Votos no: " . $no;
                 echo "</div>";
             ?>
         </td>
     <tr>
 </table>
+
+
+<?php
+    echo"<br>";
+    echo"<br>";
+    echo "Numero total de votos emitidos: ". $total;
+    echo"<br>";
+    echo"<br>";
+    echo "<a href='encuesta.php'>pagina de votacion</a>";
+    echo"<br>";
+?>
