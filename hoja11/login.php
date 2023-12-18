@@ -50,7 +50,7 @@ if (isset($error_message)) {
 }
 ?>
 
-<form method="post" action="">
+<form method="post" action="login.php">
     <label for="nombre_usuario">Nombre de Usuario:</label>
     <input type="text" id="nombre_usuario" name="nombre_usuario" required><br>
 
@@ -60,5 +60,9 @@ if (isset($error_message)) {
     <input type="submit" value="Iniciar Sesión">
 </form>
 
+
+<br>
+<br>
+<a href="registro.php">No tienes cuenta ? </a>
 </body>
 </html>

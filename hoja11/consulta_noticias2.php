@@ -8,29 +8,21 @@ if (!$conexion) {
     die('Error de conexión: ' . mysqli_connect_error());
 }
 
-// Número de noticias por página
-$noticiasPorPagina = 3;
+$noticiasPorPagina = 2;
 
-// Obtener el número total de noticias
 $queryTotal = "SELECT COUNT(*) AS total FROM noticias";
 $resultTotal = mysqli_query($conexion, $queryTotal);
 $totalNoticias = mysqli_fetch_assoc($resultTotal)['total'];
 
-// Calcular el número total de páginas
 $totalPaginas = ceil($totalNoticias / $noticiasPorPagina);
 
-// Obtener el número de página actual
 $paginaActual = isset($_GET['pagina']) ? $_GET['pagina'] : 1;
 
-// Calcular el inicio y fin de las noticias a mostrar en la página actual
 $inicio = ($paginaActual - 1) * $noticiasPorPagina;
-$fin = $inicio + $noticiasPorPagina;
 
-// Consulta de noticias paginadas
 $queryPaginada = "SELECT * FROM noticias LIMIT $inicio, $noticiasPorPagina";
 $resultPaginada = mysqli_query($conexion, $queryPaginada);
 
-// Mostrar resultados en una tabla
 echo '<h2>Noticias Paginadas</h2>';
 echo '<table border="1">';
 echo '<tr><th>ID</th><th>Título</th><th>Texto</th><th>Categoría</th><th>Fecha</th><th>Imagen</th></tr>';

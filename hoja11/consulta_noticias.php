@@ -32,7 +32,7 @@ if(isset($_SESSION['nombre_usuario'])) {
     $num_rows = mysqli_num_rows($result);
 
     echo "<h1>Consulta de noticias</h1>";
-    echo '<form action="eliminar.php" method="post">'; // Ajusta "eliminar.php" según tu necesidad
+    echo '<form action="eliminar.php" method="post">';
     echo '<p>Número de filas: ' . $num_rows . '</p>';
     echo '<table border="1">';
     echo '<tr><th>ID</th><th>Título</th><th>Texto</th><th>Categoría</th><th>Fecha</th><th>Imagen</th>';

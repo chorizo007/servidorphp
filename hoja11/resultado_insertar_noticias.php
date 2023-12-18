@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if (isset($_FILES['ficheronoticia']) && $_FILES['ficheronoticia']['error'] === UPLOAD_ERR_OK) {
-        $rutaAbsoluta = $_SERVER['DOCUMENT_ROOT'] . '/github/servidorphp/hoja11/noticiasfile/';
+        $rutaAbsoluta = $_SERVER['DOCUMENT_ROOT'] . '/servidorphp/hoja11/noticiasfile/';
         $nombreFichero = $_FILES['ficheronoticia']['name'];
         $nombreCompleto = $rutaAbsoluta . $nombreFichero;
 
