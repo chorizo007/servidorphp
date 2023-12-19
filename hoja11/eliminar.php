@@ -26,5 +26,5 @@ function limpiarInput($input) {
     global $conexion;
     return mysqli_real_escape_string($conexion, $input);
 }
-echo "<a href='consultar_noticia.php'>volver al inicio</a>";
+echo "<a href='consulta_noticias.php'>volver al inicio</a>";
 ?>
