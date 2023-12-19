@@ -22,6 +22,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($result && mysqli_num_rows($result) > 0) {
         $_SESSION['nombre_usuario'] = $nombre_usuario;
+        $fila = mysqli_fetch_assoc($result);
+        $valorBool = $fila['es_admin'];
+        if ($valorBool) {
+            $_SESSION['admin'] = "si";
+        }
         header("Location: consulta_noticias.php");
         exit();
     } else {
