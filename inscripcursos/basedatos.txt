@@ -1,0 +1,40 @@
+CREATE DATABASE cursoscp;
+
+USE cursoscp;
+
+CREATE TABLE solicitantes (
+    dni VARCHAR(9) PRIMARY KEY,
+    apellidos VARCHAR(100),
+    nombre VARCHAR(100),
+    telefono VARCHAR(15),
+    correo VARCHAR(50),
+    codigocentro VARCHAR(8),
+    coordinadortc BOOLEAN,
+    grupotc BOOLEAN,
+    nombregrupo VARCHAR(50),
+    pbilin BOOLEAN,
+    cargo BOOLEAN,
+    nombrecargo VARCHAR(15),
+    situacion ENUM('activo', 'inactivo'),
+    fechanac DATE,
+    especialidad VARCHAR(50),
+    puntos INT
+);
+
+CREATE TABLE cursos (
+    codigo INT PRIMARY KEY,
+    nombre VARCHAR(50),
+    abierto BOOLEAN,
+    numeroplazas INT,
+    plazoinscripcion DATE
+);
+
+CREATE TABLE solicitudes (
+    dni VARCHAR(9),
+    codigocurso INT,
+    fechasolicitud DATE,
+    admitido BOOLEAN,
+    PRIMARY KEY (dni, codigocurso),
+    FOREIGN KEY (dni) REFERENCES solicitantes(dni),
+    FOREIGN KEY (codigocurso) REFERENCES cursos(codigo)
+);
