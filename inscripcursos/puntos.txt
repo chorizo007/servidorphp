@@ -5,5 +5,5 @@ Cargo de director 2
 Cargo de Jefe de Estudios 2
 Cargo de Secretario 2
 Cargo de Jefe de Departamento 1
-Antgüedad 15 1
-Profesor en actvo 1
+Antgüedad > 15 1
+Profesor en activo 1
