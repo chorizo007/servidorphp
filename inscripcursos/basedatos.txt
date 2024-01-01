@@ -1,26 +1,30 @@
+-- Crear la base de datos
 CREATE DATABASE cursoscp;
 
+-- Usar la base de datos
 USE cursoscp;
 
+-- Crear la tabla "solicitantes"
 CREATE TABLE solicitantes (
     dni VARCHAR(9) PRIMARY KEY,
-    apellidos VARCHAR(100),
-    nombre VARCHAR(100),
-    telefono VARCHAR(15),
+    apellidos VARCHAR(40),
+    nombre VARCHAR(20),
+    telefono VARCHAR(12),
     correo VARCHAR(50),
     codigocentro VARCHAR(8),
-    coordinadortc BOOLEAN,
-    grupotc BOOLEAN,
-    nombregrupo VARCHAR(50),
+    coordinadortic BOOLEAN,
+    grupotic BOOLEAN,
+    nombregrupo VARCHAR(5),
     pbilin BOOLEAN,
     cargo BOOLEAN,
     nombrecargo VARCHAR(15),
     situacion ENUM('activo', 'inactivo'),
-    fechanac DATE,
+    fechaalta DATE,
     especialidad VARCHAR(50),
     puntos INT
 );
 
+-- Crear la tabla "cursos"
 CREATE TABLE cursos (
     codigo INT PRIMARY KEY,
     nombre VARCHAR(50),
@@ -29,6 +33,7 @@ CREATE TABLE cursos (
     plazoinscripcion DATE
 );
 
+-- Crear la tabla "solicitudes"
 CREATE TABLE solicitudes (
     dni VARCHAR(9),
     codigocurso INT,
@@ -38,3 +43,4 @@ CREATE TABLE solicitudes (
     FOREIGN KEY (dni) REFERENCES solicitantes(dni),
     FOREIGN KEY (codigocurso) REFERENCES cursos(codigo)
 );
+x   
