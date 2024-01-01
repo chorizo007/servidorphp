@@ -43,4 +43,11 @@ CREATE TABLE solicitudes (
     FOREIGN KEY (dni) REFERENCES solicitantes(dni),
     FOREIGN KEY (codigocurso) REFERENCES cursos(codigo)
 );
-x   
+
+-- Crear la tabla "usuarios"
+CREATE TABLE usuarios (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nombre_usuario VARCHAR(50) UNIQUE,
+    contrasena VARCHAR(255),
+    es_admin BOOLEAN
+);
