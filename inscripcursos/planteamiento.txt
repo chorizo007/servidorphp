@@ -2,11 +2,11 @@
 
 2. hacer un login y registro
 
-3.poder hacer una solicitud de los cursos abiertos
+3. poder hacer una solicitud de los cursos abiertos
 
 4. admin 
     -cursos abrir cerrar borrar añadir 
     -asignar vacantes a solicitudes 
     -listar todos los cursos
-
-5. baremacion de las tablas 
+    -Mostrar el listado de admitdos en un curso
+    -baremacion de las tablas 
