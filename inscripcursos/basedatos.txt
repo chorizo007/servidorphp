@@ -1,3 +1,7 @@
+CREATE USER 'cursos'@'%' IDENTIFIED BY 'cursos';
+GRANT ALL PRIVILEGES ON cursoscp.* TO 'cursos'@'%';
+FLUSH PRIVILEGES;
+
 -- Crear la base de datos
 CREATE DATABASE cursoscp;
 

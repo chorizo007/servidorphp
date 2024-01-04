@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table{
+            border: 1px solid black;
+        }
+        table tr:first-child {
+            background-color: #92c7f3; /* Cambia el color de fondo según tus preferencias */
+            font-weight: bold; /* Puedes cambiar el estilo de la fuente, por ejemplo, hacerla negrita */
+        }
+
+        /* Estilo para el resto de las filas, si lo deseas */
+        table tr:not(:first-child) {
+            background-color: #572efc; /* Cambia el color de fondo según tus preferencias */
+        }
+        h1{
+            color: blue;
+        }
+        form{
+            border: black 1px dashed;
+            margin: 5px;
+            padding: 15px;
+        }
+        form label{
+            margin: 35px;
+        }
+        .nav{
+            display: flex;
+            background-color: #92c7f3;
+            padding: 15px;
+            justify-content: space-between;
+            overflow: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <button><a href="consulta_noticias.php">tabla noticia 1</a></button>
+        <button><a href="consulta_noticias2.php">tabla noticia 2</a></button>
+        <button><a href="consulta_noticias3.php">tabla noticia 3</a></button>
+        <button><a href="encuesta.php">encuesta</a></button>
+        <button><a href="insertar_noticias.php">insertar noticia</a></button>
+        <button><a href="login.php">login</a></button>
+        <button><a href="registro.php">registro</a></button>
+        <button><a href="logout.php">Cerrar Sesión</a></button>
+    </div>
+</body>
+</html>
