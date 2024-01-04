@@ -46,7 +46,7 @@ CREATE TABLE solicitudes (
     PRIMARY KEY (dni, codigocurso),
     FOREIGN KEY (dni) REFERENCES solicitantes(dni),
     FOREIGN KEY (codigocurso) REFERENCES cursos(codigo)
-);
+);º
 
 -- Crear la tabla "usuarios"
 CREATE TABLE usuarios (

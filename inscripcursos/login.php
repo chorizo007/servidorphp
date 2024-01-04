@@ -1,4 +1,9 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+?>
+<?php
 session_start();
 
 if (isset($_SESSION['nombre_usuario'])) {
@@ -8,7 +13,7 @@ if (isset($_SESSION['nombre_usuario'])) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Conexión a la base de datos
-    $conexion = mysqli_connect('localhost', 'web', 'web', 'cursoscp');
+    $conexion = mysqli_connect('localhost', 'cursos', 'cursos', 'cursoscp');
     if (!$conexion) {
         die('Error de conexión: ' . mysqli_connect_error());
     }
@@ -26,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($valorBool) {
             $_SESSION['admin'] = "si";
         }
-        header("Location: inicio.php");
+        header("Location: cursosabi.php");
         exit();
     } else {
         $error_message = "Credenciales incorrectas. Por favor, inténtalo de nuevo.";

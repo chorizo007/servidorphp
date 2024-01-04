@@ -1,5 +1,6 @@
 <?php
 session_start();
+include("estilos.html");
 if(isset($_SESSION['nombre_usuario'])) {
     $es_user = $_SESSION['nombre_usuario'];
 }
@@ -32,7 +33,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 }
 echo '</table>';
 if ($es_user) {
-    echo '<input type="submit" value="Borrar Seleccionados">';
+    echo '<input type="submit" value="inscribirse">';
 }
 echo '</form>';
 // Cerrar conexión
