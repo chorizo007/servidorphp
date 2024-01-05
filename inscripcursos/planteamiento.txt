@@ -10,3 +10,9 @@
     -listar todos los cursos
     -Mostrar el listado de admitdos en un curso
     -baremacion de las tablas 
+    
+
+
+FALTAN
+    -calcular puntos al registrarse
+

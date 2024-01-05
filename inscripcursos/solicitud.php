@@ -6,7 +6,7 @@ ini_set('display_startup_errors', 1);
 
 <?php
 session_start();
-include("estilos.html");
+include("estilos.php");
 if(isset($_SESSION['nombre_usuario'])) {
     $es_user = $_SESSION['nombre_usuario'];
 }

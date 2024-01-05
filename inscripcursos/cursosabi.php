@@ -1,6 +1,6 @@
 <?php
 session_start();
-include("estilos.html");
+include("estilos.php");
 if(isset($_SESSION['nombre_usuario'])) {
     $es_user = $_SESSION['nombre_usuario'];
 }

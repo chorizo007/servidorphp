@@ -1,3 +1,10 @@
+<?php
+    session_start();
+
+    if (isset($_SESSION['admin'])) {
+        $botonadmin = "<button><a href='admin.php'>ADMINISTRAR</a></button>";
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,6 +46,9 @@
 </head>
 <body>
     <div class="nav">
+        <?php
+            echo $botonadmin;
+        ?>
         <button><a href="cursosabi.php">cursos abiertos</a></button>
         <button><a href="login.php">login</a></button>
         <button><a href="registro.php">registro</a></button>
