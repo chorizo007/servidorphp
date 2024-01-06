@@ -1,4 +1,4 @@
-1. hacer un principal para poder los cursos abiertos
+1. hacer un principal para poder ver los cursos abiertos
 
 2. hacer un login y registro
 
@@ -15,4 +15,6 @@
 
 FALTAN
     -calcular puntos al registrarse
-
+    -asignar vacantes a solicitudes
+    -Mostrar el listado de admitdos en un curso
+    -baremacion de las tablas 

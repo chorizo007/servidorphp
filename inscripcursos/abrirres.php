@@ -1,5 +1,9 @@
 <?php
-session_start();
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+?>
+<?php
 include("estilos.php");
 include("comprobar_user.php");
 if(isset($_SESSION['nombre_usuario'])) {
@@ -65,22 +69,36 @@ if(!empty($_POST['cerrar'])){
         echo "Error al preparar la consulta: " . mysqli_error($conexion);
     }
 }else if(!empty($_POST['añadircurso'])){
-    
+    $nombre = $_POST['nombre'];
+    $estado = $_POST['estado'];
+    $numeroplazas = $_POST['numeroplazas'];
+    $plazoinscripcion = $_POST['plazoinscripcion'];
+    $query = "INSERT INTO cursos (nombre,abierto,numeroplazas,plazoinscripcion) VALUES (?,?,?,?)";
+    $stmt = mysqli_prepare($conexion, $query);
+    if($stmt){
+        mysqli_stmt_bind_param($stmt, "ssss", $nombre,$estado,$numeroplazas,$plazoinscripcion);
+        if (mysqli_stmt_execute($stmt)) {
+            header("Location: abrircuros.php");
+            exit();
+        }else{
+            echo "Error al ejecutar la consulta: " . mysqli_error($conexion);
+        }
+        mysqli_stmt_close($stmt);
+    }else{
+        echo "Error al preparar la consulta: " . mysqli_error($conexion);
+    }
 }
 ?>
 <form action="abrirres.php" method="post">
     <label>nombre:</label>
-    <input type="text" name="titulo" required><br>
+    <input type="text" name="nombre" required><br>
     <br>
     <label>estado:</label>
     <select name="estado">
-        <option value="abierto">abierto</option>
-        <option value="cerrado">cerrado</option>
+        <option value="1">abierto</option>
+        <option value="0">cerrado</option>
     </select>
     <br>
-    <br>
-    <label>nombre:</label>
-    <input type="text" name="titulo" required><br>
     <br>
     <label>numeroplazas:</label>
     <input type="number" name="numeroplazas" min="1" max="100" required>
@@ -89,5 +107,5 @@ if(!empty($_POST['cerrar'])){
     <label>Fecha de inscripcion:</label>
     <input type="date" name="plazoinscripcion" required><br>
     <br>
-    <input type="submit" value="Insertar Noticia">
+    <input type="submit" name="añadircurso" value="añadircurso">
 </form>

@@ -20,9 +20,9 @@ if (isset($_SESSION['admin'])) {
 </head>
 <body>
     <button><a href="abrircuros.php">abrir/cerrar cursos</a></button>
-    <button><a href="login.php">asignar vacantes a solicitudes</a></button>
+    <button><a href="baremacion.php">asignar vacantes a solicitudes</a></button>
     <button><a href="listadocursostodos.php">listar todos los cursos</a></button>
-    <button><a href="logout.php">mostrar el listado de adminitidos</a></button>
+    <button><a href="resultadobaremacion.php">mostrar el listado de adminitidos</a></button>
     <button><a href="logout.php">baremacion de los cursos</a></button>
 </body>
 </html>
