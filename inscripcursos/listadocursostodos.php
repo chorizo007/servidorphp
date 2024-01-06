@@ -21,8 +21,7 @@ $result = mysqli_query($conexion, $query);
 // Obtener el número de filas
 $num_rows = mysqli_num_rows($result);
 echo "<h1>Abrir y cerrar cursos</h1>";
-echo '<form action="abrirres.php" method="post">';
-echo '<p>Número de filas: ' . $num_rows . '</p>';
+echo '<p>Número de cursos: ' . $num_rows . '</p>';
 echo '<table border="1">';
 echo '<tr><th>codigo</th><th>nombre</th><th>estado</th><th>numero de plazas</th><th>plazo de inscripcion</th>';
 echo '</tr>';
@@ -33,17 +32,9 @@ while ($row = mysqli_fetch_assoc($result)) {
     echo '<td>' . $row['abierto'] . '</td>';
     echo '<td>' . $row['numeroplazas'] . '</td>';
     echo '<td>' . $row['plazoinscripcion'] . '</td>';
-    if ($row['abierto']!=0) {
-        echo '<td><button type="submid" name="cerrar" value="' . $row['codigo'] . '">cerrar</button></td>';
-    }else{
-        echo '<td><button type="submid" name="abrir" value="' . $row['codigo'] . '">abrir</button></td>';
-    }
-    echo '<td><button type="submid" name="borrar" value="' . $row['codigo'] . '">borrar</button></td>';
     echo '</tr>';
 }
 echo '</table>';
-echo '<td><button name="añadir" value="añadir">añadir curso</button></td>';
-echo '</form>';
 // Cerrar conexión
 mysqli_close($conexion);
     exit();
