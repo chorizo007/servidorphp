@@ -1,4 +1,5 @@
 <?php
+include('estilos.html');
 session_start();
 
 // Verificar si el usuario ya ha iniciado sesión, redirigirlo si es así
@@ -47,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
 
-<h2>Iniciar Sesión</h2>
+<h1>Iniciar Sesión</h1>
 
 <?php
 if (isset($error_message)) {
