@@ -7,7 +7,7 @@ ini_set('display_startup_errors', 1);
 session_start();
 
 if (isset($_SESSION['nombre_usuario'])) {
-    header("Location: inicio.php");
+    header("Location: cursosabi.php");
     exit();
 }
 
@@ -21,20 +21,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nombre_usuario = $_POST['nombre_usuario'];
     $contrasena = $_POST['contrasena'];
 
-    $query = "SELECT * FROM usuarios WHERE nombre_usuario = '$nombre_usuario' AND contrasena = '$contrasena'";
+    $query = "SELECT * FROM administradores WHERE nombre_usuario = '$nombre_usuario' AND contrasena = '$contrasena'";
     $result = mysqli_query($conexion, $query);
 
     if ($result && mysqli_num_rows($result) > 0) {
         $_SESSION['nombre_usuario'] = $nombre_usuario;
-        $fila = mysqli_fetch_assoc($result);
-        $valorBool = $fila['es_admin'];
-        if ($valorBool) {
-            $_SESSION['admin'] = "si";
-        }
+        $_SESSION['admin'] = "si";
         header("Location: cursosabi.php");
         exit();
     } else {
-        $error_message = "Credenciales incorrectas. Por favor, inténtalo de nuevo.";
+        $query = "SELECT * FROM solicitantes WHERE dni = '$nombre_usuario' AND contrasena = '$contrasena'";
+        $result = mysqli_query($conexion, $query);
+        if ($result && mysqli_num_rows($result) > 0) {
+            $_SESSION['nombre_usuario'] = $nombre_usuario;
+            header("Location: cursosabi.php");
+        }else{
+            $error_message = "Credenciales incorrectas. Por favor, inténtalo de nuevo.";
+        }
     }
     mysqli_close($conexion);
 }

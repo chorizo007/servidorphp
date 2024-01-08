@@ -20,6 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $dni = $_POST['dni'];
+    $password = $_POST['password'];
     $apellidos = $_POST['apellidos'];
     $nombre = $_POST['nombre'];
     $telefono = $_POST['telefono'];
@@ -28,47 +29,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $coordinadortic = isset($_POST['coordinadortic']);
     $grupotic = isset($_POST['grupotic']);
     $nombregrupo = $_POST['nombregrupo'];
-    echo $nombregrupo;
     $pbilin = isset($_POST['pbilin']);
     $cargo = isset($_POST['cargo']);
     $nombrecargo = $_POST['nombrecargo'];
-    echo $nombrecargo;
     $situacion = $_POST['situacion'];
     $fechaalta = $_POST['fechaalta'];
     $especialidad = $_POST['especialidad'];
-    $password = $_POST['password'];
     $puntos = 2; //aqui tengo que calcular los puntos
 
     $query_comprobar = "SELECT * FROM solicitantes WHERE dni = '$dni'";
     $result_comp = mysqli_query($conexion, $query_comprobar);
     if (mysqli_num_rows($result_comp) == 0) {
-        $query = "INSERT INTO solicitantes (dni, apellidos, nombre, telefono, correo, codigocentro, coordinadortic, grupotic, nombregrupo, pbilin, cargo, nombrecargo, situacion, fechaalta, especialidad, puntos) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $query = "INSERT INTO solicitantes (dni, contrasena, apellidos, nombre, telefono, correo, codigocentro, coordinadortic, grupotic, nombregrupo, pbilin, cargo, nombrecargo, situacion, fechaalta, especialidad, puntos) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = mysqli_prepare($conexion, $query);
 
         if ($stmt) {
-            mysqli_stmt_bind_param($stmt, "ssssssiisssssssi", $dni, $apellidos, $nombre, $telefono, $correo, $codigocentro, $coordinadortic, $grupotic, $nombregrupo, $pbilin, $cargo, $nombrecargo, $situacion, $fechaalta, $especialidad, $puntos);
+            mysqli_stmt_bind_param($stmt, "sssssssiisiissssi", $dni, $password, $apellidos, $nombre, $telefono, $correo, $codigocentro, $coordinadortic, $grupotic, $nombregrupo, $pbilin, $cargo, $nombrecargo, $situacion, $fechaalta, $especialidad, $puntos);
             if (mysqli_stmt_execute($stmt)) {
-                $query = "INSERT INTO usuarios (nombre_usuario,contrasena,es_admin) 
-                VALUES (?,?,false)";
-                $stmt = mysqli_prepare($conexion, $query);
-                if ($stmt) {
-                    mysqli_stmt_bind_param($stmt, "ss", $dni,$password);
-                    if (mysqli_stmt_execute($stmt)) {
-                        $_SESSION['nombre_usuario'] = $dni;
-                        header("Location: cursosabi.php");
-                        exit();
-                    } else {
-                        echo "Error al ejecutar la consulta: " . mysqli_error($conexion);
-                    }
-                    mysqli_stmt_close($stmt);
-                } else {
-                    echo "Error al preparar la consulta: " . mysqli_error($conexion);
-                }
+                $_SESSION['nombre_usuario'] = $dni;
+                header("Location: cursosabi.php");
                 exit();
             } else {
-                echo "Error al ejecutar la consulta: " . mysqli_error($conexion);
+                echo "Error al ejecutar la sentencia preparada: " . mysqli_error($conexion);
             }
+            
 
             mysqli_stmt_close($stmt);
         } else {

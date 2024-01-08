@@ -11,6 +11,7 @@ USE cursoscp;
 -- Crear la tabla "solicitantes"
 CREATE TABLE solicitantes (
     dni VARCHAR(9) PRIMARY KEY,
+    contrasena VARCHAR(255),
     apellidos VARCHAR(40),
     nombre VARCHAR(20),
     telefono VARCHAR(12),
@@ -30,12 +31,13 @@ CREATE TABLE solicitantes (
 
 -- Crear la tabla "cursos"
 CREATE TABLE cursos (
-    codigo INT PRIMARY KEY,
+    codigo INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(50),
     abierto BOOLEAN,
     numeroplazas INT,
     plazoinscripcion DATE
 );
+
 
 -- Crear la tabla "solicitudes"
 CREATE TABLE solicitudes (
@@ -46,12 +48,10 @@ CREATE TABLE solicitudes (
     PRIMARY KEY (dni, codigocurso),
     FOREIGN KEY (dni) REFERENCES solicitantes(dni),
     FOREIGN KEY (codigocurso) REFERENCES cursos(codigo)
-);º
+);
 
--- Crear la tabla "usuarios"
-CREATE TABLE usuarios (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    nombre_usuario VARCHAR(50) UNIQUE,
-    contrasena VARCHAR(255),
-    es_admin BOOLEAN
+-- Crear la tabla "administradores"
+CREATE TABLE administradores (
+    nombre_usuario VARCHAR(50) PRIMARY KEY,
+    contrasena VARCHAR(255)
 );
