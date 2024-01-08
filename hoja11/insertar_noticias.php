@@ -1,6 +1,5 @@
 <?php
-    include('soloadmin.php');
-    include('estilos.html');
+include('estilos.html');
 ?>
 <!DOCTYPE html>
 <html lang="es">

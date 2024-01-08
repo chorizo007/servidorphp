@@ -8,7 +8,7 @@ if (!$conexion) {
     die('Error de conexión: ' . mysqli_connect_error());
 }
 
-$noticiasPorPagina = 2;
+$noticiasPorPagina = 4;
 
 $queryTotal = "SELECT COUNT(*) AS total FROM noticias";
 $resultTotal = mysqli_query($conexion, $queryTotal);

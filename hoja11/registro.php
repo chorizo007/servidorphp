@@ -1,12 +1,41 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
+include('estilos.html');
 ?>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro</title>
+</head>
+<body>
+
+<h1>REGISTRO</h1>
+
+<form method="post" action="registro.php">
+    <label for="nombre_usuario">Nombre de Usuario:</label>
+    <input type="text" id="nombre_usuario" name="nombre_usuario" required><br>
+
+    <label for="contrasena">Contraseña:</label>
+    <input type="password" id="contrasena" name="contrasena" required><br>
+
+    <input type="submit" value="Registrarse">
+</form>
+
+<br>
+<br>
+<a href="login.php">¿Ya tienes cuenta? Inicia sesión aquí.</a>
+<br>
+<br>
+<br>
+<br>
+</body>
+</html>
+
 
 <?php
 session_start();
-
 if (isset($_SESSION['nombre_usuario'])) {
     header("Location: consulta_noticias.php");
     exit();
@@ -50,31 +79,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     mysqli_close($conexion);
 }
 ?>
-
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro</title>
-</head>
-<body>
-
-<h2>REGISTRO</h2>
-
-<form method="post" action="registro.php">
-    <label for="nombre_usuario">Nombre de Usuario:</label>
-    <input type="text" id="nombre_usuario" name="nombre_usuario" required><br>
-
-    <label for="contrasena">Contraseña:</label>
-    <input type="password" id="contrasena" name="contrasena" required><br>
-
-    <input type="submit" value="Registrarse">
-</form>
-
-<br>
-<br>
-<a href="login.php">¿Ya tienes cuenta? Inicia sesión aquí.</a>
-
-</body>
-</html>
