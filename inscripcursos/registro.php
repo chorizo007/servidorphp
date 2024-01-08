@@ -8,7 +8,7 @@ ini_set('display_startup_errors', 1);
 session_start();
 
 if (isset($_SESSION['nombre_usuario'])) {
-    header("Location: inicio.php");
+    header("Location: cursosabi.php");
     exit();
 }
 
@@ -26,16 +26,57 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $telefono = $_POST['telefono'];
     $correo = $_POST['correo'];
     $codigocentro = $_POST['codigocentro'];
-    $coordinadortic = isset($_POST['coordinadortic']);
-    $grupotic = isset($_POST['grupotic']);
-    $nombregrupo = $_POST['nombregrupo'];
-    $pbilin = isset($_POST['pbilin']);
-    $cargo = isset($_POST['cargo']);
-    $nombrecargo = $_POST['nombrecargo'];
-    $situacion = $_POST['situacion'];
-    $fechaalta = $_POST['fechaalta'];
+    $coordinadortic = isset($_POST['coordinadortic']); //4
+    $grupotic = isset($_POST['grupotic']); //3
+    $nombregrupo = $_POST['nombregrupo']; 
+    $pbilin = isset($_POST['pbilin']); //3
+    $cargo = isset($_POST['cargo']); //2
+    $nombrecargo = $_POST['nombrecargo']; //jefe de estudios 2 secretario 2 jefe de departamento
+    $situacion = $_POST['situacion']; //activo 1
+    $fechaalta = $_POST['fechaalta']; // 15 años 1 
     $especialidad = $_POST['especialidad'];
-    $puntos = 2; //aqui tengo que calcular los puntos
+    $puntos = 0;
+
+    $fecha_alta = new DateTime($fechaalta);
+    $fecha_actual = new DateTime();
+
+    $diferencia = $fecha_alta->diff($fecha_actual);
+
+    $años_transcurridos = $diferencia->y;
+
+    $comparacion = array(
+        $coordinadortic,
+        $grupotic,
+        $pbilin,
+        $nombrecargo,
+        $nombrecargo,
+        $nombrecargo,
+        $nombrecargo,
+        $situacion
+    );
+    $aux = 0;
+    if ($file = fopen('puntos.txt', 'r+')) {
+        $linea = fgets($file);
+        $array_linea = explode(" ", $linea);
+        if($array_linea[0]<$años_transcurridos){
+            $puntos +=$array_linea[1];
+        }
+        echo $puntos;
+        while (!feof($file)) {
+            $linea = fgets($file);
+            $array_linea = explode(" ", $linea);
+            $palabra = trim($array_linea[0]);
+            if ($palabra == $comparacion[$aux]) {
+                $puntos += $array_linea[1];
+            }
+            $aux++;
+            echo $comparacion[$aux]. " ".$puntos. "<br>";
+        }
+        fclose($file);
+    } else {
+        die("No se pudo acceder al archivo de puntos");
+    }
+
 
     $query_comprobar = "SELECT * FROM solicitantes WHERE dni = '$dni'";
     $result_comp = mysqli_query($conexion, $query_comprobar);
@@ -47,8 +88,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($stmt) {
             mysqli_stmt_bind_param($stmt, "sssssssiisiissssi", $dni, $password, $apellidos, $nombre, $telefono, $correo, $codigocentro, $coordinadortic, $grupotic, $nombregrupo, $pbilin, $cargo, $nombrecargo, $situacion, $fechaalta, $especialidad, $puntos);
             if (mysqli_stmt_execute($stmt)) {
-                $_SESSION['nombre_usuario'] = $dni;
-                header("Location: cursosabi.php");
+                //$_SESSION['nombre_usuario'] = $dni;
+                //header("Location: cursosabi.php");
                 exit();
             } else {
                 echo "Error al ejecutar la sentencia preparada: " . mysqli_error($conexion);
@@ -73,6 +114,60 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulario de Solicitantes</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="submit"] {
+            background-color: #4caf50;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        a {
+            margin-top: 10px;
+            color: #3498db;
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
     <h2>Formulario de Solicitantes</h2>
@@ -161,6 +256,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <br>
     <br>
     <a href="login.php">¿Ya tienes cuenta? Inicia sesión aquí.</a>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
 
 </body>
 </html>

@@ -4,7 +4,9 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 ?>
 
+
 <?php
+include("estilos.php");
 include("comprobar_user.php");
 if (isset($_SESSION['admin'])) {
     $botonadmin = "<button><a href='admin.php'>ADMINISTRAR</a></button>";
@@ -12,86 +14,67 @@ if (isset($_SESSION['admin'])) {
     header('Location: cursosabi.php');
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $conexion = mysqli_connect('localhost', 'cursos', 'cursos', 'cursoscp');
+$conexion = mysqli_connect('localhost', 'cursos', 'cursos', 'cursoscp');
     
-    if (!$conexion) {
-        die('Error de conexión: ' . mysqli_connect_error());
+if (!$conexion) {
+    die('Error de conexión: ' . mysqli_connect_error());
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    $curso = $_POST['bar'];
+    $query_comprobar = "SELECT dni, codigocurso, fechasolicitud, admitido
+    FROM (
+        SELECT s.dni, s.codigocurso, s.fechasolicitud, s.admitido,
+               ROW_NUMBER() OVER (ORDER BY MAX(s.admitido) ASC, st.puntos DESC) as row_num
+        FROM solicitudes s
+        INNER JOIN cursos c ON s.codigocurso = c.codigo
+        INNER JOIN solicitantes st ON s.dni = st.dni
+        WHERE s.codigocurso = '$curso'
+          AND st.situacion = 'activo'
+        GROUP BY s.dni
+    ) AS subquery
+    WHERE row_num <= (SELECT numeroplazas FROM cursos WHERE codigo = '$curso');
+    
+    ";
+    $result = mysqli_query($conexion, $query_comprobar);
+    echo $query_comprobar;
+    echo '<table border="1">';
+    echo '<tr><th>dni</th><th>codigocurso</th><th>fechasolicitud</th><th>admitido</th>';
+    echo '</tr>';
+    while ($row = mysqli_fetch_assoc($result)) {
+        echo '<tr>';
+        echo '<td>' . $row['dni'] . '</td>';
+        echo '<td>' . $row['codigocurso'] . '</td>';
+        echo '<td>' . $row['fechasolicitud'] . '</td>';
+        echo '<td>' . $row['admitido'] . '</td>';
+        echo '</tr>';
     }
-
-
-    $query_comprobar = "SELECT * FROM solicitantes WHERE dni = '$dni'";
-    $result_comp = mysqli_query($conexion, $query_comprobar);
-    if (mysqli_num_rows($result_comp) == 0) {
-        $query = "INSERT INTO solicitantes (dni, apellidos, nombre, telefono, correo, codigocentro, coordinadortic, grupotic, nombregrupo, pbilin, cargo, nombrecargo, situacion, fechaalta, especialidad, puntos) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $stmt = mysqli_prepare($conexion, $query);
-
-        if ($stmt) {
-            mysqli_stmt_bind_param($stmt, "ssssssiisssssssi", $dni, $apellidos, $nombre, $telefono, $correo, $codigocentro, $coordinadortic, $grupotic, $nombregrupo, $pbilin, $cargo, $nombrecargo, $situacion, $fechaalta, $especialidad, $puntos);
-            if (mysqli_stmt_execute($stmt)) {
-                $query = "INSERT INTO usuarios (nombre_usuario,contrasena,es_admin) 
-                VALUES (?,?,false)";
-                $stmt = mysqli_prepare($conexion, $query);
-                if ($stmt) {
-                    mysqli_stmt_bind_param($stmt, "ss", $dni,$password);
-                    if (mysqli_stmt_execute($stmt)) {
-                        $_SESSION['nombre_usuario'] = $dni;
-                        header("Location: cursosabi.php");
-                        exit();
-                    } else {
-                        echo "Error al ejecutar la consulta: " . mysqli_error($conexion);
-                    }
-                    mysqli_stmt_close($stmt);
-                } else {
-                    echo "Error al preparar la consulta: " . mysqli_error($conexion);
-                }
-                exit();
-            } else {
-                echo "Error al ejecutar la consulta: " . mysqli_error($conexion);
-            }
-
-            mysqli_stmt_close($stmt);
-        } else {
-            echo "Error al preparar la consulta: " . mysqli_error($conexion);
-        }
-    } else {
-        echo "Ya existe esta cuenta con ese DNI";
-    }
-
-    mysqli_close($conexion);
+    echo '</table>';
 }else{
+    $query = "SELECT * FROM cursos where abierto = false";
+    $result = mysqli_query($conexion, $query);
+    // Obtener el número de filas
+    $num_rows = mysqli_num_rows($result);
+    echo "<h1>listado de profesores admitidos</h1>";
+    echo '<form action="baremacion.php" method="post">';
+    echo '<p>Número de filas: ' . $num_rows . '</p>';
+    echo '<table border="1">';
+    echo '<tr><th>codigo</th><th>nombre</th><th>numero de plazas</th><th>plazo de inscripcion</th>';
+    echo '</tr>';
+    while ($row = mysqli_fetch_assoc($result)) {
+        echo '<tr>';
+        echo '<td>' . $row['codigo'] . '</td>';
+        echo '<td>' . $row['nombre'] . '</td>';
+        echo '<td>' . $row['numeroplazas'] . '</td>';
+        echo '<td>' . $row['plazoinscripcion'] . '</td>';
+        echo '<td><button type="submid" name="bar" value="' . $row['codigo'] . '">listado</button></td>';
+        echo '</tr>';
+    }
+    echo '</table>';
+    echo '</form>';
+    exit();
 
 }
+mysqli_close($conexion);
 ?>
-
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulario de Solicitantes</title>
-</head>
-<body>
-    <h2>Formulario de Solicitantes</h2>
-    <form action="registro.php" method="post">
-
-        <label for="situacion">Situación:</label>
-        <select id="situacion" name="situacion">
-            <option value="activo">Activo</option>
-            <option value="inactivo">Inactivo</option>
-        </select>
-        <br>
-        <br>
-        <label for="situacion">Situación:</label>
-        <select id="situacion" name="situacion">
-            <option value="activo">Activo</option>
-            <option value="inactivo">Inactivo</option>
-        </select>
-
-        <input type="submit" value="Enviar">
-    </form>
-    <br>
-
-</body>
-</html>

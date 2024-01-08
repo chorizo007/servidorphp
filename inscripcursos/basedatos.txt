@@ -8,50 +8,171 @@ CREATE DATABASE cursoscp;
 -- Usar la base de datos
 USE cursoscp;
 
--- Crear la tabla "solicitantes"
-CREATE TABLE solicitantes (
-    dni VARCHAR(9) PRIMARY KEY,
-    contrasena VARCHAR(255),
-    apellidos VARCHAR(40),
-    nombre VARCHAR(20),
-    telefono VARCHAR(12),
-    correo VARCHAR(50),
-    codigocentro VARCHAR(8),
-    coordinadortic BOOLEAN,
-    grupotic BOOLEAN,
-    nombregrupo VARCHAR(5),
-    pbilin BOOLEAN,
-    cargo BOOLEAN,
-    nombrecargo VARCHAR(15),
-    situacion ENUM('activo', 'inactivo'),
-    fechaalta DATE,
-    especialidad VARCHAR(50),
-    puntos INT
-);
+-- phpMyAdmin SQL Dump
+-- version 5.1.1deb5ubuntu1
+-- https://www.phpmyadmin.net/
+--
+-- Servidor: localhost:3306
+-- Tiempo de generación: 08-01-2024 a las 14:29:44
+-- Versión del servidor: 8.0.35-0ubuntu0.22.04.1
+-- Versión de PHP: 8.1.2-1ubuntu2.14
 
--- Crear la tabla "cursos"
-CREATE TABLE cursos (
-    codigo INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(50),
-    abierto BOOLEAN,
-    numeroplazas INT,
-    plazoinscripcion DATE
-);
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
 
 
--- Crear la tabla "solicitudes"
-CREATE TABLE solicitudes (
-    dni VARCHAR(9),
-    codigocurso INT,
-    fechasolicitud DATE,
-    admitido BOOLEAN,
-    PRIMARY KEY (dni, codigocurso),
-    FOREIGN KEY (dni) REFERENCES solicitantes(dni),
-    FOREIGN KEY (codigocurso) REFERENCES cursos(codigo)
-);
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
--- Crear la tabla "administradores"
-CREATE TABLE administradores (
-    nombre_usuario VARCHAR(50) PRIMARY KEY,
-    contrasena VARCHAR(255)
-);
+--
+-- Base de datos: `cursoscp`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `administradores`
+--
+
+CREATE TABLE `administradores` (
+  `nombre_usuario` varchar(50) NOT NULL,
+  `contrasena` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `administradores`
+--
+
+INSERT INTO `administradores` (`nombre_usuario`, `contrasena`) VALUES
+('admin', 'admin');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `cursos`
+--
+
+CREATE TABLE `cursos` (
+  `codigo` int NOT NULL,
+  `nombre` varchar(50) DEFAULT NULL,
+  `abierto` tinyint(1) DEFAULT NULL,
+  `numeroplazas` int DEFAULT NULL,
+  `plazoinscripcion` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `cursos`
+--
+
+INSERT INTO `cursos` (`codigo`, `nombre`, `abierto`, `numeroplazas`, `plazoinscripcion`) VALUES
+(1, 'CursoA', 1, 30, '2024-02-01'),
+(2, 'CursoB', 0, 20, '2024-03-15'),
+(3, 'Tecnologias', 1, 20, '2024-03-15'),
+(4, 'Tecnologias1', 1, 3, '2024-03-15'),
+(5, 'cursoanival', 1, 4, '2024-01-16'),
+(6, 'cursodesdecasa', 1, 4, '2024-01-02');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `solicitantes`
+--
+
+CREATE TABLE `solicitantes` (
+  `dni` varchar(9) NOT NULL,
+  `contrasena` varchar(255) DEFAULT NULL,
+  `apellidos` varchar(40) DEFAULT NULL,
+  `nombre` varchar(20) DEFAULT NULL,
+  `telefono` varchar(12) DEFAULT NULL,
+  `correo` varchar(50) DEFAULT NULL,
+  `codigocentro` varchar(8) DEFAULT NULL,
+  `coordinadortic` tinyint(1) DEFAULT NULL,
+  `grupotic` tinyint(1) DEFAULT NULL,
+  `nombregrupo` varchar(5) DEFAULT NULL,
+  `pbilin` tinyint(1) DEFAULT NULL,
+  `cargo` tinyint(1) DEFAULT NULL,
+  `nombrecargo` varchar(15) DEFAULT NULL,
+  `situacion` enum('activo','inactivo') DEFAULT NULL,
+  `fechaalta` date DEFAULT NULL,
+  `especialidad` varchar(50) DEFAULT NULL,
+  `puntos` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `solicitantes`
+--
+
+INSERT INTO `solicitantes` (`dni`, `contrasena`, `apellidos`, `nombre`, `telefono`, `correo`, `codigocentro`, `coordinadortic`, `grupotic`, `nombregrupo`, `pbilin`, `cargo`, `nombrecargo`, `situacion`, `fechaalta`, `especialidad`, `puntos`) VALUES
+('666', '666', 'nico', 'nico', 'nico', 'nico@gmai.com', 'nico', 0, 0, 'nico', 0, 0, 'nico', 'activo', '2024-01-03', 'nico', 2),
+('entero', 'entero', 'entero', 'entero', 'entero', 'entero@gmail.com', 'entero', 1, 1, 'ente', 1, 1, 'ente', 'activo', '2024-01-03', 'entero', 2);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `solicitudes`
+--
+
+CREATE TABLE `solicitudes` (
+  `dni` varchar(9) NOT NULL,
+  `codigocurso` int NOT NULL,
+  `fechasolicitud` date DEFAULT NULL,
+  `admitido` tinyint(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `administradores`
+--
+ALTER TABLE `administradores`
+  ADD PRIMARY KEY (`nombre_usuario`);
+
+--
+-- Indices de la tabla `cursos`
+--
+ALTER TABLE `cursos`
+  ADD PRIMARY KEY (`codigo`);
+
+--
+-- Indices de la tabla `solicitantes`
+--
+ALTER TABLE `solicitantes`
+  ADD PRIMARY KEY (`dni`);
+
+--
+-- Indices de la tabla `solicitudes`
+--
+ALTER TABLE `solicitudes`
+  ADD PRIMARY KEY (`dni`,`codigocurso`),
+  ADD KEY `codigocurso` (`codigocurso`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `cursos`
+--
+ALTER TABLE `cursos`
+  MODIFY `codigo` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `solicitudes`
+--
+ALTER TABLE `solicitudes`
+  ADD CONSTRAINT `solicitudes_ibfk_1` FOREIGN KEY (`dni`) REFERENCES `solicitantes` (`dni`),
+  ADD CONSTRAINT `solicitudes_ibfk_2` FOREIGN KEY (`codigocurso`) REFERENCES `cursos` (`codigo`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
