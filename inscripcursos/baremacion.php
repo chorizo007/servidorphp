@@ -23,19 +23,11 @@ if (!$conexion) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $curso = $_POST['bar'];
-    $query_comprobar = "SELECT dni, codigocurso, fechasolicitud, admitido
-    FROM (
-        SELECT s.dni, s.codigocurso, s.fechasolicitud, s.admitido
+    $query_comprobar = "SELECT s.dni, s.codigocurso, s.fechasolicitud, s.admitido
         FROM solicitudes s
-        INNER JOIN cursos c ON s.codigocurso = c.codigo
         INNER JOIN solicitantes st ON s.dni = st.dni
-        WHERE s.codigocurso = '$curso'
-          AND st.situacion = 'activo'
-        GROUP BY s.dni
+        WHERE s.codigocurso like '$curso' and s.admitido = false
         ORDER BY st.puntos DESC, s.admitido ASC
-    ) AS subquery
-    WHERE row_num <= (SELECT numeroplazas FROM cursos WHERE codigo = '$curso');
-    
     ";
     $result = mysqli_query($conexion, $query_comprobar);
     echo $query_comprobar;
@@ -43,6 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     echo '<tr><th>dni</th><th>codigocurso</th><th>fechasolicitud</th><th>admitido</th>';
     echo '</tr>';
     while ($row = mysqli_fetch_assoc($result)) {
+        if()
         echo '<tr>';
         echo '<td>' . $row['dni'] . '</td>';
         echo '<td>' . $row['codigocurso'] . '</td>';

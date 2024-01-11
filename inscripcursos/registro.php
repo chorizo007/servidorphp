@@ -11,6 +11,26 @@ if (isset($_SESSION['nombre_usuario'])) {
     header("Location: cursosabi.php");
     exit();
 }
+$mensaje ="";
+$corregir = false;
+
+$dni = "";
+$password = "";
+$apellidos = "";
+$nombre = "";
+$telefono = "";
+$correo = "";
+$codigocentro = "";
+$coordinadortic = "";
+$grupotic = "";
+$nombregrupo = "";
+$pbilin = "";
+$cargo = "";
+$nombrecargo = "";
+$situacion = "";
+$fechaalta = "";
+$especialidad = "";
+$puntos = 0;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $conexion = mysqli_connect('localhost', 'cursos', 'cursos', 'cursoscp');
@@ -36,6 +56,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $fechaalta = $_POST['fechaalta']; // 15 años 1 
     $especialidad = $_POST['especialidad'];
     $puntos = 0;
+ 
+    $patron = '/^[0-9]{8}$/';
+    //validar campos 
+    $mensaje = "errores: ";
 
     $fecha_alta = new DateTime($fechaalta);
     $fecha_actual = new DateTime();
@@ -44,64 +68,79 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $años_transcurridos = $diferencia->y;
 
-    $comparacion = array(
-        $coordinadortic,
-        $grupotic,
-        $pbilin,
-        $nombrecargo,
-        $nombrecargo,
-        $nombrecargo,
-        $nombrecargo,
-        $situacion
-    );
-    $aux = 0;
-    if ($file = fopen('puntos.txt', 'r+')) {
-        $linea = fgets($file);
-        $array_linea = explode(" ", $linea);
-        if($array_linea[0]<$años_transcurridos){
-            $puntos +=$array_linea[1];
+    if (preg_match($patron, $dni)) {
+        if($años_transcurridos>0){
+        }else{
+            $corregir = true;
+            $mensaje .= "fecha incorrecta";
         }
-        echo $puntos;
-        while (!feof($file)) {
-            $linea = fgets($file);
-            $array_linea = explode(" ", $linea);
-            $palabra = trim($array_linea[0]);
-            if ($palabra == $comparacion[$aux]) {
-                $puntos += $array_linea[1];
-            }
-            $aux++;
-            echo $comparacion[$aux]. " ".$puntos. "<br>";
-        }
-        fclose($file);
     } else {
-        die("No se pudo acceder al archivo de puntos");
+        $corregir = true;
+        $mensaje .= "esta mal el dni";
     }
 
 
-    $query_comprobar = "SELECT * FROM solicitantes WHERE dni = '$dni'";
-    $result_comp = mysqli_query($conexion, $query_comprobar);
-    if (mysqli_num_rows($result_comp) == 0) {
-        $query = "INSERT INTO solicitantes (dni, contrasena, apellidos, nombre, telefono, correo, codigocentro, coordinadortic, grupotic, nombregrupo, pbilin, cargo, nombrecargo, situacion, fechaalta, especialidad, puntos) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $stmt = mysqli_prepare($conexion, $query);
+    if(!$corregir){
 
-        if ($stmt) {
-            mysqli_stmt_bind_param($stmt, "sssssssiisiissssi", $dni, $password, $apellidos, $nombre, $telefono, $correo, $codigocentro, $coordinadortic, $grupotic, $nombregrupo, $pbilin, $cargo, $nombrecargo, $situacion, $fechaalta, $especialidad, $puntos);
-            if (mysqli_stmt_execute($stmt)) {
-                //$_SESSION['nombre_usuario'] = $dni;
-                //header("Location: cursosabi.php");
-                exit();
-            } else {
-                echo "Error al ejecutar la sentencia preparada: " . mysqli_error($conexion);
+        $comparacion = array(
+            $coordinadortic,
+            $grupotic,
+            $pbilin,
+            $nombrecargo,
+            $nombrecargo,
+            $nombrecargo,
+            $nombrecargo,
+            $situacion
+        );
+        $aux = 0;
+        if ($file = fopen('puntos.txt', 'r+')) {
+            $linea = fgets($file);
+            $array_linea = explode(" ", $linea);
+            if($array_linea[0]<$años_transcurridos){
+                $puntos +=$array_linea[1];
             }
-            
-
-            mysqli_stmt_close($stmt);
+            echo $puntos;
+            while (!feof($file)) {
+                $linea = fgets($file);
+                $array_linea = explode(" ", $linea);
+                $palabra = trim($array_linea[0]);
+                if ($palabra == $comparacion[$aux]) {
+                    $puntos += $array_linea[1];
+                }
+                $aux++;
+                echo $comparacion[$aux]. " ".$puntos. "<br>";
+            }
+            fclose($file);
         } else {
-            echo "Error al preparar la consulta: " . mysqli_error($conexion);
+            die("No se pudo acceder al archivo de puntos");
         }
-    } else {
-        echo "Ya existe esta cuenta con ese DNI";
+    
+    
+        $query_comprobar = "SELECT * FROM solicitantes WHERE dni = '$dni'";
+        $result_comp = mysqli_query($conexion, $query_comprobar);
+        if (mysqli_num_rows($result_comp) == 0) {
+            $query = "INSERT INTO solicitantes (dni, contrasena, apellidos, nombre, telefono, correo, codigocentro, coordinadortic, grupotic, nombregrupo, pbilin, cargo, nombrecargo, situacion, fechaalta, especialidad, puntos) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $stmt = mysqli_prepare($conexion, $query);
+    
+            if ($stmt) {
+                mysqli_stmt_bind_param($stmt, "sssssssiisiissssi", $dni, $password, $apellidos, $nombre, $telefono, $correo, $codigocentro, $coordinadortic, $grupotic, $nombregrupo, $pbilin, $cargo, $nombrecargo, $situacion, $fechaalta, $especialidad, $puntos);
+                if (mysqli_stmt_execute($stmt)) {
+                    $_SESSION['nombre_usuario'] = $dni;
+                    header("Location: cursosabi.php");
+                    exit();
+                } else {
+                    echo "Error al ejecutar la sentencia preparada: " . mysqli_error($conexion);
+                }
+                
+    
+                mysqli_stmt_close($stmt);
+            } else {
+                echo "Error al preparar la consulta: " . mysqli_error($conexion);
+            }
+        } else {
+            echo "Ya existe esta cuenta con ese DNI";
+        }    
     }
 
     mysqli_close($conexion);
@@ -173,63 +212,68 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <h2>Formulario de Solicitantes</h2>
     <form action="registro.php" method="post">
         <label for="dni">DNI:</label>
-        <input type="text" id="dni" name="dni" required maxlength="9"><br>
+        <input type="text" value="<?php echo $dni?>" name="dni" required maxlength="9"><br>
 
         <label>Contraseña:</label>
-        <input type="text" id="password" name="password" required><br>
+        <input type="text" value="<?php echo $password?>" name="password" required><br>
 
         <label for="apellidos">Apellidos:</label>
-        <input type="text" id="apellidos" name="apellidos">
+        <input type="text" value="<?php echo $apellidos?>" name="apellidos">
 
         <br>
 
         <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" required>
+        <input type="text" value="<?php echo $nombre?>" name="nombre" required>
 
         <br>
 
         <label for="telefono">Teléfono:</label>
-        <input type="tel" id="telefono" name="telefono">
+        <input type="tel" value="<?php echo $telefono?>" name="telefono">
 
         <br>
 
         <label for="correo">Correo:</label>
-        <input type="email" id="correo" name="correo">
+        <input type="email" value="<?php echo $correo?>" name="correo">
 
         <br>
 
         <label for="codigocentro">Código Centro:</label>
-        <input type="text" id="codigocentro" name="codigocentro">
+        <input type="text" value="<?php echo $codigocentro?>" name="codigocentro">
 
         <br>
 
         <label for="coordinadortic">Coordinador TIC:</label>
-        <input type="checkbox" id="coordinadortic" name="coordinadortic">
+        <input type="checkbox" value="<?php echo $coordinadortic?>" name="coordinadortic">
 
         <br>
 
         <label for="grupotic">Grupo TIC:</label>
-        <input type="checkbox" id="grupotic" name="grupotic">
+        <input type="checkbox" value="<?php echo $grupotic?>" name="grupotic">
 
         <br>
 
         <label for="nombregrupo">Nombre Grupo:</label>
-        <input type="text" id="nombregrupo" name="nombregrupo">
+        <input type="text" value="<?php echo $nombregrupo?>" name="nombregrupo">
 
         <br>
 
         <label for="pbilin">Programa Bilingüe:</label>
-        <input type="checkbox" id="pbilin" name="pbilin">
+        <input type="checkbox" value="<?php echo $pbilin?>" name="pbilin">
 
         <br>
 
         <label for="cargo">Cargo:</label>
-        <input type="checkbox" id="cargo" name="cargo">
+        <input type="checkbox" value="<?php echo $cargo?>" name="cargo">
 
         <br>
-
         <label for="nombrecargo">Nombre Cargo:</label>
-        <input type="text" id="nombrecargo" name="nombrecargo">
+        <select name="nombrecargo">
+            <option value="director">director</option>
+            <option value="JefeEstudios">JefeEstudios</option>
+            <option value="Secretario">Secretario</option>
+            <option value="JefedeDepartamento">JefedeDepartamento</option>
+
+        </select>
 
         <br>
 
@@ -242,17 +286,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <br>
 
         <label for="fechaalta">Fecha Alta:</label>
-        <input type="date" id="fechaalta" name="fechaalta">
+        <input type="date" value="<?php echo $fecha_alta?>" name="fechaalta">
 
         <br>
 
         <label for="especialidad">Especialidad:</label>
-        <input type="text" id="especialidad" name="especialidad">
+        <input type="text" value="<?php echo $especialidad?>" name="especialidad">
 
         <br>
 
         <input type="submit" value="Enviar">
     </form>
+    <?php
+        echo $mensaje;
+    ?>
     <br>
     <br>
     <a href="login.php">¿Ya tienes cuenta? Inicia sesión aquí.</a>
