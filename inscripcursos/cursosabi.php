@@ -37,6 +37,9 @@ if ($es_user) {
 }
 echo '</form>';
 // Cerrar conexión
+
+echo '<button><a href="vercursos.php">mis colicitudes</a></button></td>';
 mysqli_close($conexion);
     exit();
+
 ?>

@@ -5,7 +5,6 @@ ini_set('display_startup_errors', 1);
 ?>
 
 <?php
-session_start();
 
 if (isset($_SESSION['nombre_usuario'])) {
     header("Location: cursosabi.php");
@@ -56,9 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $fechaalta = $_POST['fechaalta']; // 15 años 1 
     $especialidad = $_POST['especialidad'];
     $puntos = 0;
- 
-    $patron = '/^[0-9]{8}$/';
-    //validar campos 
+
     $mensaje = "errores: ";
 
     $fecha_alta = new DateTime($fechaalta);
@@ -67,9 +64,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $diferencia = $fecha_alta->diff($fecha_actual);
 
     $años_transcurridos = $diferencia->y;
-
-    if (preg_match($patron, $dni)) {
-        if($años_transcurridos>0){
+    $dias_transcurritos = $diferencia->days;
+    echo $dias_transcurritos;
+    if (preg_match('/^[0-9]{8}[A-Za-z]$/', $dni)) {
+        if($dias_transcurritos>0){
         }else{
             $corregir = true;
             $mensaje .= "fecha incorrecta";
@@ -210,6 +208,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
     <h2>Formulario de Solicitantes</h2>
+    <?php
+        echo $mensaje;
+    ?>
     <form action="registro.php" method="post">
         <label for="dni">DNI:</label>
         <input type="text" value="<?php echo $dni?>" name="dni" required maxlength="9"><br>
@@ -286,7 +287,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <br>
 
         <label for="fechaalta">Fecha Alta:</label>
-        <input type="date" value="<?php echo $fecha_alta?>" name="fechaalta">
+        <input type="date" name="fechaalta">
 
         <br>
 
@@ -297,9 +298,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <input type="submit" value="Enviar">
     </form>
-    <?php
-        echo $mensaje;
-    ?>
+    
     <br>
     <br>
     <a href="login.php">¿Ya tienes cuenta? Inicia sesión aquí.</a>

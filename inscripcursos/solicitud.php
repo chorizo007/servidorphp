@@ -1,10 +1,4 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-?>
-
-<?php
 session_start();
 include("estilos.php");
 if(isset($_SESSION['nombre_usuario'])) {
@@ -24,7 +18,7 @@ $query = "SELECT * FROM solicitudes WHERE dni = '$es_user' AND codigocurso IN ('
 $result = mysqli_query($conexion, $query);
 if ($result && mysqli_num_rows($result) == 0) {
     foreach($arraycursos as $curso){
-        $query = "INSERT INTO solicitudes (dni,codigocurso,fechasolicitud) VALUES (?,?,?)";
+        $query = "INSERT INTO solicitudes (dni,codigocurso,fechasolicitud,admitido) VALUES (?,?,?,0)";
         $stmt = mysqli_prepare($conexion, $query);
         if ($stmt) {
             mysqli_stmt_bind_param($stmt, "sss", $es_user,$curso,$fechaHoy);

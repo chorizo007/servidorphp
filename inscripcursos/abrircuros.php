@@ -44,6 +44,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 echo '</table>';
 echo '<td><button name="añadir" value="añadir">añadir curso</button></td>';
 echo '</form>';
+
 // Cerrar conexión
 mysqli_close($conexion);
     exit();
