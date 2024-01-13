@@ -45,17 +45,42 @@
             justify-content: space-between;
             overflow: none;
         }
+        .nav button{
+            background-color:white;
+            border:2px solid rgba(50, 55, 56, 0.839);
+            border-radius: 10px;
+            margin: 5px;
+            padding: 8px;
+            padding-left: 25px;
+            padding-right: 25px;
+            text-decoration: none;
+            color: black;
+        }
+        .nav button:hover{
+            background-color: rgba(50, 55, 56, 0.839);
+            color: white;
+            border: 2px solid white;       
+        }
+        a{
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
     <div class="nav">
+        <button><a href="cursosabi.php">cursos abiertos</a></button>
         <?php
             echo $botonadmin;
+            if(isset($_SESSION['nombre_usuario'])){
+                echo "BIENVENIDO!!! :".$_SESSION['nombre_usuario'];
+                echo "<button><a href='logout.php'>Cerrar Sesión</a></button>";
+            }else{
+                echo "<button><a href='registro.php'>registro</a></button>";
+                echo "<button><a href='login.php'>login</a></button>";
+                
+            }
         ?>
-        <button><a href="cursosabi.php">cursos abiertos</a></button>
-        <button><a href="login.php">login</a></button>
-        <button><a href="registro.php">registro</a></button>
-        <button><a href="logout.php">Cerrar Sesión</a></button>
+
     </div>
 </body>
 </html>

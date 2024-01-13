@@ -1,11 +1,5 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-?>
-
-<?php
-
+session_start();
 if (isset($_SESSION['nombre_usuario'])) {
     header("Location: cursosabi.php");
     exit();
@@ -58,16 +52,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $mensaje = "errores: ";
 
-    $fecha_alta = new DateTime($fechaalta);
-    $fecha_actual = new DateTime();
-
-    $diferencia = $fecha_alta->diff($fecha_actual);
+    $fecha_actual = date("Y-m-d");
 
     $años_transcurridos = $diferencia->y;
     $dias_transcurritos = $diferencia->days;
-    echo $dias_transcurritos;
     if (preg_match('/^[0-9]{8}[A-Za-z]$/', $dni)) {
-        if($dias_transcurritos>0){
+        if($fechaalta<$fecha_actual){
         }else{
             $corregir = true;
             $mensaje .= "fecha incorrecta";
@@ -97,7 +87,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if($array_linea[0]<$años_transcurridos){
                 $puntos +=$array_linea[1];
             }
-            echo $puntos;
             while (!feof($file)) {
                 $linea = fgets($file);
                 $array_linea = explode(" ", $linea);
@@ -106,7 +95,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $puntos += $array_linea[1];
                 }
                 $aux++;
-                echo $comparacion[$aux]. " ".$puntos. "<br>";
             }
             fclose($file);
         } else {
@@ -126,7 +114,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if (mysqli_stmt_execute($stmt)) {
                     $_SESSION['nombre_usuario'] = $dni;
                     header("Location: cursosabi.php");
-                    exit();
                 } else {
                     echo "Error al ejecutar la sentencia preparada: " . mysqli_error($conexion);
                 }
@@ -137,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 echo "Error al preparar la consulta: " . mysqli_error($conexion);
             }
         } else {
-            echo "Ya existe esta cuenta con ese DNI";
+            $mensaje = "Ya existe esta cuenta con ese DNI";
         }    
     }
 
@@ -254,7 +241,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <br>
 
         <label for="nombregrupo">Nombre Grupo:</label>
-        <input type="text" value="<?php echo $nombregrupo?>" name="nombregrupo">
+        <input type="text" value="<?php echo $nombregrupo?>" name="nombregrupo" maxlength="5">
 
         <br>
 
@@ -272,7 +259,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <option value="director">director</option>
             <option value="JefeEstudios">JefeEstudios</option>
             <option value="Secretario">Secretario</option>
-            <option value="JefedeDepartamento">JefedeDepartamento</option>
+            <option value="Jefede">JefedeDepartamento</option>
 
         </select>
 
@@ -280,8 +267,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <label for="situacion">Situación:</label>
         <select id="situacion" name="situacion">
-            <option value="activo">Activo</option>
-            <option value="inactivo">Inactivo</option>
+            <option value="1">Activo</option>
+            <option value="0">Inactivo</option>
         </select>
 
         <br>

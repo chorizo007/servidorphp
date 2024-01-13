@@ -13,7 +13,7 @@ USE cursoscp;
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 08-01-2024 a las 14:29:44
+-- Tiempo de generación: 13-01-2024 a las 21:02:02
 -- Versión del servidor: 8.0.35-0ubuntu0.22.04.1
 -- Versión de PHP: 8.1.2-1ubuntu2.14
 
@@ -68,12 +68,14 @@ CREATE TABLE `cursos` (
 --
 
 INSERT INTO `cursos` (`codigo`, `nombre`, `abierto`, `numeroplazas`, `plazoinscripcion`) VALUES
-(1, 'CursoA', 1, 30, '2024-02-01'),
+(1, 'CursoA', 0, 30, '2024-02-01'),
 (2, 'CursoB', 0, 20, '2024-03-15'),
 (3, 'Tecnologias', 1, 20, '2024-03-15'),
 (4, 'Tecnologias1', 1, 3, '2024-03-15'),
 (5, 'cursoanival', 1, 4, '2024-01-16'),
-(6, 'cursodesdecasa', 1, 4, '2024-01-02');
+(6, 'cursodesdecasa', 1, 4, '2024-01-02'),
+(7, 'Curso A', 1, 3, '2024-01-15'),
+(8, 'cursoprueba', 1, 8, '2024-01-04');
 
 -- --------------------------------------------------------
 
@@ -106,8 +108,36 @@ CREATE TABLE `solicitantes` (
 --
 
 INSERT INTO `solicitantes` (`dni`, `contrasena`, `apellidos`, `nombre`, `telefono`, `correo`, `codigocentro`, `coordinadortic`, `grupotic`, `nombregrupo`, `pbilin`, `cargo`, `nombrecargo`, `situacion`, `fechaalta`, `especialidad`, `puntos`) VALUES
-('666', '666', 'nico', 'nico', 'nico', 'nico@gmai.com', 'nico', 0, 0, 'nico', 0, 0, 'nico', 'activo', '2024-01-03', 'nico', 2),
-('entero', 'entero', 'entero', 'entero', 'entero', 'entero@gmail.com', 'entero', 1, 1, 'ente', 1, 1, 'ente', 'activo', '2024-01-03', 'entero', 2);
+('101010101', 'contrasena10', 'Apellido10', 'Nombre10', '101010101', 'correo10@example.com', 'COD010', 0, 1, 'G10', 0, 1, 'Cargo10', 'activo', '2022-10-01', 'Especialidad10', 550),
+('111111111', 'contrasena1', 'Apellido1', 'Nombre1', '111111111', 'correo1@example.com', 'COD001', 1, 0, 'G01', 1, 0, 'Cargo1', 'activo', '2022-01-01', 'Especialidad1', 100),
+('111111112', 'contrasena11', 'Apellido11', 'Nombre11', '111111112', 'correo11@example.com', 'COD011', 1, 0, 'G11', 1, 0, 'Cargo11', 'activo', '2022-11-01', 'Especialidad11', 600),
+('121212113', 'contrasena12', 'Apellido12', 'Nombre12', '121212113', 'correo12@example.com', 'COD012', 0, 1, 'G12', 0, 1, 'Cargo12', 'activo', '2022-12-01', 'Especialidad12', 650),
+('131313114', 'contrasena13', 'Apellido13', 'Nombre13', '131313114', 'correo13@example.com', 'COD013', 1, 0, 'G13', 1, 0, 'Cargo13', 'activo', '2023-01-01', 'Especialidad13', 700),
+('141414115', 'contrasena14', 'Apellido14', 'Nombre14', '141414115', 'correo14@example.com', 'COD014', 0, 1, 'G14', 0, 1, 'Cargo14', 'activo', '2023-02-01', 'Especialidad14', 750),
+('151515116', 'contrasena15', 'Apellido15', 'Nombre15', '151515116', 'correo15@example.com', 'COD015', 1, 0, 'G15', 1, 0, 'Cargo15', 'activo', '2023-03-01', 'Especialidad15', 800),
+('161616117', 'contrasena16', 'Apellido16', 'Nombre16', '161616117', 'correo16@example.com', 'COD016', 0, 1, 'G16', 0, 1, 'Cargo16', 'activo', '2023-04-01', 'Especialidad16', 850),
+('171717118', 'contrasena17', 'Apellido17', 'Nombre17', '171717118', 'correo17@example.com', 'COD017', 1, 0, 'G17', 1, 0, 'Cargo17', 'activo', '2023-05-01', 'Especialidad17', 900),
+('181818119', 'contrasena18', 'Apellido18', 'Nombre18', '181818119', 'correo18@example.com', 'COD018', 0, 1, 'G18', 0, 1, 'Cargo18', 'activo', '2023-06-01', 'Especialidad18', 950),
+('191919120', 'contrasena19', 'Apellido19', 'Nombre19', '191919120', 'correo19@example.com', 'COD019', 1, 0, 'G19', 1, 0, 'Cargo19', 'activo', '2023-07-01', 'Especialidad19', 1000),
+('202020121', 'contrasena20', 'Apellido20', 'Nombre20', '202020121', 'correo20@example.com', 'COD020', 0, 1, 'G20', 0, 1, 'Cargo20', 'activo', '2023-08-01', 'Especialidad20', 1050),
+('212121122', 'contrasena21', 'Apellido21', 'Nombre21', '212121122', 'correo21@example.com', 'COD021', 1, 0, 'G21', 1, 0, 'Cargo21', 'activo', '2023-09-01', 'Especialidad21', 1100),
+('222222123', 'contrasena22', 'Apellido22', 'Nombre22', '222222123', 'correo22@example.com', 'COD022', 0, 1, 'G22', 0, 1, 'Cargo22', 'activo', '2023-10-01', 'Especialidad22', 1150),
+('222222222', 'contrasena2', 'Apellido2', 'Nombre2', '222222222', 'correo2@example.com', 'COD002', 0, 1, 'G02', 0, 1, 'Cargo2', 'activo', '2022-02-01', 'Especialidad2', 150),
+('232323124', 'contrasena23', 'Apellido23', 'Nombre23', '232323124', 'correo23@example.com', 'COD023', 1, 0, 'G23', 1, 0, 'Cargo23', 'activo', '2023-11-01', 'Especialidad23', 1200),
+('242424125', 'contrasena24', 'Apellido24', 'Nombre24', '242424125', 'correo24@example.com', 'COD024', 0, 1, 'G24', 0, 1, 'Cargo24', 'activo', '2023-12-01', 'Especialidad24', 1250),
+('252525126', 'contrasena25', 'Apellido25', 'Nombre25', '252525126', 'correo25@example.com', 'COD025', 1, 0, 'G25', 1, 0, 'Cargo25', 'activo', '2024-01-01', 'Especialidad25', 1300),
+('262626127', 'contrasena26', 'Apellido26', 'Nombre26', '262626127', 'correo26@example.com', 'COD026', 0, 1, 'G26', 0, 1, 'Cargo26', 'activo', '2024-02-01', 'Especialidad26', 1350),
+('272727128', 'contrasena27', 'Apellido27', 'Nombre27', '272727128', 'correo27@example.com', 'COD027', 1, 0, 'G27', 1, 0, 'Cargo27', 'activo', '2024-03-01', 'Especialidad27', 1400),
+('282828129', 'contrasena28', 'Apellido28', 'Nombre28', '282828129', 'correo28@example.com', 'COD028', 0, 1, 'G28', 0, 1, 'Cargo28', 'activo', '2024-04-01', 'Especialidad28', 1450),
+('292929130', 'contrasena29', 'Apellido29', 'Nombre29', '292929130', 'correo29@example.com', 'COD029', 1, 0, 'G29', 1, 0, 'Cargo29', 'activo', '2024-05-01', 'Especialidad29', 1500),
+('303030131', 'contrasena30', 'Apellido30', 'Nombre30', '303030131', 'correo30@example.com', 'COD030', 0, 1, 'G30', 0, 1, 'Cargo30', 'activo', '2024-06-01', 'Especialidad30', 1550),
+('333333333', 'contrasena3', 'Apellido3', 'Nombre3', '333333333', 'correo3@example.com', 'COD003', 1, 0, 'G03', 1, 0, 'Cargo3', 'activo', '2022-03-01', 'Especialidad3', 200),
+('444444444', 'contrasena4', 'Apellido4', 'Nombre4', '444444444', 'correo4@example.com', 'COD004', 0, 1, 'G04', 0, 1, 'Cargo4', 'activo', '2022-04-01', 'Especialidad4', 250),
+('555555555', 'contrasena5', 'Apellido5', 'Nombre5', '555555555', 'correo5@example.com', 'COD005', 1, 0, 'G05', 1, 0, 'Cargo5', 'activo', '2022-05-01', 'Especialidad5', 300),
+('666666666', 'contrasena6', 'Apellido6', 'Nombre6', '666666666', 'correo6@example.com', 'COD006', 0, 1, 'G06', 0, 1, 'Cargo6', 'activo', '2022-06-01', 'Especialidad6', 350),
+('777777777', 'contrasena7', 'Apellido7', 'Nombre7', '777777777', 'correo7@example.com', 'COD007', 1, 0, 'G07', 1, 0, 'Cargo7', 'activo', '2022-07-01', 'Especialidad7', 400),
+('888888888', 'contrasena8', 'Apellido8', 'Nombre8', '888888888', 'correo8@example.com', 'COD008', 0, 1, 'G08', 0, 1, 'Cargo8', 'activo', '2022-08-01', 'Especialidad8', 450),
+('999999999', 'contrasena9', 'Apellido9', 'Nombre9', '999999999', 'correo9@example.com', 'COD009', 1, 0, 'G09', 1, 0, 'Cargo9', 'activo', '2022-09-01', 'Especialidad9', 500);
 
 -- --------------------------------------------------------
 
@@ -121,6 +151,47 @@ CREATE TABLE `solicitudes` (
   `fechasolicitud` date DEFAULT NULL,
   `admitido` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `solicitudes`
+--
+
+INSERT INTO `solicitudes` (`dni`, `codigocurso`, `fechasolicitud`, `admitido`) VALUES
+('101010101', 1, '2024-01-11', 0),
+('101010101', 2, '2024-01-11', 0),
+('101010101', 3, '2024-01-11', 0),
+('101010101', 4, '2024-01-11', 0),
+('101010101', 5, '2024-01-11', 0),
+('101010101', 6, '2024-01-11', 0),
+('101010101', 7, '2024-01-11', 0),
+('111111111', 1, '2022-01-01', 0),
+('121212113', 5, '2022-12-01', 0),
+('131313114', 6, '2023-01-01', 0),
+('141414115', 7, '2023-02-01', 0),
+('151515116', 1, '2023-03-01', 0),
+('161616117', 2, '2023-04-01', 0),
+('171717118', 3, '2023-05-01', 0),
+('181818119', 4, '2023-06-01', 0),
+('191919120', 5, '2023-07-01', 0),
+('202020121', 6, '2023-08-01', 0),
+('212121122', 7, '2023-09-01', 0),
+('222222123', 1, '2023-10-01', 0),
+('222222222', 2, '2022-02-01', 0),
+('232323124', 2, '2023-11-01', 0),
+('242424125', 3, '2023-12-01', 0),
+('252525126', 4, '2024-01-01', 0),
+('262626127', 5, '2024-02-01', 0),
+('272727128', 6, '2024-03-01', 0),
+('282828129', 7, '2024-04-01', 0),
+('292929130', 1, '2024-05-01', 0),
+('303030131', 2, '2024-06-01', 0),
+('333333333', 3, '2022-03-01', 0),
+('444444444', 4, '2022-04-01', 0),
+('555555555', 5, '2022-05-01', 0),
+('666666666', 6, '2022-06-01', 0),
+('777777777', 7, '2022-07-01', 0),
+('888888888', 1, '2022-08-01', 0),
+('999999999', 2, '2022-09-01', 0);
 
 --
 -- Índices para tablas volcadas
@@ -159,7 +230,7 @@ ALTER TABLE `solicitudes`
 -- AUTO_INCREMENT de la tabla `cursos`
 --
 ALTER TABLE `cursos`
-  MODIFY `codigo` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `codigo` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Restricciones para tablas volcadas

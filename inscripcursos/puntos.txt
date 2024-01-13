@@ -5,5 +5,5 @@
 director 2
 JefeEstudios 2
 Secretario 2
-JefedeDepartamento 1
+Jefede 1
 1 1 //activo

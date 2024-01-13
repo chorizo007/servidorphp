@@ -23,12 +23,12 @@ if ($result && mysqli_num_rows($result) == 0) {
         if ($stmt) {
             mysqli_stmt_bind_param($stmt, "sss", $es_user,$curso,$fechaHoy);
             if (mysqli_stmt_execute($stmt)) {
-                echo "realizado con exito";
             } else {
                 echo "Error al ejecutar la consulta: " . mysqli_error($conexion);
             }
         }
     }
+    echo "realizado con exito";
 } else {
     echo "ya has solicitado en estos cursos";
 }
