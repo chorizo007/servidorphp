@@ -23,8 +23,6 @@ ini_set('display_startup_errors', 1);
   $mail->SMTPAutoTLS = true;
   $mail->isHTML(true);
   $mail->Port = 25;
-  $mail->CharSet = 'UTF-8';
-  
 
   //Asignamos a Host el nombre de nuestro servidor smtp
   $mail->Host = "localhost";
