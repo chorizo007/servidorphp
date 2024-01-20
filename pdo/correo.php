@@ -5,8 +5,8 @@ ini_set('display_startup_errors', 1);
 ?>
 
 <?php
-	require('/var/www/html/servidorphp/PHPMailer-master/src/PHPMailer.php');
-    require('/var/www/html/servidorphp/PHPMailer-master/src/SMTP.php');
+	require('/var/www/html/github/servidorphp/PHPMailer-master/src/PHPMailer.php');
+   require('/var/www/html/github/servidorphp/PHPMailer-master/src/SMTP.php');
 
 
   //instanciamos un objeto de la clase phpmailer al que llamamos 
