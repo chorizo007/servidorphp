@@ -14,6 +14,7 @@
         <?php
             echo "<input type='hidden' name='body' value='".$_POST['body']."'>";
             echo "<input type='hidden' name='cabecera' value='".$_POST['cabecera']."'>";
+            echo "<input type='hidden' name='categorias' value='".$_POST['categorias']."'>";
 
             $servername = "127.0.0.1";
             $username = "mail";
@@ -53,7 +54,7 @@
 
             foreach ($carpetas as $carpeta) {
                 echo "<img src='" . $directorio . "/". $carpeta . "' width='100'>";
-                echo "<input type='radio' name ='foto' value=" . $carpeta . ">";
+                echo "<input type='radio' name ='foto' value=" . $directorio . "/" . $carpeta . ">";
             }
         ?>
         <input type="submit" name="enviar" value="enviar">
