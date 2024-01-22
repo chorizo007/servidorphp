@@ -1,3 +1,21 @@
+<?php
+    if(empty($_GET['errorcorreo'])){
+        $errores = "";
+        if(empty($_POST['body'])){
+            $errores = "Introduce un body para el correo<br><br>";
+        }
+        if(empty($_POST['cabecera'])){
+            $errores .= "Introduce una cabecera para el correo<br><br>"; 
+        }
+        if(empty($_POST['categorias'])){
+            $errores .= "Elige una categoría<br><br>"; 
+        }
+        if($errores){
+            $url = "formulario.php?error=".$errores;
+            header("Location: " . $url);
+        }
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -81,7 +99,12 @@
         <?php
             echo "<input type='hidden' name='body' value='".$_POST['body']."'>";
             echo "<input type='hidden' name='cabecera' value='".$_POST['cabecera']."'>";
-            echo "<input type='hidden' name='categorias' value='".$_POST['categorias']."'>";
+            if(empty($_GET['categorias'])){
+                echo "<input type='hidden' name='categorias' value='".$_POST['categorias']."'>";
+            }else{
+                echo "<input type='hidden' name='categorias' value='".$_GET['categorias']."'>";
+            }
+            
 
             $servername = "127.0.0.1";
             $username = "mail";
@@ -112,7 +135,11 @@
             }
             
             $conn = null;
-
+            if(empty($_GET['categorias'])){
+                $directorio = './categorias/'.$_POST['categorias'];
+            }else{  
+                $directorio = './categorias/'.$_GET['categorias'];
+            }
             $directorio = './categorias/'.$_POST['categorias'];
             $contenidoDirectorio = scandir($directorio);
             $carpetas = array_filter($contenidoDirectorio, function ($elemento) use ($directorio) {
@@ -125,6 +152,9 @@
             }
         ?>
         <br>
+        <?php
+            echo $_GET['errorcorreo'];
+        ?>
         <input type="submit" name="enviar" value="Enviar">
     </form>
 </body>

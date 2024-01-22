@@ -3,10 +3,19 @@
       ini_set('display_errors', 1);
       ini_set('display_startup_errors', 1);
       ?>
-
       <?php
-      require('/var/www/html/github/servidorphp/PHPMailer-master/src/PHPMailer.php');
-      require('/var/www/html/github/servidorphp/PHPMailer-master/src/SMTP.php');
+         $errores = "";
+         if(empty($_POST['mail'])){
+            $errores = "seleciona un email para poder mandarlo<br><br>";
+            $url = "categoria.php?errorcorreo=".$errores . "&categorias=". $_POST['categorias'];
+            header("Location: " . $url);
+         }
+      ?>
+      <?php
+      //require('/var/www/html/github/servidorphp/PHPMailer-master/src/PHPMailer.php');
+      //require('/var/www/html/github/servidorphp/PHPMailer-master/src/SMTP.php');
+      require('/var/www/html/servidorphp/PHPMailer-master/src/PHPMailer.php');
+      require('/var/www/html/servidorphp/PHPMailer-master/src/SMTP.php');
 
       $mail = new PHPMailer();
 
@@ -25,6 +34,7 @@
 
       $array_correos = $_POST['mail'];
       $foto = $_POST['foto'];
+      $fotO = 'localhost/servidorphp/pdo/' . $foto;
       $categorias = $_POST['categorias'];
 
 
@@ -69,7 +79,8 @@
          }
          $mail->clearAttachments();
          if (!empty($foto)) {
-            $mail->addAttachment($foto, $categorias.'.jpg');
+            $mail->addEmbeddedImage($foto, 'imagenID', 'nombre_imagen.jpg');
+            $mail->Body .= '<br><img src="cid:imagenID" alt="Imagen Embebida" style="max-width: 400px;">';
          }
 
          $exito = $mail->Send();

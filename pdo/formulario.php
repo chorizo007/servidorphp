@@ -81,11 +81,14 @@
         <br>
         <br>
         <label for="body">Body del correo</label>
-        <input type="text" name="body" required><br>
+        <input type="text" name="body"><br>
         <br>
         <label for="cabecera">Cabecera del correo</label>
-        <input type="text" name="cabecera" required><br>
+        <input type="text" name="cabecera" ><br>
         <br>
+        <?php
+            echo $_GET['error'];
+        ?>
         <input type="submit" name="enviar" value="Enviar">
     </form>
 </body>
