@@ -97,12 +97,15 @@
         <h1>Elige una foto</h1>
 
         <?php
-            echo "<input type='hidden' name='body' value='".$_POST['body']."'>";
-            echo "<input type='hidden' name='cabecera' value='".$_POST['cabecera']."'>";
+            
             if(empty($_GET['categorias'])){
                 echo "<input type='hidden' name='categorias' value='".$_POST['categorias']."'>";
+                echo "<input type='hidden' name='body' value='".$_POST['body']."'>";
+                echo "<input type='hidden' name='cabecera' value='".$_POST['cabecera']."'>";
             }else{
                 echo "<input type='hidden' name='categorias' value='".$_GET['categorias']."'>";
+                echo "<input type='hidden' name='body' value='".$_GET['body']."'>";
+                echo "<input type='hidden' name='cabecera' value='".$_GET['cabecera']."'>";
             }
             
 
@@ -140,7 +143,7 @@
             }else{  
                 $directorio = './categorias/'.$_GET['categorias'];
             }
-            $directorio = './categorias/'.$_POST['categorias'];
+
             $contenidoDirectorio = scandir($directorio);
             $carpetas = array_filter($contenidoDirectorio, function ($elemento) use ($directorio) {
                 return $elemento != '.' && $elemento != '..';

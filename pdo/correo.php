@@ -7,7 +7,7 @@
          $errores = "";
          if(empty($_POST['mail'])){
             $errores = "seleciona un email para poder mandarlo<br><br>";
-            $url = "categoria.php?errorcorreo=".$errores . "&categorias=". $_POST['categorias'];
+            $url = "categoria.php?errorcorreo=".$errores . "&categorias=". $_POST['categorias']. "&body=". $_POST['body'] . "&cabecera=". $_POST['cabecera'] ;
             header("Location: " . $url);
          }
       ?>
