@@ -1,0 +1,77 @@
+-- Crear la base de datos
+CREATE DATABASE IF NOT EXISTS jabonescarlatty;
+
+-- Usar la base de datos
+USE jabonescarlatty;
+
+-- Crear la tabla 'clientes'
+CREATE TABLE clientes (
+    email VARCHAR(255) PRIMARY KEY,
+    nombre VARCHAR(255),
+    direccion VARCHAR(255),
+    cp VARCHAR(10),
+    telefono VARCHAR(15),
+    contraseña VARCHAR(255)
+);
+
+-- Crear la tabla 'administradores'
+CREATE TABLE administradores (
+    email VARCHAR(255) PRIMARY KEY,
+    contraseña VARCHAR(255)
+);
+
+-- Crear la tabla 'productos'
+CREATE TABLE productos (
+    productoid INT PRIMARY KEY,
+    nombre VARCHAR(255),
+    descripcion TEXT,
+    peso DECIMAL(10,2),
+    precio DECIMAL(10,2),
+    imagen VARCHAR(255)
+);
+
+-- Crear la tabla 'cesta'
+CREATE TABLE cesta (
+    cestaid INT PRIMARY KEY,
+    email VARCHAR(255),
+    fechacreacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (email) REFERENCES clientes(email)
+);
+
+-- Crear la tabla 'itemcesta'
+CREATE TABLE itemcesta (
+    itemcestaid INT PRIMARY KEY,
+    cestaid INT,
+    productoid INT,
+    cantidad INT,
+    FOREIGN KEY (cestaid) REFERENCES cesta(cestaid),
+    FOREIGN KEY (productoid) REFERENCES productos(productoid)
+);
+
+-- Crear la tabla 'pedidos'
+CREATE TABLE pedidos (
+    pedidoid INT PRIMARY KEY,
+    email VARCHAR(255),
+    fechapedido TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    fechaentrega TIMESTAMP,
+    totalpedido DECIMAL(10,2),
+    entregado BOOLEAN,
+    FOREIGN KEY (email) REFERENCES clientes(email)
+);
+
+-- Crear la tabla 'itempedido'
+CREATE TABLE itempedido (
+    itempedidoid INT PRIMARY KEY,
+    pedidoid INT,
+    productoid INT,
+    unidades INT,
+    FOREIGN KEY (pedidoid) REFERENCES pedidos(pedidoid),
+    FOREIGN KEY (productoid) REFERENCES productos(productoid)
+);
+
+-- Crear el usuario 'jabon' con contraseña 'jabon' y privilegios totales
+CREATE USER 'jabon'@'%' IDENTIFIED BY 'jabon';
+GRANT ALL PRIVILEGES ON jabonescarlatty.* TO 'jabon'@'%';
+
+-- Actualizar privilegios
+FLUSH PRIVILEGES;
