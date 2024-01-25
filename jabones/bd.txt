@@ -1,3 +1,4 @@
+drop database jabonescarlatty;
 -- Crear la base de datos
 CREATE DATABASE IF NOT EXISTS jabonescarlatty;
 
@@ -22,17 +23,16 @@ CREATE TABLE administradores (
 
 -- Crear la tabla 'productos'
 CREATE TABLE productos (
-    productoid INT PRIMARY KEY,
+    productoid INT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(255),
     descripcion TEXT,
     peso DECIMAL(10,2),
-    precio DECIMAL(10,2),
-    imagen VARCHAR(255)
+    precio DECIMAL(10,2)
 );
 
 -- Crear la tabla 'cesta'
 CREATE TABLE cesta (
-    cestaid INT PRIMARY KEY,
+    cestaid INT PRIMARY KEY AUTO_INCREMENT,
     email VARCHAR(255),
     fechacreacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (email) REFERENCES clientes(email)
@@ -50,7 +50,7 @@ CREATE TABLE itemcesta (
 
 -- Crear la tabla 'pedidos'
 CREATE TABLE pedidos (
-    pedidoid INT PRIMARY KEY,
+    pedidoid INT PRIMARY KEY AUTO_INCREMENT,
     email VARCHAR(255),
     fechapedido TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     fechaentrega TIMESTAMP,
@@ -61,7 +61,7 @@ CREATE TABLE pedidos (
 
 -- Crear la tabla 'itempedido'
 CREATE TABLE itempedido (
-    itempedidoid INT PRIMARY KEY,
+    itempedidoid INT PRIMARY KEY AUTO_INCREMENT,
     pedidoid INT,
     productoid INT,
     unidades INT,
@@ -75,3 +75,6 @@ GRANT ALL PRIVILEGES ON jabonescarlatty.* TO 'jabon'@'%';
 
 -- Actualizar privilegios
 FLUSH PRIVILEGES;
+
+
+

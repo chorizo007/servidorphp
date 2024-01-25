@@ -1,8 +1,8 @@
 <?php
 session_start();
 
-if (isset($_SESSION['nombre_usuario'])) {
-    header("Location: cursosabi.php");
+if (isset($_SESSION['email'])) {
+    header("Location: jabonescarlatty.php");
     exit();
 }
 
@@ -27,8 +27,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute();
         $num_rows = $stmt->rowCount();
         if ($num_rows > 0) {
-            $_SESSION['email'] = $email;
-            $_SESSION['admin'] = $email;
+            $_SESSION['email'] = $correo;
+            $_SESSION['admin'] = $correo;
             header("Location: jabonescarlatty.php");
             exit();
         } else {
@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->execute();
             $num_rows = $stmt->rowCount();
             if ($num_rows > 0) {
-                $_SESSION['email'] = $email;
+                $_SESSION['email'] = $correo;
                 header("Location: jabonescarlatty.php");
                 exit();
             }else{
