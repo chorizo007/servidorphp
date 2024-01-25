@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stmt->bindParam(':telefono', $telefono, PDO::PARAM_STR);
                 $stmt->bindParam(':contra', $contra, PDO::PARAM_STR);
                 $stmt->execute();
-                $_SESSION['email'] = $email;
+                $_SESSION['email'] = $correo;
                 header("Location: jabonescarlatty.php");
                 exit();
             }

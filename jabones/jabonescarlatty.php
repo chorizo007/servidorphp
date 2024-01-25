@@ -39,7 +39,7 @@ try {
         echo '<td>' . $result['precio'] . '</td>';
         echo '<td><img src="'.$result['productoid'].'.jpg"></td>';
         if ($es_user && !isset($_SESSION['admin'])) {
-            echo '<td><button type="submid" name="idjabon" value="' . $result['productoid'] . '">comprar</button></td>';
+            echo '<td><button type="submid" name="idjabon" value="' . $result['productoid'] . '">añadir a la cesta</button></td>';
         }
         echo '</tr>';
     }
