@@ -44,12 +44,9 @@ try {
         echo '</tr>';
     }
     echo '</table>';
-    if ($es_user && !isset($_SESSION['admin'])) {
-        echo '<input type="submit" value="inscribirse">';
-    }
     echo '</form>';
     if ($es_user && !isset($_SESSION['admin'])) {
-        echo '<button><a href="vercursos.php">mis colicitudes</a></button></td>';
+        echo '<button><a href="cesta.php">cesta</a></button></td>';
     }
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();

@@ -15,7 +15,6 @@ if (!empty($_SESSION['email'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $idjabon = $_POST['idjabon'];
     try {
-        echo "aqui";
         $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $query = "SELECT * FROM cesta WHERE email = :correo";
@@ -32,17 +31,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->bindParam(':idcesta', $idcesta, PDO::PARAM_STR);
             $stmt->execute();
             $num_rows = $stmt->rowCount();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
             if ($num_rows > 0) {
-                $result = $stmt->fetch(PDO::FETCH_ASSOC);
-                $idcesta = $result['cestaid'];
                 $query = "UPDATE itemcesta SET cantidad = 2 WHERE productoid = :productoid and cestaid = :idcesta";
                 $stmt = $conn->prepare($query);
                 $stmt->bindParam(':productoid', $idjabon, PDO::PARAM_STR);
                 $stmt->bindParam(':idcesta', $idcesta, PDO::PARAM_STR);
                 $stmt->execute();
             }else{
-                $result = $stmt->fetch(PDO::FETCH_ASSOC);
-                $idcesta = $result['cestaid'];
                 $query = "SELECT * FROM itemcesta WHERE cestaid = :idcesta";
                 $stmt = $conn->prepare($query);
                 $stmt->bindParam(':idcesta', $idcesta, PDO::PARAM_STR);
@@ -54,8 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $iditemcesta = 1;
                 }
                 $result = $stmt->fetch(PDO::FETCH_ASSOC);
-                $idcesta = $result['cestaid'];
-                $query = "INSERT INTO itemcesta (itemcesta,cestaid,productoid, cantidad) VALUES (:itemcesta, :idcesta , :productoid , 1)";
+                $query = "INSERT INTO itemcesta (itemcestaid,cestaid,productoid, cantidad) VALUES (:itemcesta, :idcesta , :productoid , 1)";
                 $stmt = $conn->prepare($query);
                 $stmt->bindParam(':itemcesta', $iditemcesta, PDO::PARAM_STR);
                 $stmt->bindParam(':idcesta', $idcesta, PDO::PARAM_STR);
@@ -80,4 +75,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $conn = null;
+    header("Location: cesta.php");
 }
