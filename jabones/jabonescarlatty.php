@@ -18,9 +18,34 @@ $username = "jabon";
 $password = "jabon";
 $dbname = "jabonescarlatty";
 
+
+
+
 try {
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $query = "SELECT sum(unidades) FROM pedidos inner join itempedido on itempedido.pedidoid=pedidos.pedidoid WHERE email = :correo and DATEDIFF(CURDATE(), fechapedido) <= 60";
+    $stmt = $conn->prepare($query);
+    $stmt->bindParam(':correo', $es_user, PDO::PARAM_STR);
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    if($result['sum(cantidad)']<2){
+        $puede = 1;
+    }
+
+    //comprobar el numero de objetos que tiene en la cesta para poder comprar otro mas
+    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $query = "SELECT sum(cantidad) FROM itemcesta inner join productos on itemcesta.productoid=productos.productoid WHERE cestaid = (select cestaid from cesta where email = :correo)";
+    $stmt = $conn->prepare($query);
+    $stmt->bindParam(':correo', $es_user, PDO::PARAM_STR);
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    echo $result['sum(cantidad)'];
+    if($result['sum(cantidad)']<2){
+        $puede = $result['sum(cantidad)'];
+    }
+
     $query = "SELECT * FROM productos";
     $stmt = $conn->prepare($query);
     $stmt->execute();
