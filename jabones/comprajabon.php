@@ -14,6 +14,7 @@ if (!empty($_SESSION['email'])) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $idjabon = $_POST['idjabon'];
+    $_SESSION['jabanes']=$_SESSION['jabanes']-1;
     try {
         $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
