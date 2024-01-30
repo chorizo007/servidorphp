@@ -1,4 +1,9 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+?>
+<?php
 class Caja
 {
     private $contenido;
@@ -10,7 +15,7 @@ class Caja
     }
     public function __set($var, $valor){
         if(property_exists(__CLASS__,$var)){
-            $this->var=$valor;
+            $this->$var=$valor;
         }else{
             echo "no existe este atributo";
         }
@@ -23,6 +28,8 @@ class Caja
             return "no existe eso";
         }
     }
+
+
 }
 
 
@@ -30,13 +37,13 @@ $micaja = new Caja;
 $micaja->introduce("algo");
 $micaja->muestra_contenido();
 echo "<br>";
-$segunda_caja = $micaja;
+$segunda_caja = clone $micaja;
 //$segunda_caja=&$micaja;
-$segunda_caja->introduce("contenido en segunda caja");
 $segunda_caja->muestra_contenido();
 echo "<br>";
-//$micaja->muestra_contenido();
 echo $micaja -> contenido = 'blanco';
+echo "<br>";
 echo $micaja -> contenido;
-
+echo "<br>";
+echo $micaja;
 ?>
