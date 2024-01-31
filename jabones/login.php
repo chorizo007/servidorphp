@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['email'] = $correo;
                 $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
                 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                $query = "SELECT SUM(unidades) AS total_unidades FROM pedidos INNER JOIN itempedido ON itempedido.pedidoid = pedidos.pedidoid WHERE email = :correo AND DATEDIFF(CURDATE(), fechapedido) <= 60";
+                $query = "SELECT SUM(unidades) AS total_unidades FROM pedidos INNER JOIN itempedido ON itempedido.pedidoid = pedidos.pedidoid WHERE email = :correo AND DATEDIFF(CURDATE(), fechapedido) <= 30";
                 $stmt = $conn->prepare($query);
                 $stmt->bindParam(':correo', $correo, PDO::PARAM_STR);
                 $stmt->execute();
