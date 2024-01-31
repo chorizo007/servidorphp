@@ -20,6 +20,8 @@ $stmt = $conn->prepare($query);
 $stmt->bindParam(':correo', $correo, PDO::PARAM_STR);
 $stmt->execute();
 $num_rows = $stmt->rowCount();
+$_SESSION['cestacantidad'] = $num_rows;
+echo $_SESSION['cestacantidad'];
 if($num_rows>0){
     echo '<form action="eliminarcompra.php" method="post">';
     echo '<table border="1">';
@@ -29,10 +31,10 @@ if($num_rows>0){
         echo '<td>' . $result['nombre'] . '</td>';
         echo '<td>' . $result['cantidad'] . '</td>';
         echo '<td><button type="submid" name="eliminar" value="' . $result['itemcestaid'] . '">quitar de la cesta</button></td>';
-    
         echo '</tr>';
     }
     echo '</form>';
+    echo '<button><a href="comprar.php">comprar</a></button></td>';
 }else{
     echo "no hay ninguno producto en la cesta";
 }
