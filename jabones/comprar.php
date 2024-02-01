@@ -5,16 +5,25 @@ ini_set('display_startup_errors', 1);
 
 session_start();  // Asegúrate de iniciar la sesión
 
+
+if($_SESSION['cestacantidad']<=0){
+    header("Location: jabonescarlatty.php");
+}
+
+
 if (!empty($_SESSION['email'])) {
     $correo = $_SESSION['email'];
 }
+
+
+require('constantes.php');
 
 $servername = "127.0.0.1";
 $username = "jabon";
 $password = "jabon";
 $dbname = "jabonescarlatty";
 
-try {
+
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
@@ -81,10 +90,10 @@ try {
         $stmt->execute();
 
     }
-    //require('/var/www/html/github/servidorphp/PHPMailer-master/src/PHPMailer.php');
-    //require('/var/www/html/github/servidorphp/PHPMailer-master/src/SMTP.php');
-    require('/var/www/html/servidorphp/PHPMailer-master/src/PHPMailer.php');
-    require('/var/www/html/servidorphp/PHPMailer-master/src/SMTP.php');
+    require('/var/www/html/github/servidorphp/PHPMailer-master/src/PHPMailer.php');
+    require('/var/www/html/github/servidorphp/PHPMailer-master/src/SMTP.php');
+    //require('/var/www/html/servidorphp/PHPMailer-master/src/PHPMailer.php');
+    //require('/var/www/html/servidorphp/PHPMailer-master/src/SMTP.php');
 
     $mail = new PHPMailer();
 
@@ -95,35 +104,31 @@ try {
     $mail->Port = 25;
     $mail->Host = "localhost";
     $mail->SMTPAuth = true;
-    $mail->Username = "jefe@nicolas.com";
-    $mail->Password = "jefe";
-    $mail->From = "jefe@nicolas.com";
-    $mail->FromName = "jefe";
+    $mail->Username = "anival@nicolas.com";
+    $mail->Password = "anival";
+    $mail->From = "anival@nicolas.com";
+    $mail->FromName = "anival";
     $mail->Timeout = 30;
-
     $mail->ClearAddresses();
     $mail->AddAddress($correo);
 
     $mail->Subject = 'Gracias por confiar con nosotros';
 
-    $mail->addEmbeddedImage($foto, 'imagenID', 'nombre_imagen.jpg');
-    $mail->Body .= '<br><img src="cid:imagenID" alt="Imagen Embebida" style="max-width: 400px;">';
-
     $mail->Body .= "Productos comprados : ";
-    $query = "SELECT * FROM pedidos inner join itempedido ON pedidos.pedidoid = itempedido.pedidoid inner join productos on productos.productoid = itempedido.productoid where pedidoid = :pedidoid";
+    $query = "SELECT * FROM pedidos 
+          INNER JOIN itempedido ON pedidos.pedidoid = itempedido.pedidoid 
+          INNER JOIN productos ON productos.productoid = itempedido.productoid 
+          WHERE pedidos.pedidoid = :pedidoid";
     $stmt = $conn->prepare($query);
     $stmt->bindParam(':pedidoid', $codigo_pedido , PDO::PARAM_STR);
     $stmt->execute();
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
-    
-    $mail->Body .= "precio total :". $result['pedidos.totalpedido'];
     while ($result = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        $mail->Body .= "nombre producto :" . $result['productos.nombre'];
-        $mail->Body .= "precio del producto :". $result['productos.precio'];
-        $mail->Body .= "precio del producto :". $result['itempedido.cantidad'];
-        $mail->Body .= "fecha de entrega estimada :". $result['pedidos.fechaentrega'];
+        $mail->Body .= "nombre producto :" . $result['nombre'] . "<br>";
+        $mail->Body .= "precio del producto :". $result['precio'] . "<br>";
+        $mail->Body .= "precio del producto :". $result['unidades'] . "<br>";
+        $mail->Body .= "fecha de entrega estimada :". $result['fechaentrega'] . "<br>";
         $mail->addEmbeddedImage("imagenes/".$result['productoid'].".jpg", 'imagenID', 'productos.jpg');
-        $mail->Body .= '<br><img src="cid:imagenID" alt="Imagen Embebida" style="max-width: 400px;">';
+        $mail->Body .= '<br><img src="cid:imagenID" alt="Imagen Embebida" style="max-width: 400px;">' . "<br>";
     }
 
     $exito = $mail->Send();
@@ -137,38 +142,38 @@ try {
     }
     $mail->clearAttachments();
     $mail->ClearAddresses();
-    $mail->AddAddress('jabones@nicolas.com');
-
+    $mail->AddAddress('jabon@nicolas.com');
+    $mail->Body = "";
     $mail->Subject = 'nueva compra';
 
-    $mail->addEmbeddedImage($foto, 'imagenID', 'nombre_imagen.jpg');
-    $mail->Body .= '<br><img src="cid:imagenID" alt="Imagen Embebida" style="max-width: 400px;">';
-
-    $mail->Body .= "Productos comprados : ";
-    $query = "SELECT * FROM pedidos inner join itempedido ON pedidos.pedidoid = itempedido.pedidoid inner join productos on productos.productoid = itempedido.productoid where pedidoid = :pedidoid";
+    
+    $query = "SELECT * FROM pedidos 
+          INNER JOIN itempedido ON pedidos.pedidoid = itempedido.pedidoid 
+          INNER JOIN productos ON productos.productoid = itempedido.productoid 
+          WHERE pedidos.pedidoid = :pedidoid";
     $stmt = $conn->prepare($query);
     $stmt->bindParam(':pedidoid', $codigo_pedido , PDO::PARAM_STR);
     $stmt->execute();
-    
-    $mail->Body .= "correo del comprador :" . $correo;
+    $mail->Body .= "Productos comprados : " . "<br>";
+    $mail->Body .= "correo del comprador :" . $correo . "<br>";
 
     while ($result = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        $mail->Body .= "nombre producto :" . $result['productos.nombre'];
-        $mail->Body .= "precio del producto :". $result['productos.precio'];
-        $mail->Body .= "precio del producto :". $result['itempedido.cantidad'];
-        $mail->Body .= "fecha de entrega estimada :". $result['pedidos.fechaentrega'];
+        $mail->Body .= "nombre producto :" . $result['nombre'] . "<br>";
+        $mail->Body .= "precio del producto :". $result['precio'] . "<br>";
+        $mail->Body .= "unidades:". $result['unidades'] . "<br>";
+        $mail->Body .= "fecha de entrega estimada :". $result['fechaentrega'] . "<br>";
         $mail->addEmbeddedImage("imagenes/".$result['productoid'].".jpg", 'imagenID', 'productos.jpg');
-        $mail->Body .= '<br><img src="cid:imagenID" alt="Imagen Embebida" style="max-width: 400px;">';
+        $mail->Body .= '<br><img src="cid:imagenID" alt="Imagen Embebida" style="max-width: 400px;">' . "<br>";
     }
 
     $exito = $mail->Send();
 
 
     if (!$exito) {
-        echo "Problemas enviando correo electrónico a $correo";
+        echo "Problemas enviando correo electrónico al provedor";
         echo "<br/>" . $mail->ErrorInfo;
     } else {
-        echo "Mensaje enviado correctamente a $correo";
+        echo "correo enviando al email del provedor";
         echo "<br>";
     }
 
@@ -179,13 +184,17 @@ try {
     $stmt->bindParam(':cestaid', $idcesta, PDO::PARAM_STR);
     $stmt->execute();
 
+    $query = "DELETE FROM cesta WHERE cestaid = :cestaid";
+    $stmt = $conn->prepare($query);
+    $stmt->bindParam(':cestaid', $idcesta, PDO::PARAM_STR);
+    $stmt->execute();
+
 
     // Cerrar la conexión
     echo "realizado con exito";
+    calcularjabones($correo);
     $conn = null;
-} catch (PDOException $e) {
-    echo "Error: " . $e->getMessage();
-}
+
 
 
 echo '<button><a href="pedidos.php">ver mis pedidos</a></button></td>';

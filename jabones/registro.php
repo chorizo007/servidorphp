@@ -9,6 +9,8 @@ if (isset($_SESSION['nombre_usuario'])) {
     header("Location: cursosabi.php");
     exit();
 }
+require('cabecera.php');
+
 $mensaje = "";
 $corregir = false;
 
@@ -63,6 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stmt->bindParam(':contra', $contra, PDO::PARAM_STR);
                 $stmt->execute();
                 $_SESSION['email'] = $correo;
+                $_SESSION['jabanes'] = 2;
                 header("Location: jabonescarlatty.php");
                 exit();
             }
@@ -139,7 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 
 <body>
-    <h2>Formulario de Solicitantes</h2>
+    <h2>Registros jabones Domenico Scarlatti</h2>
     <?php
     echo $mensaje;
     ?>
@@ -151,10 +154,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <br>
 
         <label>Contraseña:</label>
-        <input type="text" value="<?php echo $contra ?>" name="contra" required><br>
+        <input type="text" value="<?php echo $contra ?>" name="contra"><br>
 
         <label for="nombre">Nombre:</label>
-        <input type="text" value="<?php echo $nombre ?>" name="nombre" required>
+        <input type="text" value="<?php echo $nombre ?>" name="nombre">
 
         <br>
 
@@ -165,12 +168,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
         <label>direccion:</label>
-        <input type="text" value="<?php echo $direccion ?>" name="direccion" required>
+        <input type="text" value="<?php echo $direccion ?>" name="direccion">
 
         <br>
 
         <label>cp:</label>
-        <input type="text" value="<?php echo $cp ?>" name="cp" required>
+        <input type="text" value="<?php echo $cp ?>" name="cp">
 
         <br>
 
