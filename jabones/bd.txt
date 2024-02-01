@@ -59,6 +59,7 @@ CREATE TABLE pedidos (
     FOREIGN KEY (email) REFERENCES clientes(email)
 );
 
+
 -- Crear la tabla 'itempedido'
 CREATE TABLE itempedido (
     itempedidoid INT PRIMARY KEY AUTO_INCREMENT,
