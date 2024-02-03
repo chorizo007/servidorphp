@@ -1,116 +1,98 @@
-<?php
+    <?php
 $errores = "";
-include("estilos.php");
-include("comprobar_user.php");
-if(isset($_SESSION['nombre_usuario'])) {
-    $es_user = $_SESSION['nombre_usuario'];
-}
-if (isset($_SESSION['admin'])) {
-    $botonadmin = "<button><a href='admin.php'>ADMINISTRAR</a></button>";
-}else{
-    header('Location: cursosabi.php');
+$nombre = "";
+$descripcion = "";
+$precio = "";
+$peso = "";
+
+session_start();
+
+if (isset($_SESSION['email'])) {
+    $es_user = $_SESSION['email'];
 }
 
-// Conexión a la base de datos
-$conexion = mysqli_connect('localhost', 'cursos', 'cursos', 'cursoscp');
-if (!$conexion) {
-    die('Error de conexión: ' . mysqli_connect_error());
+if (isset($_SESSION['admin'])) {
+    $botonadmin = "<button><a href='admin.php'>ADMINISTRAR</a></button>";
+} else {
+    header("Location: ../jabonescarlatty.php");
 }
-if(!empty($_POST['cerrar'])){
-    $codigo = $_POST['cerrar'];
-    $query = "UPDATE cursos set abierto = false where codigo = ?";
-    $stmt = mysqli_prepare($conexion, $query);
-    if($stmt){
-        mysqli_stmt_bind_param($stmt, "s", $codigo);
-        if (mysqli_stmt_execute($stmt)) {
-            header("Location: abrircuros.php");
-            exit();
-        }else{
-            echo "Error al ejecutar la consulta: " . mysqli_error($conexion);
-        }
-        mysqli_stmt_close($stmt);
-    }else{
-        echo "Error al preparar la consulta: " . mysqli_error($conexion);
-    }
-}else if(!empty($_POST['abrir'])){
-    $codigo = $_POST['abrir'];
-    $query = "UPDATE cursos set abierto = true where codigo = ?";
-    $stmt = mysqli_prepare($conexion, $query);
-    if($stmt){
-        mysqli_stmt_bind_param($stmt, "s", $codigo);
-        if (mysqli_stmt_execute($stmt)) {
-            header("Location: abrircuros.php");
-            exit();
-        }else{
-            echo "Error al ejecutar la consulta: " . mysqli_error($conexion);
-        }
-        mysqli_stmt_close($stmt);
-    }else{
-        echo "Error al preparar la consulta: " . mysqli_error($conexion);
-    }
-}else if(!empty($_POST['borrar'])){
+
+require('./cabecera.php');
+
+$servername = "127.0.0.1";
+$username = "jabon";
+$password = "jabon";
+$dbname = "jabonescarlatty";
+
+$conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+if (!empty($_POST['borrar'])) {
     $codigo = $_POST['borrar'];
-    $query = "DELETE FROM cursos where codigo = ?";
-    $stmt = mysqli_prepare($conexion, $query);
-    if($stmt){
-        mysqli_stmt_bind_param($stmt, "s", $codigo);
-        if (mysqli_stmt_execute($stmt)) {
-            header("Location: abrircuros.php");
-            exit();
-        }else{
-            echo "Error al ejecutar la consulta: " . mysqli_error($conexion);
-        }
-        mysqli_stmt_close($stmt);
-    }else{
-        echo "Error al preparar la consulta: " . mysqli_error($conexion);
-    }
-}else if(!empty($_POST['añadircurso'])){
+    $query = "DELETE FROM productos WHERE productoid = :productoid";
+    $stmt = $conn->prepare($query);
+    $stmt->bindParam(':productoid', $codigo, PDO::PARAM_STR);
+    $stmt->execute();
+    header("Location: añadirproductos.php");
+} else if (!empty($_POST['añadircurso'])) {
     $nombre = $_POST['nombre'];
-    $estado = $_POST['estado'];
-    $numeroplazas = $_POST['numeroplazas'];
-    $plazoinscripcion = $_POST['plazoinscripcion'];
-    $fecha_actual = date("Y-m-d");
-    if($fecha_actual>$plazoinscripcion ){
-        $errores = "la fecha tiene que ser posterior a hoy";
-    }else{
-        $query = "INSERT INTO cursos (nombre,abierto,numeroplazas,plazoinscripcion) VALUES (?,?,?,?)";
-        $stmt = mysqli_prepare($conexion, $query);
-        if($stmt){
-            mysqli_stmt_bind_param($stmt, "ssss", $nombre,$estado,$numeroplazas,$plazoinscripcion);
-            if (mysqli_stmt_execute($stmt)) {
-                header("Location: abrircuros.php");
-                exit();
-            }else{
-                echo "Error al ejecutar la consulta: " . mysqli_error($conexion);
+    $descripcion = $_POST['descripcion'];
+    $precio = $_POST['precio'];
+    $peso = $_POST['peso'];
+
+    if (empty($nombre) || empty($descripcion) || empty($precio) || empty($peso)) {
+        $errores = "Rellene todo el formulario";
+    } else {
+        $query = "INSERT INTO productos (nombre, descripcion, peso, precio) VALUES (:nombre, :descripcion, :peso, :precio)";
+        $stmt = $conn->prepare($query);
+
+        // Vincular parámetros
+        $stmt->bindParam(':nombre', $nombre, PDO::PARAM_STR);
+        $stmt->bindParam(':descripcion', $descripcion, PDO::PARAM_STR);
+        $stmt->bindParam(':peso', $peso, PDO::PARAM_STR);
+        $stmt->bindValue(':precio', $precio, PDO::PARAM_STR);
+        $stmt->execute();
+
+        // Obtener el ID del producto recién insertado
+        $idProducto = $conn->lastInsertId();
+
+        if (isset($_FILES['jabonfoto']) && $_FILES['jabonfoto']['error'] === UPLOAD_ERR_OK) {
+            $rutaAbsoluta = $_SERVER['DOCUMENT_ROOT'] . '/github/servidorphp/jabones/imagenes/';
+            $nombreFichero = $idProducto . '.jpg'; 
+            $nombreCompleto = $rutaAbsoluta . $nombreFichero;
+
+            if (move_uploaded_file($_FILES['jabonfoto']['tmp_name'], $nombreCompleto)) {
+                header("Location: añadirproductos.php");
+            } else {
+                $errores .= "Error al subir la foto. ";
             }
-            mysqli_stmt_close($stmt);
-        }else{
-            echo "Error al preparar la consulta: " . mysqli_error($conexion);
+        } else {
+            $errores .= "No se ha seleccionado ninguna imagen. ";
         }
     }
-    
 }
 ?>
-<form action="validarproductos.php" method="post">
+<form action="validarproductos.php" method="post" enctype="multipart/form-data">
+    <!-- Agregado el atributo 'enctype' para el manejo de archivos -->
     <label>nombre:</label>
-    <input type="text" name="nombre" value='<?php echo $nombre?>' required><br>
+    <input type="text" name="nombre" value='<?php echo $nombre ?>' required><br>
     <br>
-    <label>estado:</label>
-    <select name="estado">
-        <option value="1">abierto</option>
-        <option value="0">cerrado</option>
-    </select>
+    <label>descripcion:</label>
+    <input type="text" name="descripcion" value='<?php echo $descripcion ?>' required><br>
     <br>
     <br>
-    <label>numeroplazas:</label>
-    <input type="number" name="numeroplazas" min="1" max="100" required value='<?php echo $nombre?>'>
+    <label>precio:</label>
+    <input type="number" name="precio" min="1" value='<?php echo $precio ?>'>
     <br>
     <br>
-    <label>Fecha de inscripcion:</label>
-    <input type="date" name="plazoinscripcion" required><br>
+    <label>peso:</label>
+    <input type="number" name="peso" min="1" value='<?php echo $peso ?>'>
+    <br>
+    <label for="imagen">Imagen (opcional):</label>
+    <input type="file" name="jabonfoto">
     <br>
     <input type="submit" name="añadircurso" value="añadircurso">
     <?php
-        echo $errores ; 
+    echo $errores;
     ?>
 </form>

@@ -17,6 +17,7 @@ if (!empty($_SESSION['email'])) {
 
 
 require('constantes.php');
+require('./cabecera.php');
 
 $servername = "127.0.0.1";
 $username = "jabon";

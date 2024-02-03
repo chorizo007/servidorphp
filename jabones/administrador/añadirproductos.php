@@ -1,28 +1,33 @@
 <?php
 session_start();
-include("estilos.php");
-include("comprobar_user.php");
-if (isset($_SESSION['nombre_usuario'])) {
-    $es_user = $_SESSION['nombre_usuario'];
+
+if (isset($_SESSION['email'])) {
+    $es_user = $_SESSION['email'];
 }
 if (isset($_SESSION['admin'])) {
     $botonadmin = "<button><a href='admin.php'>ADMINISTRAR</a></button>";
 } else {
-    header("Location: jabonescarlatty.php");
+    header("Location: ../jabonescarlatty.php");
 }
+
+$servername = "127.0.0.1";
+$username = "jabon";
+$password = "jabon";
+$dbname = "jabonescarlatty";
+
+
 require('cabecera.php');
 $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $query = "SELECT * FROM productos";
 $stmt = $conn->prepare($query);
-$stmt->bindParam(':idcesta', $iditemcesta, PDO::PARAM_STR);
 $stmt->execute();
 $num_rows = $stmt->rowCount();
 echo "<h1>ADMIN PRODUCTOS</h1>";
-echo '<form action="abrirres.php" method="post">';
+echo '<form action="validarproductos.php" method="post">';
 echo '<p>Número de filas: ' . $num_rows . '</p>';
 echo '<table border="1">';
-echo '<tr><th>codigo</th><th>nombre</th><th>estado</th><th>numero de plazas</th><th>plazo de inscripcion</th>';
+echo '<tr><th>productoid</th><th>nombre</th><th>descripcion</th><th>peso</th><th>precio</th>';
 echo '</tr>';
 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
     echo '<tr>';

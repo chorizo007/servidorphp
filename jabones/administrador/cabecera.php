@@ -62,20 +62,16 @@
 </head>
 <body>
     <div class="nav">
-        <button><a href="jabonescarlatty.php">comprar jabones</a></button>
+        <button><a href="../jabonescarlatty.php">comprar jabones</a></button>
         <?php
             if (isset($_SESSION['admin'])) {
-                echo "<button><a href='administrador/admin.php'>ADMINISTRAR</a></button>";
+                echo "<button><a href='admin.php'>ADMINISTRAR</a></button>";
             }
             if(isset($_SESSION['email'])){
                 echo "BIENVENIDO!!! :".$_SESSION['email'];
-                echo "<button><a href='logout.php'>Cerrar Sesión</a></button>";
-            }else{
-                echo "<button><a href='registro.php'>registro</a></button>";
-                echo "<button><a href='login.php'>login</a></button>";
+                echo "<button><a href='../logout.php'>Cerrar Sesión</a></button>";
             }
         ?>
-
     </div>
 </body>
 </html>

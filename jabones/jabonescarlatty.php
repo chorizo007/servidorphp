@@ -1,9 +1,4 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-?>
-<?php
 
 session_start();
 
@@ -18,7 +13,7 @@ $username = "jabon";
 $password = "jabon";
 $dbname = "jabonescarlatty";
 
-$numerodeproductos = 3;
+$numerodeproductos = 2;
 
 $paginaActual = isset($_GET['pagina']) ? $_GET['pagina'] : 1;
 
@@ -58,7 +53,7 @@ try {
     echo '</div>';
     echo '</form>';
     echo '<div>';
-    for ($i = 1; $i <= $totalproductos; $i++) {
+    for ($i = 1; $i <= $totalproductos + 1; $i++) {
         echo '<a href="jabonescarlatty.php?pagina=' . $i . '">' . $i . '</a> ';
     }
     echo '</div>';
