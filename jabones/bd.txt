@@ -40,10 +40,11 @@ CREATE TABLE cesta (
 
 -- Crear la tabla 'itemcesta'
 CREATE TABLE itemcesta (
-    itemcestaid INT PRIMARY KEY,
+    itemcestaid INT,
     cestaid INT,
     productoid INT,
     cantidad INT,
+    PRIMARY KEY (itemcestaid,cestaid),
     FOREIGN KEY (cestaid) REFERENCES cesta(cestaid),
     FOREIGN KEY (productoid) REFERENCES productos(productoid)
 );
@@ -62,10 +63,11 @@ CREATE TABLE pedidos (
 
 -- Crear la tabla 'itempedido'
 CREATE TABLE itempedido (
-    itempedidoid INT PRIMARY KEY AUTO_INCREMENT,
+    itempedidoid INT,
     pedidoid INT,
     productoid INT,
     unidades INT,
+    PRIMARY KEY (itempedidoid,pedidoid),
     FOREIGN KEY (pedidoid) REFERENCES pedidos(pedidoid),
     FOREIGN KEY (productoid) REFERENCES productos(productoid)
 );
