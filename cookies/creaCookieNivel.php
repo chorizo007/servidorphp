@@ -9,15 +9,15 @@ $tipo = $_POST['nivel'];
 $rutaCookie = "/cookies/";
 if ($nombre && $contenido) {
     if($tipo == 'Nivel0'){
-        setcookie($nombre, $contenido, 0, '/cookies/');
+        setcookie($nombre, $contenido, 0, $rutaCookie. 'Nivel0/');
         echo "Cookie creada con éxito. 0 ";
     }
     if($tipo == 'Nivel1'){
-        setcookie($nombre, $contenido, 0,"/cookies/Nivel0/Nivel1/");
+        setcookie($nombre, $contenido, 0, $rutaCookie . 'Nivel0/Nivel1/');
         echo "Cookie creada con éxito. 1";
     }
     if($tipo == 'Nivel2'){
-        setcookie($nombre, $contenido, 0,"/cookies/Nivel0/Nivel1/Nivel2");
+        setcookie($nombre, $contenido, 0,$rutaCookie.'Nivel0/Nivel1/Nivel2/');
         echo "Cookie creada con éxito. 2";
     }
 } else {
