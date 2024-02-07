@@ -1,0 +1,69 @@
+drop database jabonescarlatty;
+CREATE DATABASE IF NOT EXISTS jabonescarlatty;
+USE jabonescarlatty;
+
+CREATE TABLE clientes (
+    email VARCHAR(255) PRIMARY KEY,
+    nombre VARCHAR(255),
+    direccion VARCHAR(255),
+    cp VARCHAR(10),
+    telefono VARCHAR(15),
+    contraseña VARCHAR(255)
+);
+
+
+CREATE TABLE productos (
+    productoid INT PRIMARY KEY AUTO_INCREMENT,
+    nombre VARCHAR(255),
+    descripcion TEXT,
+    peso DECIMAL(10,2),
+    precio DECIMAL(10,2)
+);
+
+CREATE TABLE cesta (
+    cestaid INT PRIMARY KEY AUTO_INCREMENT,
+    email VARCHAR(255),
+    fechacreacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (email) REFERENCES clientes(email)
+);
+
+CREATE TABLE itemcesta (
+    itemcestaid INT,
+    cestaid INT,
+    productoid INT,
+    cantidad INT,
+    PRIMARY KEY (itemcestaid,cestaid),
+    FOREIGN KEY (cestaid) REFERENCES cesta(cestaid),
+    FOREIGN KEY (productoid) REFERENCES productos(productoid)
+);
+
+CREATE TABLE pedidos (
+    pedidoid INT PRIMARY KEY AUTO_INCREMENT,
+    email VARCHAR(255),
+    fechapedido TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    fechaentrega TIMESTAMP,
+    totalpedido DECIMAL(10,2),
+    entregado BOOLEAN,
+    FOREIGN KEY (email) REFERENCES clientes(email)
+);
+
+
+CREATE TABLE itempedido (
+    itempedidoid INT,
+    pedidoid INT,
+    productoid INT,
+    unidades INT,
+    PRIMARY KEY (itempedidoid,pedidoid),
+    FOREIGN KEY (pedidoid) REFERENCES pedidos(pedidoid),
+    FOREIGN KEY (productoid) REFERENCES productos(productoid)
+);
+
+CREATE USER 'jabon'@'%' IDENTIFIED BY 'jabon';
+GRANT ALL PRIVILEGES ON jabonescarlatty.* TO 'jabon'@'%';
+
+FLUSH PRIVILEGES;
+
+
+
+
+
