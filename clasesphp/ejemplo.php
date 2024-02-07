@@ -8,6 +8,8 @@ ini_set('display_startup_errors', 1);
 // include 'clases/' . ’class.’.$clase . '.php';
 // }
 
+//te hace un include de las clases que se necesite en cada momento
+
 spl_autoload_register(function ($clase) {
     include './' . 'class.' . $clase . '.php';
 });
