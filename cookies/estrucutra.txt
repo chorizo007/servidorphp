@@ -2,10 +2,12 @@
 ├── index.html
 ├── creaCookieNivel.php
 ├── listaCookies.php
-└── directorios
-    ├── directorio1
-    │   ├── creaCookieNivel.php
-    │   └── listaCookies.php
-    └── directorio2
-        ├── creaCookieNivel.php
-        └── listaCookies.php
+└── nivel0
+    ├── creaCookieNivel.php
+    └── listaCookies.php
+    ├── nivel1
+       ├── creaCookieNivel.php
+       └── listaCookies.php
+           └── nivel2
+               ├── creaCookieNivel.php
+               └── listaCookies.php
