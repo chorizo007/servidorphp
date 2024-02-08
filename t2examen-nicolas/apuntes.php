@@ -20,4 +20,15 @@ foreach ($cookies as $nombre => $contenido) {
 
 echo "</table>";
 
-?>
+
+//hacer barrido de carpetas y de archivos 
+
+$contenidoDirectorio = scandir($directorio);
+$carpetas = array_filter($contenidoDirectorio, function ($elemento) use ($directorio) {
+    return $elemento != '.' && $elemento != '..';
+});
+
+foreach ($carpetas as $carpeta) {
+    echo "<img src='" . $directorio . "/" . $carpeta . "' width='100'>";
+    echo "<input type='radio' name ='foto' value=" . $directorio . "/" . $carpeta . ">";
+}

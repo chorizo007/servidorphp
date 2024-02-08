@@ -1,11 +1,15 @@
-
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 ?>
 <?php
-//hazme un registro y que compruebe que la fecha que introduces es menor a la fecha actual
+session_start();
+if (isset($_SESSION['nombre_usuario'])) {
+    header("Location: adoptamascota.php");
+    exit();
+}
+
 $mensaje = "";
 $corregir = false;
 
@@ -14,31 +18,25 @@ $nombre = "";
 $telefono = "";
 $correo = "";
 $direccion = "";
-$cp = "";
-$fechanacimiento = "";
+$localizacion = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
     $direccion = $_POST['direccion'];
     $contra = $_POST['contra'];
     $nombre = $_POST['nombre'];
-    $telefono = $_POST['telefono'];
     $correo = $_POST['correo'];
-    $cp = $_POST['cp'];
-    $fechanacimiento = $_POST['fechanaci'];
+    $localizacion = $_POST['localizacion'];
+    $preferencias = $_POST['preferencias'];
 
     $mensaje = "errores: ";
 
-    $fechaactual = new DateTime();
-    $fechandatenaci = new DateTime($fechanacimiento);
-    $diferencia = $fechanacimiento->diff($fechaactual);
-    $años = $diferencia->y;
-    if($años < 18){
-        $corregir = true;
-        $mensaje .= "no tienes los años correspondientes";
-    }
-    if (empty($direccion) || empty($contra) || empty($nombre) || empty($telefono) || empty($correo) || empty($cp) || $años < 18) {
+    if (empty($direccion) || empty($contra) || empty($nombre) || empty($correo) || empty($localizacion) || 2<sizeof($preferencias)) {
         $corregir = true;
         $mensaje .= "rellena todos los campos ";
+        if(2<sizeof($preferencias)){
+            $mensaje .= "tiens que selecionar como minimo 2 preferencias";
+        }
     } else {
         $servername = "127.0.0.1";
         $username = "jabon";
@@ -64,18 +62,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stmt->bindParam(':correo', $correo, PDO::PARAM_STR);
                 $stmt->bindParam(':nombre', $nombre, PDO::PARAM_STR);
                 $stmt->bindParam(':direccion', $direccion, PDO::PARAM_STR);
-                $stmt->bindValue(':cp', $cp, PDO::PARAM_STR);
-                $stmt->bindParam(':telefono', $telefono, PDO::PARAM_STR);
+                $stmt->bindValue(':localizacion', $cp, PDO::PARAM_STR);
                 $stmt->bindParam(':contra', $contra, PDO::PARAM_STR);
                 $stmt->execute();
-                exit();
+                for($orden = 0; sizeof($preferencias)>$orden; $orden++){
+                    $query = "INSERT INTO preferencias (email,rasgo,orden) VALUES (:correo, ;rasgo;orden)";
+                    $stmt = $conn->prepare($query);
+    
+                    $stmt->bindParam(':correo', $correo, PDO::PARAM_STR);
+                    $stmt->bindParam(':rasgo', $preferencias[$orden], PDO::PARAM_STR);
+                    $stmt->bindParam(':orden', $orden, PDO::PARAM_STR);
+
+                    $stmt->execute();
+                    $_SESSION['email'] = $correo;
+                    header("Location: adoptamascota.php");
+                    exit();
+                }
+                
             }
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         }
     }
     $conn = null;
-
 }
 ?>
 
@@ -143,7 +152,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 
 <body>
-    <h2>Registros jabones Domenico Scarlatti</h2>
+    <h2>REGISTRO PARA MASCOTAS</h2>
     <?php
     echo $mensaje;
     ?>
@@ -162,27 +171,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <br>
 
-        <label for="telefono">Teléfono:</label>
-        <input type="tel" value="<?php echo $telefono ?>" name="telefono">
-
-        <br>
-
+        <?php
+            $query = "SELECT * FROM rasgos";
+            $stmt = $conn->prepare($query);
+            $stmt->execute();
+            while ($result = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                echo "<input type='checkbox' name='preferencias[]' value='" . $result['id'] . "'>".$result['descripcion']."<br>";
+            }
+        ?>
 
         <label>direccion:</label>
         <input type="text" value="<?php echo $direccion ?>" name="direccion">
 
         <br>
 
-        <label>cp:</label>
-        <input type="text" value="<?php echo $cp ?>" name="cp">
-
-        <br>
-        <label>fecha de nacimiento (mayores de edad):</label>
-        <input type="date" name="fechanaci">
+        <label>localizacion : </label>
+        <input type="text" value="<?php echo $localizacion ?>" name="localizacion">
 
         <br>
 
         <input type="submit" value="Enviar">
+        <input type="reset" name=“borrar" value="Limpiar datos">
     </form>
 
     <br>
