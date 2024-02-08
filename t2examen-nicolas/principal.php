@@ -54,7 +54,7 @@ try {
     echo '</form>';
     echo '<div>';
     for ($i = 1; $i <= $totalproductos + 1; $i++) {
-        echo '<a href="jabonescarlatty.php?pagina=' . $i . '">' . $i . '</a> ';
+        echo '<a href="inicio.php?pagina=' . $i . '">' . $i . '</a> ';
     }
     echo '</div>';
     echo "<br>";

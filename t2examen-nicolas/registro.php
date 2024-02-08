@@ -74,7 +74,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
     $conn = null;
-
 }
 ?>
 
@@ -146,7 +145,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php
     echo $mensaje;
     ?>
-    <form action="registro.php" method="post">
+    <form action="registro.php" method="post" enctype="multipart/form-data">
 
         <label for="correo">Correo:</label>
         <input type="email" value="<?php echo $correo ?>" name="correo">
@@ -177,7 +176,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <br>
 
+        <input type="file" name="fichero">
+
+        <br>
+
         <input type="submit" value="Enviar">
+        <input type="reset" name=“borrar" value="Limpiar datos">
     </form>
 
     <br>

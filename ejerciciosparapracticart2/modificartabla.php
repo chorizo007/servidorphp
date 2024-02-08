@@ -14,16 +14,33 @@ $dbname = "jabonescarlatty";
 try {
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    $query = "SELECT * FROM clientes WHERE email = :correo";
-    $stmt = $conn->prepare($query);
-    $stmt->execute();
-    $num_rows = $stmt->rowCount();
-    if ($num_rows > 0) {
-        $mensaje .= "este correo ya esta en uso";
-    } else {
-
+    if(!empty($_POST['modificar'])){
+        $idproducto = $_POST['modificar'];
+        $nombre = $_POST['$idproducto."nombre"'];
+        $descripcion = $_POST['$idproducto."descripcion"'];
+        $peso = $_POST['$idproducto."peso"'];
+        $precio = $_POST['$idproducto."precio"'];
+    }else if(!empty($_POST['borrar'])){
+        $idproducto = $_POST['borrar'];
+    }else{
+        $query = "SELECT * FROM productos";
+        $stmt = $conn->prepare($query);
+        $stmt->execute();
+        echo '<form action="modificartabla.php" method="post">';
+        echo '<p>Número de productos: ' . $num_rows . '</p>';
+        echo '<table>';
+        while ($result = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            echo "<tr>";
+            echo '<td><input type="text" name="' . $result['productoid'] . 'nombre" value="' . $result['nombre'] . '"></td>';
+            echo '<td><input type="text" name="' . $result['productoid'] . 'descripcion" value="' . $result['descripcion'] . '"></td>';
+            echo '<td><input type="text" name="' . $result['productoid'] . 'peso" value="' . $result['peso'] . '"></td>';
+            echo '<td><input type="text" name="' . $result['productoid'] . 'precio" value="' . $result['precio'] . '"></td>';
+            echo '<td><button type="submid" name="modificar" value="' . $result['productoid'] . '">modificar</button></td>';
+            echo '<td><button type="submid" name="borrar" value="' . $result['productoid'] . '">borrar</button></td>';
+            echo "</tr>";
+        }
     }
+
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
