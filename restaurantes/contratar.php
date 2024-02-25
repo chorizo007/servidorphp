@@ -17,23 +17,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $hora = $_SESSION['hora'];
         $email = $_SESSION['email'];
         $capacidad = $_SESSION['capacidad'];
+        
         $servername = "127.0.0.1";
         $username = "mimesa";
         $password = "mimesa";
         $dbname = "MIMESA";
 
         try {
+            
             $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "INSERT INTO reservas VALUES(:nummesa, :restaurante, :email, :fechaR, :horaR, 'R', :numpersonas) ON DUPLICATE KEY UPDATE email = :email, fecha = :fechaR, hora = :horaR, estado = 'R', numPersonas = :numpersonas";
+            $query = "INSERT INTO reservas VALUES(:nummesa, :restaurante, 'asdf', :fechaR, :horaR, 'R', :numpersonas)";
             $stmt1 = $conn->prepare($query);
             $stmt1->bindParam(':nummesa', $id, PDO::PARAM_STR);
             $stmt1->bindParam(':restaurante', $restaurante, PDO::PARAM_STR);
-            $stmt1->bindParam(':email', $email, PDO::PARAM_STR);
             $stmt1->bindParam(':fechaR', $fechareserva, PDO::PARAM_STR);
             $stmt1->bindParam(':horaR', $hora, PDO::PARAM_STR);
             $stmt1->bindParam(':numpersonas', $capacidad, PDO::PARAM_STR);
             $stmt1->execute();
+
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         }
