@@ -23,7 +23,20 @@ function crearselect($conn, $nombre)
     }
     echo "</select>";
 }
-
+function selecthoras() {
+    if ($file = fopen('horas.txt', 'r+')) {
+        echo "<select name='horas'>";
+        while (!feof($file)) {
+            $linea = fgets($file);
+            echo "<option>".$linea."</option>";
+        }
+        echo "</select>";
+        fclose($file);
+        return false;
+    } else {
+        die("No se pudo acceder al fichero de la base de datos");
+    }
+}
 
 $servername = "127.0.0.1";
 $username = "mimesa";
@@ -105,7 +118,7 @@ try {
 <body>
     <h2>busqueda</h2>
 
-    <form action="buscarresta" method="post">
+    <form action="buscarresta.php" method="post">
 
         <label for="correo">restaurante</label>
 
@@ -120,26 +133,11 @@ try {
         ?>
 
         <label for="correo">fecha de reserva</label>
+        <input name="fechareserva" type="date">
 
-        <select name="mes">
-            <?php
-            setlocale(LC_TIME, 'es_ES.UTF-8');
-            for ($i = 1; $i <= 12; $i++) {
-                $nombre_mes = strftime('%B', mktime(0, 0, 0, $i, 1));
-                echo "<option value='$i'>$nombre_mes</option>";
-            }
-            ?>
-        </select>
-
-
-        <select name="dias">
-            <?php
-            for ($i = 1; $i <= 31; $i++) {
-                echo "<option value='$i'>$i</option>";
-            }
-            ?>
-        </select>
-
+        <?php
+        selecthoras();
+        ?>
 
 
         <input type="submit" value="Enviar">
