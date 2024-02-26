@@ -6,10 +6,9 @@ ini_set('display_startup_errors', 1);
 <?php
 session_start();
 if (isset($_SESSION['nombre_usuario'])) {
-    header("Location: cursosabi.php");
+    header("Location: formres.php");
     exit();
 }
-require('cabecera.php');
 
 $mensaje = "";
 $corregir = false;
@@ -66,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stmt->execute();
                 $_SESSION['email'] = $correo;
                 $_SESSION['jabanes'] = 2;
-                header("Location: jabonescarlatty.php");
+                header("Location: formres.php");
                 exit();
             }
         } catch (PDOException $e) {
@@ -141,7 +140,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 
 <body>
-    <h2>Registros jabones Domenico Scarlatti</h2>
+    <h2>Registro</h2>
     <?php
     echo $mensaje;
     ?>

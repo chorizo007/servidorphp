@@ -5,13 +5,9 @@ ini_set('display_startup_errors', 1);
 ?>
 <?php
 session_start();
-
-//require('constantes.php');
-//require('cabecera.php');
-
 if (isset($_SESSION['email'])) {
-    //header("Location: jabonescarlatty.php");
-    //exit();
+    header("Location: formres.php");
+    exit();
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -37,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($num_rows > 0) {
             $_SESSION['email'] = $correo;
             $_SESSION['admin'] = $correo;
-            header("Location: jabonescarlatty.php");
+            header("Location: formres.php");
             exit();
         } else {
             $query = "SELECT * FROM clientes WHERE email = :correo and contraseña = :contra";
@@ -46,11 +42,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->bindParam(':contra', $contrasena, PDO::PARAM_STR);
             $stmt->execute();
             $num_rows = $stmt->rowCount();
-            $puede = 0;
             if ($num_rows > 0) {
-                calcularjabones($correo);
                 $_SESSION['email'] = $correo;
-                header("Location: jabonescarlatty.php");
+                header("Location: formres.php");
                 exit();
             } else {
                 $error_message = "credenciales incorrectas";
@@ -137,7 +131,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     ?>
 
-    <form method="post" action="login.php">
+    <form method="post" action="inicio.php">
         <label>email: </label>
         <input type="text" id="nombre_usuario" name="email" required><br>
 
