@@ -65,7 +65,6 @@ function generarmesas($conn, $restaurante, $fechareserva ,$hora, $funcion)
             $stmt1->execute();
             $num_rows1 = $stmt1->rowCount();
             if ($num_rows1 <= 0) {
-                $contador ++; 
                 $celda = "<td>libre P:" . $capacidad . " <button type='submid' name='id' value='".$id."'>contratar</button>" . "</td>";
                 array_push($array_con,$id);
             } else {

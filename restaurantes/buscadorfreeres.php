@@ -1,52 +1,28 @@
 <?php
-/*
-CREATE USER 'mimesa'@'%' IDENTIFIED BY 'mimesa';
-GRANT ALL PRIVILEGES ON mimesa.* TO 'mimesa'@'%';
-
--- Actualizar privilegios
-FLUSH PRIVILEGES;
-*/
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 ?>
 <?php
 session_start();
-if (isset($_SESSION['email'])) {
-    header("Location: login.php");
+if (!isset($_SESSION['email'])) {
+    header("Location: inicio.php");
     exit();
 }
 
 require('funciones.php');
 
-//admin
-if (!isset($_SESSION['email'])) {
-    $titulo = "<h1>Administrar un restaurante</h1>";
-}
+$restaurante = $_SESSION['restaurante'];
+$capacidad = $_SESSION['capacidad'];
+$fechareserva = $_SESSION['fechareserva'];
+$hora = $_SESSION['hora'];
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    //validar campos 
-    if (!isset($_POST['restaurante']) && !isset($_POST['capacidad']) && !isset($_POST['fechareserva']) && !isset($_POST['horas'])) {
-        $restaurante = $_POST['restaurante'];
-        $capacidad = $_POST['capacidad'];
-        $fechareserva = $_POST['fechareserva'];
-        $hora = $_POST['horas'];
-    } else {
-        $restaurante = $_POST['restaurante'];
-        $capacidad = 8;
-        $fechaactual = new DateTime('now');
-        $fechareserva = $fechaactual->format('Y-m-d');
-        $hora = $fechaactual->format('h:i');
-    }
-
+    $restaurante = $_POST['restaurante'];
     $_SESSION['restaurante'] = $restaurante;
-    $_SESSION['fechareserva'] = $fechareserva;
-    $_SESSION['hora'] = $hora;
-    $_SESSION['capacidad'] = $capacidad;
-
     header("Location: buscarresta.php");
     exit();
-
 }
 
 
@@ -117,24 +93,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 
 <body>
-    <?php echo $titulo ?>
+    <h2>busqueda de un restaurante libre</h2>
 
-    <h2>busqueda</h2>
-
-    <form action="formres.php" method="post">
+    <form action="buscadorfreeres.php" method="post">
 
         <?php
         $array_num = generarmesas($conn, $restaurante, $fechareserva, $hora, 'generar');
+        var_dump($array_num);
+        
         if (count($array_num) == 0) {
             echo 'no tenemos ningun restaurante en de esta franquicia que este libre en estas horas que pediste';
         } else {
-            $where = "where restaurante in (" . implode(",", $array) . ")";
+            $where = "where restaurante in (" . implode(",", $array_num) . ")";
             echo $where;
             crearselect($conn, 'restaurante', $where);
         }
         ?>
-
-
 
         <input type="submit" value="buscar">
         <input type="reset" name="borrar" value="Limpiar datos">

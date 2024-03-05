@@ -6,11 +6,12 @@ ini_set('display_startup_errors', 1);
 <?php
     require('funciones.php');
 
-    $restaurante = $_SESSION['restaurante'];
-    $hora = $_SESSION['hora'];
-    $capacidad = $_SESSION['capacidad'];
-    $restaurante = $_SESSION['restaurante'];
+    session_start();
 
+    $restaurante = $_SESSION['restaurante'];
+    $capacidad = $_SESSION['capacidad'];
+    $fechareserva = $_SESSION['fechareserva'];
+    $hora = $_SESSION['hora']; 
 
     $servername = "127.0.0.1";
     $username = "mimesa";
@@ -53,6 +54,8 @@ ini_set('display_startup_errors', 1);
     $mostrar  = generarmesas($conn, $restaurante, $fechareserva , $hora , 'mostrar');
     echo $mostrar;
     ?>
+    <h2>buscar otro resturante</h2>
+    <a href="buscadorfreeres.php">aqui</a>
 </body>
 
 </html>

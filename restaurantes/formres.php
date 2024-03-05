@@ -1,15 +1,13 @@
 <?php
 session_start();
-if (!isset($_SESSION['email'])) {
-    header("Location: inicio.php");
-    exit();
-}
-
 require ('funciones.php');
 
 //admin
-if (!isset($_SESSION['email'])) {
+if (isset($_SESSION['admin'])) {
     $titulo = "<h1>Administrar un restaurante</h1>";
+}else if (isset($_SESSION['email'])) {
+}else{
+    header("Location: inicio.php");
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -36,9 +34,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit();
 
 }
-
-
-
 ?>
 
 <!DOCTYPE html>
