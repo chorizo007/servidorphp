@@ -4,14 +4,17 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 ?>
 <?php
-
+session_start();
+if (!isset($_SESSION['email'])) {
+    header("Location: inicio.php");
+    exit();
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = $_POST['id'];
     $esperar = $_POST['esperar'];
 
     if ($esperar == null) {
-        session_start();
         $restaurante = $_SESSION['restaurante'];
         $fechareserva = $_SESSION['fechareserva'];
         $hora = $_SESSION['hora'];
@@ -27,10 +30,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "INSERT INTO reservas VALUES(:nummesa, :restaurante, 'asdf', :fechaR, :horaR, 'R', :numpersonas)";
+            $query = "INSERT INTO reservas VALUES(:nummesa, :restaurante, :email, :fechaR, :horaR, 'R', :numpersonas)";
             $stmt1 = $conn->prepare($query);
             $stmt1->bindParam(':nummesa', $id, PDO::PARAM_STR);
             $stmt1->bindParam(':restaurante', $restaurante, PDO::PARAM_STR);
+            $stmt1->bindParam(':email', $email, PDO::PARAM_STR);
             $stmt1->bindParam(':fechaR', $fechareserva, PDO::PARAM_STR);
             $stmt1->bindParam(':horaR', $hora, PDO::PARAM_STR);
             $stmt1->bindParam(':numpersonas', $capacidad, PDO::PARAM_STR);

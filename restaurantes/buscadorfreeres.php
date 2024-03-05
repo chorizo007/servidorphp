@@ -10,6 +10,13 @@ if (!isset($_SESSION['email'])) {
     exit();
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $nombreres = $_POST['nombreres'];
+    $_SESSION['restaurante'] = $nombreres; 
+    header("Location: buscarresta.php");
+    exit();
+}
+
 require('funciones.php');
 
 $restaurante = $_SESSION['restaurante'];
@@ -98,21 +105,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <form action="buscadorfreeres.php" method="post">
 
         <?php
-        $array_num = generarmesas($conn, $restaurante, $fechareserva, $hora, 'generar');
-        var_dump($array_num);
-        
-        if (count($array_num) == 0) {
-            echo 'no tenemos ningun restaurante en de esta franquicia que este libre en estas horas que pediste';
-        } else {
-            $where = "where restaurante in (" . implode(",", $array_num) . ")";
-            echo $where;
-            crearselect($conn, 'restaurante', $where);
-        }
+        selectrestaurantes($conn , $fechareserva , $hora);
         ?>
 
         <input type="submit" value="buscar">
         <input type="reset" name="borrar" value="Limpiar datos">
     </form>
+    <a href="logout.php">logout</a>
 
 
 </body>

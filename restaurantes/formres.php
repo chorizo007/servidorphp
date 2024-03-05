@@ -12,7 +12,7 @@ if (isset($_SESSION['admin'])) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     //validar campos 
-    if(!isset($_POST['restaurante']) && !isset($_POST['capacidad']) && !isset($_POST['fechareserva']) &&!isset($_POST['horas'])){
+    if(isset($_POST['restaurante']) && isset($_POST['capacidad']) && isset($_POST['fechareserva']) && isset($_POST['horas'])){
         $restaurante = $_POST['restaurante'];
         $capacidad = $_POST['capacidad'];
         $fechareserva = $_POST['fechareserva'];
@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $fechareserva = $fechaactual->format('Y-m-d');
         $hora = $fechaactual->format('h:i');
     }
-
+    
     $_SESSION['restaurante'] = $restaurante;
     $_SESSION['fechareserva'] = $fechareserva;
     $_SESSION['hora'] = $hora;
@@ -112,10 +112,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         crearselect($conn, 'restaurante', '');
         ?>
 
-        <label for="correo">nuermo de comensales</label>
+        
 
         <?php
         if($titulo==null){
+            echo "<label>nuermo de comensales</label>";
+
             crearselect($conn, 'capacidad', '');
 
             echo '<label for="correo">fecha de reserva</label>';
@@ -130,6 +132,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input type="submit" value="buscar">
         <input type="reset" name="borrar" value="Limpiar datos">
     </form>
+
+
+    <a href="logout.php">logout</a>
 
 
 </body>

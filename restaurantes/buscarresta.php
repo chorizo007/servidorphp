@@ -4,9 +4,13 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 ?>
 <?php
+    session_start();
+if (!empty($_SESSION['admin'])) {
+    $titulo = "<h1>Administrar un restaurante</h1>";
+}
     require('funciones.php');
 
-    session_start();
+
 
     $restaurante = $_SESSION['restaurante'];
     $capacidad = $_SESSION['capacidad'];
@@ -49,13 +53,27 @@ ini_set('display_startup_errors', 1);
 
 <body>
     <h1>restaurante <?php echo $restaurante ?></h1>
+    <form action="contratar.php" method="post">
+        <?php      
+        if(empty($titulo)){
+            $mostrar  = generarmesas($conn, $restaurante, $fechareserva , $hora , 'mostrar' , 'usuario');
+            echo $mostrar;
+        }
+        ?>
+    </form>
 
-    <?php
-    $mostrar  = generarmesas($conn, $restaurante, $fechareserva , $hora , 'mostrar');
-    echo $mostrar;
-    ?>
+    <form action="adminmesa.php" method="get">
+        <?php
+        if(!empty($titulo)){
+            $mostrar  = generarmesas($conn, $restaurante, $fechareserva , $hora , 'mostrar' , 'admin');
+            echo $mostrar;
+        }
+        ?>
+    </form>
+
     <h2>buscar otro resturante</h2>
     <a href="buscadorfreeres.php">aqui</a>
+    <a href="logout.php">logout</a>
 </body>
 
 </html>
