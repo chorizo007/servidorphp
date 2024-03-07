@@ -17,7 +17,7 @@ if (!empty($_SESSION['admin'])) {
     $fechareserva = $_SESSION['fechareserva'];
     $hora = $_SESSION['hora']; 
 
-    $servername = "127.0.0.1";
+    $servername = "127.0.0.1";  
     $username = "mimesa";
     $password = "mimesa";
     $dbname = "MIMESA";
