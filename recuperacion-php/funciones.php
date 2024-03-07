@@ -1,4 +1,16 @@
 <?php
+$servername = "127.0.0.1";
+$username = "mimesa";
+$password = "mimesa";
+$dbname = "MIMESA";
+
+try {
+    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
+}
+
 function crearselect($conn, $nombre, $where)
 {
     $query = "SELECT DISTINCT $nombre FROM mesa $where";
@@ -11,7 +23,7 @@ function crearselect($conn, $nombre, $where)
     }
     echo "</select>";
 }
-function selecthoras()
+function selectfichero()
 {
     if ($file = fopen('horas.txt', 'r+')) {
         echo "<select name='horas'>";
@@ -27,17 +39,6 @@ function selecthoras()
     }
 }
 
-$servername = "127.0.0.1";
-$username = "mimesa";
-$password = "mimesa";
-$dbname = "MIMESA";
-
-try {
-    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    echo "Error: " . $e->getMessage();
-}
 function selectrestaurantes($conn, $fechareserva, $hora)
 {
     $query = "SELECT DISTINCT restaurante FROM mesa";
@@ -120,8 +121,9 @@ function generarmesas($conn, $restaurante, $fechareserva, $hora, $funcion, $usua
 }
 
 
-function selectestdomesa($conn)
+function selectenum($conn)
 {
+    //cambia el nombre de la tabla y el campo
     $sql = "SHOW COLUMNS FROM reservas WHERE Field = 'estado'";
     $stmt = $conn->prepare($sql);
     $stmt->execute();
@@ -140,48 +142,5 @@ function selectestdomesa($conn)
         echo "</select>";
     } else {
         echo "No se encontró el campo enum 'estado' en la tabla.";
-    }
-}
-
-
-function mascontradatos($conn)
-{
-
-    $query = "SELECT * FROM mesa WHERE restaurante = 'el bodegon' ORDER BY nfila, ncolumna";
-    $stmt = $conn->prepare($query);
-    $stmt->execute();
-    $num_rows = $stmt->rowCount();
-    if ($num_rows <= 0) {
-        echo "Este restaurante no tiene mesas";
-    } else {
-        $fila = 0;
-        echo "<table>";
-        echo "<tr>";
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $numMesa = $row['numMesa'];
-            $capacidad = $row['capacidad'];
-            $query = "SELECT count(*) as numres , email FROM reservas WHERE restaurante = 'el bodegon' and numMesa = :numMesa order by numres desc limit 1";
-            $stmt1 = $conn->prepare($query);
-            $stmt1->bindParam(':numMesa', $numMesa, PDO::PARAM_STR);
-            $stmt1->execute();
-            $num_rows1 = $stmt1->rowCount();
-            if ($num_rows1 <= 0) {
-                    $row1 = $stmt1->fetch(PDO::FETCH_ASSOC);
-                    $cliente = $row1['email'];
-                    $celda = "<td>".$cliente."</td>";
-            }else{
-                $celda = "<td>no ha habiando ninguana reserva de esta mesa</td>";
-            }
-            $numfila = $row['nfila'];
-            if ($numfila > $fila) {
-                echo "</tr>";
-                $fila = $numfila;
-                echo "<tr>";
-                echo $celda;
-            } else {
-                echo $celda;
-            }
-        }
-        echo "</table>";
     }
 }
