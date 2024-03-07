@@ -10,7 +10,7 @@ if (!isset($_SESSION['email'])) {
     exit();
 }
 require('funciones.php');
-
+require('cabecera.php');
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $restaurante = $_SESSION['restaurante'];
     $fechareserva = $_SESSION['fechareserva'];

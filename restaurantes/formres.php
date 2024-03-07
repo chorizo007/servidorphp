@@ -1,7 +1,7 @@
 <?php
 session_start();
 require ('funciones.php');
-
+require('cabecera.php');
 //admin
 if (isset($_SESSION['admin'])) {
     $titulo = "<h1>Administrar un restaurante</h1>";

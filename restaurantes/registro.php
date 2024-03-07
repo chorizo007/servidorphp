@@ -4,6 +4,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 ?>
 <?php
+require('cabecera.php');
 session_start();
 if (isset($_SESSION['nombre_usuario'])) {
     header("Location: formres.php");

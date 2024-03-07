@@ -1,14 +1,11 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-?>
-<?php
 session_start();
 if (!isset($_SESSION['email'])) {
     header("Location: inicio.php");
     exit();
 }
+
+require('cabecera.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = $_POST['id'];
@@ -39,41 +36,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt1->bindParam(':horaR', $hora, PDO::PARAM_STR);
             $stmt1->bindParam(':numpersonas', $capacidad, PDO::PARAM_STR);
             $stmt1->execute();
-
+            echo "<h3>reserva realizada con exito en :".$restaurante."</h3>";
+            echo "<p>numero de la mesa :".$id."</p>";
+            echo "<p>email del cliente :".$email."</p>";
+            echo "<p>fecha de la reser va :".$fechareserva."</p>";
+            echo "<p>hora :".$hora."</p>";
+            echo "<p>numero de personas :".$capacidad."</p>";
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         }
     }
 }
 ?>
-
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-
-        th,
-        td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: left;
-        }
-    </style>
-</head>
-
-<body>
-    <h1>restaurante <?php echo $restaurante ?></h1>
-
-
-</body>
-
-</html>

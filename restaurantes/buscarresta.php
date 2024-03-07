@@ -9,7 +9,7 @@ if (!empty($_SESSION['admin'])) {
     $titulo = "<h1>Administrar un restaurante</h1>";
 }
     require('funciones.php');
-
+    require('cabecera.php');
 
 
     $restaurante = $_SESSION['restaurante'];

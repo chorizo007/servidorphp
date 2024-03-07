@@ -1,40 +1,34 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-?>
-<?php
 session_start();
-require('cabecera.php');
-if (!isset($_SESSION['email'])) {
-    header("Location: inicio.php");
-    exit();
-}
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nombreres = $_POST['nombreres'];
-    $_SESSION['restaurante'] = $nombreres; 
-    header("Location: buscarresta.php");
-    exit();
-}
-
 require('funciones.php');
-
-$restaurante = $_SESSION['restaurante'];
-$capacidad = $_SESSION['capacidad'];
-$fechareserva = $_SESSION['fechareserva'];
-$hora = $_SESSION['hora'];
-
+require('cabecera.php');
+//admin
+if (isset($_SESSION['admin'])) {
+    $titulo = "<h1>Administrar un restaurante</h1>";
+} else if (isset($_SESSION['email'])) {
+} else {
+    header("Location: inicio.php");
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
     $restaurante = $_POST['restaurante'];
+    $esperar = $_POST['esperar'];
+    $capacidad = 8;
+    $fechaactual = new DateTime('now');
+    $minutos = 'PT' . $esperar . 'M';
+    $fechaactual->add(new DateInterval($minutos));
+    $hora = $fechaactual->format('h:i');
+    $fechareserva = $fechaactual->format('Y-m-d');
+
     $_SESSION['restaurante'] = $restaurante;
+    $_SESSION['fechareserva'] = $fechareserva;
+    $_SESSION['hora'] = $hora;
+    $_SESSION['capacidad'] = $capacidad;
+
     header("Location: buscarresta.php");
     exit();
 }
-
-
-
 ?>
 
 <!DOCTYPE html>
@@ -101,17 +95,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 
 <body>
-    <h2>busqueda de un restaurante libre</h2>
+    <?php echo $titulo ?>
 
-    <form action="buscadorfreeres.php" method="post">
+    <h2>busqueda</h2>
+
+    <form action="formres.php" method="post">
+
+        <label for="correo">seleciona el restaurante</label>
 
         <?php
-        selectrestaurantes($conn , $fechareserva , $hora);
+        crearselect($conn, 'restaurante', '');
         ?>
+
+        <label for="correo">Cuanto tiempo quieres esperar ? </label>
+
+        <select name="esperar">
+            <option value="1">1 minuto</option>
+            <option value="10">10 minuto</option>
+            <option value="60">1 hora</option>
+        </select>
 
         <input type="submit" value="buscar">
         <input type="reset" name="borrar" value="Limpiar datos">
     </form>
+
+
     <a href="logout.php">logout</a>
 
 
