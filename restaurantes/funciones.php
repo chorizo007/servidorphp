@@ -160,14 +160,14 @@ function mascontradatos($conn)
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $numMesa = $row['numMesa'];
             $capacidad = $row['capacidad'];
-            $query = "SELECT count(*) as numres , email FROM reservas WHERE restaurante = 'el bodegon' and numMesa = :numMesa order by numres desc limit 1";
+            $query = "SELECT count(*) as numres , email FROM reservas WHERE restaurante = 'El Bodegón' and numMesa = :numMesa  group by email order by numres desc limit 1";
             $stmt1 = $conn->prepare($query);
             $stmt1->bindParam(':numMesa', $numMesa, PDO::PARAM_STR);
             $stmt1->execute();
             $num_rows1 = $stmt1->rowCount();
-            if ($num_rows1 <= 0) {
+            if ($num_rows1 > 0) {
                     $row1 = $stmt1->fetch(PDO::FETCH_ASSOC);
-                    $cliente = $row1['email'];
+                    $cliente = $row1['email'];  
                     $celda = "<td>".$cliente."</td>";
             }else{
                 $celda = "<td>no ha habiando ninguana reserva de esta mesa</td>";
