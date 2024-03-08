@@ -14,8 +14,6 @@ require('constantes.php');
 require('funciones.php');
 
 try{
-    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $query = "SELECT * FROM productos";
     $stmt = $conn->prepare($query);
     $stmt->execute();

@@ -1,8 +1,4 @@
 <?php
-$servername = "127.0.0.1";
-$username = "mimesa";
-$password = "mimesa";
-$dbname = "MIMESA";
 
 //crearselect ($conexion , $nombre_tabla , $wheredelaconsulta)
 //selectfichero () 
@@ -14,6 +10,10 @@ try {
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
+
+
+
+
 
 function crearselect($conn, $nombre, $where)
 {

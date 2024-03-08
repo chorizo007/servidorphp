@@ -20,9 +20,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $contrasena = $_POST['contrasena'];
     $correo = $_POST['email'];
     try {
-        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
         $query = "SELECT * FROM administradores WHERE email = :correo and contraseña = :contra";
         $stmt = $conn->prepare($query);
         $stmt->bindParam(':correo', $correo, PDO::PARAM_STR);
@@ -43,7 +40,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $num_rows = $stmt->rowCount();
             $puede = 0;
             if ($num_rows > 0) {
-                calcularjabones($correo);
                 $_SESSION['email'] = $correo;
                 header("Location: nav.php");
                 exit();

@@ -22,9 +22,6 @@ require('funciones.php');
 
 $nombretabla = "productos";
 
-$conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
 if (!empty($_POST['borrar'])) {
 
     $codigo = $_POST['borrar'];

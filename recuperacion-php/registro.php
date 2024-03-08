@@ -38,15 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $corregir = true;
         $mensaje .= "rellena todos los campos ";
     } else {
-        $servername = "127.0.0.1";
-        $username = "jabon";
-        $password = "jabon";
-        $dbname = "jabonescarlatty";
-
         try {
-            $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
             $query = "SELECT * FROM clientes WHERE email = :correo";
             $stmt = $conn->prepare($query);
             $stmt->bindParam(':correo', $correo, PDO::PARAM_STR);
@@ -67,8 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stmt->bindParam(':contra', $contra, PDO::PARAM_STR);
                 $stmt->execute();
                 $_SESSION['email'] = $correo;
-                $_SESSION['jabanes'] = 2;
-                header("Location: jabonescarlatty.php");
+                header("Location: nav.php");
                 exit();
             }
         } catch (PDOException $e) {
