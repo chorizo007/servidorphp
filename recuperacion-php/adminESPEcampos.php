@@ -1,10 +1,7 @@
 <?php
-session_start();
 
-if (isset($_SESSION['email'])) {
-    $es_user = $_SESSION['email'];
-}
-if (isset($_SESSION['admin'])) {
+if (!isset($_SESSION['admin'])) {
+
 } else {
     header("Location: login.php");
 }

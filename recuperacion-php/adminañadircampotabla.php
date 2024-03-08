@@ -5,17 +5,12 @@ $descripcion = "";
 $precio = "";
 $peso = "";
 
-session_start();
+if (!isset($_SESSION['admin'])) {
 
-if (isset($_SESSION['email'])) {
-    $es_user = $_SESSION['email'];
-}
-
-if (isset($_SESSION['admin'])) {
-    $botonadmin = "<button><a href='admin.php'>ADMINISTRAR</a></button>";
 } else {
-    header("Location: ../jabonescarlatty.php");
+    header("Location: login.php");
 }
+
 require('nav.php');
 require('constantes.php');
 require('funciones.php');
@@ -31,7 +26,7 @@ if (!empty($_POST['borrar'])) {
     $stmt->execute();
     header("Location: añadirproductos.php");
 
-} else if (!empty($_POST['añadircurso'])) {
+} else if (!empty($_POST['añadirfila'])) {
 
     $nombre = $_POST['nombre'];
     $descripcion = $_POST['descripcion'];
@@ -76,8 +71,7 @@ if (!empty($_POST['borrar'])) {
     <br>
     <label>descripcion:</label>
     <input type="text" name="descripcion" value='<?php echo $descripcion ?>' required><br>
-    <br>
-    <br>
+    <br>    
     <label>precio:</label>
     <input type="number" name="precio" min="1" value='<?php echo $precio ?>'>
     <br>
@@ -85,11 +79,12 @@ if (!empty($_POST['borrar'])) {
     <label>peso:</label>
     <input type="number" name="peso" min="1" value='<?php echo $peso ?>'>
     <br>
+    <br>
     <label for="imagen">Imagen (opcional):</label>
     <input type="file" name="jabonfoto">
     <br>
-    <input type="submit" name="añadircurso" value="añadircurso">
+    <input type="submit" name="añadirfila" value="añadirfila">
     <?php
-    echo $errores;
+    echo $errores;  
     ?>
 </form>

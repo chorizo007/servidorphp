@@ -63,6 +63,7 @@
     <div class="nav">
         <button><a href=".php"></a></button>
         <?php
+            session_start();
             if (isset($_SESSION['admin'])) {
                 echo "<button><a href=''>ADMINISTRAR</a></button>";
             }

@@ -1,24 +1,20 @@
 <?php
-session_start();
 
-if (isset($_SESSION['email'])) {
-    $es_user = $_SESSION['email'];
-}
-if (isset($_SESSION['admin'])) {
+if (!isset($_SESSION['admin'])) {
+
 } else {
     header("Location: login.php");
 }
-
 require('nav.php');
 require('constantes.php');
 require('funciones.php');
 
 try {
-    $query = "SELECT * FROM productos";
+    $query = "SELECT * FROM clientes";
     $stmt = $conn->prepare($query);
     $stmt->execute();
     $num_rows = $stmt->rowCount();
-    echo "<h1>ADMIN PRODUCTOS</h1>";
+    echo "<h1>ADMIN TABLA</h1>";
     echo '<form action="adminañadircampotabla.php" method="post">';
     echo '<p>Número de filas: ' . $num_rows . '</p>';
     echo '<table border="1">';
