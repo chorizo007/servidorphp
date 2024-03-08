@@ -12,9 +12,6 @@ try {
 }
 
 
-
-
-
 function crearselect($conn, $nombre, $where)
 {
     $query = "SELECT DISTINCT $nombre FROM mesa $where";
