@@ -187,15 +187,22 @@ function mascontradatos($conn)
 }
 
 function comprobaruserregistros($conn , $cliente){
-    $query = "SELECT count(*) FROM reservas where email = :cliente group by restaurante";
+    $query = "SELECT count(*) as total FROM reservas where email = :cliente group by restaurante order by count(*) desc limit 1";
     $stmt = $conn->prepare($query);
     $stmt->bindParam(':cliente', $cliente, PDO::PARAM_STR);
     $stmt->execute();
     $num_rows = $stmt->rowCount();
-    if ($num_rows <= 2) {
-        return false;
-    } else {
+    if ($num_rows <= 0) {
         return true;
+    } else {
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $maximo = $row['total'];
+        if($maximo < 3){
+            return true;
+        }else{
+            echo "no tiene mas registros " . $cliente;
+            return false;
+        }
     }
 }
 
@@ -204,9 +211,10 @@ function borrardatoscliente ($conn , $cliente){
     $stmt = $conn->prepare($query);
     $stmt->bindParam(':cliente', $cliente, PDO::PARAM_STR);
     $stmt->execute();
+    echo "eliminado " . $cliente;
 }
 
-function principal ($conn){
+function principalborrardatos ($conn){
     $query = "SELECT * FROM clientes";
     $stmt = $conn->prepare($query);
     $stmt->execute();
