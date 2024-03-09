@@ -185,3 +185,40 @@ function mascontradatos($conn)
         echo "</table>";
     }
 }
+
+function comprobaruserregistros($conn , $cliente){
+    $query = "SELECT count(*) FROM reservas where email = :cliente group by restaurante";
+    $stmt = $conn->prepare($query);
+    $stmt->bindParam(':cliente', $cliente, PDO::PARAM_STR);
+    $stmt->execute();
+    $num_rows = $stmt->rowCount();
+    if ($num_rows <= 2) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+function borrardatoscliente ($conn , $cliente){
+    $query = "DELETE FROM reservas where email = :cliente";
+    $stmt = $conn->prepare($query);
+    $stmt->bindParam(':cliente', $cliente, PDO::PARAM_STR);
+    $stmt->execute();
+}
+
+function principal ($conn){
+    $query = "SELECT * FROM clientes";
+    $stmt = $conn->prepare($query);
+    $stmt->execute();
+    $num_rows = $stmt->rowCount();
+    if ($num_rows <= 0) {
+        echo "Este restaurante no tiene mesas";
+    } else {
+        while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+            $cliente = $row['email'];
+            if(comprobaruserregistros($conn, $cliente)){
+                borrardatoscliente ($conn , $cliente);
+            }
+        }
+    }
+} 
