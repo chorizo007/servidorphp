@@ -1,34 +1,12 @@
-CREATE TABLE productos (
-id INT AUTO_INCREMENT PRIMARY KEY,
-nombre VARCHAR(100),
-cantidad_stock INT,
-precio_unitario DECIMAL(10, 2)
-);
 
-CREATE TABLE proveedores (
-id INT AUTO_INCREMENT PRIMARY KEY,
-nombre VARCHAR(100),
-tiempo_entrega_dias INT,
-calidad_producto VARCHAR(50)
-);
-
-CREATE TABLE ordenes_compra (
-id INT AUTO_INCREMENT PRIMARY KEY,
-id_producto INT,
-id_proveedor INT,
-cantidad_comprada INT,
-precio_total DECIMAL(10, 2),
-fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-FOREIGN KEY (id_producto) REFERENCES productos(id),
-FOREIGN KEY (id_proveedor) REFERENCES proveedores(id)
-);
 
 <?php
+
+
 $servername = "127.0.0.1";
 $username = "jabon";
 $password = "jabon";
 $dbname = "jabonescarlatty";
-
 try {
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -75,5 +53,4 @@ function mejorprovedor($conn)
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
     return $row['id'];
 }
-
 ?>
