@@ -14,33 +14,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $contrasena = $_POST['contrasena'];
     $correo = $_POST['email'];
     try {
-        $query = "SELECT * FROM administradores WHERE email = :correo and contraseña = :contra";
+
+        $query = "SELECT * FROM usuarios WHERE dni = :correo and pwd = :contra";
         $stmt = $conn->prepare($query);
         $stmt->bindParam(':correo', $correo, PDO::PARAM_STR);
         $stmt->bindParam(':contra', $contrasena, PDO::PARAM_STR);
         $stmt->execute();
         $num_rows = $stmt->rowCount();
+        $puede = 0;
         if ($num_rows > 0) {
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $tipo= $row['tipo'];
+            if($tipo == '0'){
+                $_SESSION['conductor'] = $correo;
+            }else{
+                $_SESSION['propietario'] = $correo;
+            }
             $_SESSION['email'] = $correo;
-            $_SESSION['admin'] = $correo;
             header("Location: nav.php");
             exit();
         } else {
-            $query = "SELECT * FROM clientes WHERE email = :correo and contraseña = :contra";
-            $stmt = $conn->prepare($query);
-            $stmt->bindParam(':correo', $correo, PDO::PARAM_STR);
-            $stmt->bindParam(':contra', $contrasena, PDO::PARAM_STR);
-            $stmt->execute();
-            $num_rows = $stmt->rowCount();
-            $puede = 0;
-            if ($num_rows > 0) {
-                $_SESSION['email'] = $correo;
-                header("Location: nav.php");
-                exit();
-            }else{
-                $error_message = "credenciales incorrectas";
-            }
+            $error_message = "credenciales incorrectas";
         }
+
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }
