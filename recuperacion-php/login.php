@@ -119,7 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ?>
 
     <form method="post" action="login.php">
-        <label>email: </label>
+        <label>dni: </label>
         <input type="text" id="nombre_usuario" name="email" required><br>
 
         <label for="contrasena">Contraseña:</label>
