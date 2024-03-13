@@ -1,9 +1,4 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-?>
-<?php
 
 require('nav.php');
 require('constantes.php');
@@ -19,33 +14,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $contrasena = $_POST['contrasena'];
     $correo = $_POST['email'];
     try {
-        $query = "SELECT * FROM administradores WHERE email = :correo and contraseña = :contra";
+
+        $query = "SELECT * FROM usuarios WHERE dni = :correo and pwd = :contra";
         $stmt = $conn->prepare($query);
         $stmt->bindParam(':correo', $correo, PDO::PARAM_STR);
         $stmt->bindParam(':contra', $contrasena, PDO::PARAM_STR);
         $stmt->execute();
         $num_rows = $stmt->rowCount();
+        $puede = 0;
         if ($num_rows > 0) {
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $tipo= $row['tipo'];
+            if($tipo == '0'){
+                $_SESSION['conductor'] = $correo;
+            }else{
+                $_SESSION['propietario'] = $correo;
+            }
             $_SESSION['email'] = $correo;
-            $_SESSION['admin'] = $correo;
             header("Location: nav.php");
             exit();
         } else {
-            $query = "SELECT * FROM clientes WHERE email = :correo and contraseña = :contra";
-            $stmt = $conn->prepare($query);
-            $stmt->bindParam(':correo', $correo, PDO::PARAM_STR);
-            $stmt->bindParam(':contra', $contrasena, PDO::PARAM_STR);
-            $stmt->execute();
-            $num_rows = $stmt->rowCount();
-            $puede = 0;
-            if ($num_rows > 0) {
-                $_SESSION['email'] = $correo;
-                header("Location: nav.php");
-                exit();
-            }else{
-                $error_message = "credenciales incorrectas";
-            }
+            $error_message = "credenciales incorrectas";
         }
+
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }
@@ -128,7 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ?>
 
     <form method="post" action="login.php">
-        <label>email: </label>
+        <label>dni: </label>
         <input type="text" id="nombre_usuario" name="email" required><br>
 
         <label for="contrasena">Contraseña:</label>

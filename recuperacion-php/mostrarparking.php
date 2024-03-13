@@ -10,12 +10,12 @@ require('constantes.php');
 require('funciones.php');
 
 try {
-    $query = "SELECT * FROM clientes";
+    $query = "SELECT * FROM plazaparking";
     $stmt = $conn->prepare($query);
     $stmt->execute();
     $num_rows = $stmt->rowCount();
-    echo "<h1>ADMIN TABLA</h1>";
-    echo '<form action="adminañadircampotabla.php" method="post">';
+    echo "<h1>CONTRATAR</h1>";
+    echo '<form action="formhora.php" method="post">';
     echo '<p>Número de filas: ' . $num_rows . '</p>';
     echo '<table border="1">';
     
@@ -39,11 +39,10 @@ try {
         foreach ($column_names as $column_name) {
             echo '<td>' . $row[$column_name] . '</td>';
         }
-        echo '<td><button type="submit" name="borrar" value="' . $row['productoid'] . '">borrar</button></td>';
+        echo '<td><button type="submit" name="contratar" value="' . $row['plazaID'] . '">contratar</button></td>';
         echo '</tr>';
     }
     echo '</table>';
-    echo '<button name="añadir" value="añadir">añadir curso</button>';
     echo '</form>';
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
@@ -51,6 +50,7 @@ try {
 
 
 
+exit();
 
 
 ?>

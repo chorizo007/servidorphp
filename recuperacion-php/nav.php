@@ -61,16 +61,19 @@
 </head>
 <body>
     <div class="nav">
-        <button><a href=".php"></a></button>
         <?php
             session_start();
-            if (isset($_SESSION['admin'])) {
-                echo "<button><a href=''>ADMINISTRAR</a></button>";
-            }
-            if(isset($_SESSION['email'])){
-                echo "BIENVENIDO!!! :".$_SESSION['email'];
+            if (isset($_SESSION['conductor'])) {
+                echo "<button><a href='mostrarparking.php'>contratar</a></button>";
+                echo "BIENVENIDO!!! :".$_SESSION['conductor'];
                 echo "<button><a href='logout.php'>Cerrar Sesión</a></button>";
-            }else{
+            }else if(isset($_SESSION['propietario'])){
+                echo "<button><a href='adminpropietarios.php'>admin</a></button>";
+                echo "BIENVENIDO!!! :".$_SESSION['conductor'];
+                echo "<button><a href='logout.php'>Cerrar Sesión</a></button>";
+            }
+            else{
+                echo "<button><a href='logout.php'>Cerrar Sesión</a></button>";
                 echo "<button><a href='login.php'>Login</a></button>";
                 echo "<button><a href='registro.php'>Registro</a></button>";
             }

@@ -1,8 +1,8 @@
 <?php
 $servername = "127.0.0.1";
-$username = "jabon";
-$password = "jabon";
-$dbname = "jabonescarlatty";
+$username = "parking";
+$password = "parking";
+$dbname = "micro_parking";
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);

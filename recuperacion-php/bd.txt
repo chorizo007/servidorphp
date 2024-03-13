@@ -1,0 +1,23 @@
+CREATE USER 'mail'@'%' IDENTIFIED BY 'mail';
+
+GRANT ALL PRIVILEGES ON mail.* TO 'mail'@'%';
+
+-- Actualizar los cambios
+FLUSH PRIVILEGES;
+
+CREATE TABLE `administradores` (
+  `nombre_usuario` varchar(50) NOT NULL,
+  `contrasena` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+INSERT INTO `administradores` (`nombre_usuario`, `contrasena`) VALUES
+('admin', 'admin');
+
+CREATE TABLE clientes (
+    email VARCHAR(255) PRIMARY KEY,
+    nombre VARCHAR(255),
+    direccion VARCHAR(255),
+    cp VARCHAR(10),
+    telefono VARCHAR(15),
+    contraseña VARCHAR(255)
+);

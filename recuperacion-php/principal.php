@@ -4,12 +4,12 @@ require('constantes.php');
 require('funciones.php');
 
 //SOLO ADMIN
-if (!isset($_SESSION['admin'])) {
+if (!isset($_SESSION['conductor'])) {
 } else {
     header("Location: login.php");
 }
 
-//A POR TODAS
+
 
 
 ?>
